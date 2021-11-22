@@ -46,75 +46,53 @@
     <link rel="manifest" href="/site.webmanifest">
 
 </head>
-<body class="">
-
+<body class="about">
     <div class="wrapper"><div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; bottom: #transparent-sticky-navbar">
         <nav class="uk-navbar-container uk-margin" uk-navbar="mode: click;" style="padding-right: 3rem">
-            <div>
-                <ul class="uk-navbar-nav uk-visible@s">
-                    <li class="uk-active "><a style="font-size: 18px; text-transform: none" href="/"> Home </a></li>
-
-                    <li><a style="font-size: 18px; text-transform: none" href="/about">About</a></li>
-
-                    <li><a style="font-size: 18px; text-transform: none" href="/documentation">Documentation</a></li>
-                </ul>
-
-                <a class="uk-navbar-toggle uk-hidden@s" uk-toggle="target: #sidenav" uk-navbar-toggle-icon href="#"></a>
-
-            </div>
+            <ul class="uk-navbar-nav uk-visible@s">
+                <li><a style="font-size: 18px; text-transform: none" href="/"> Home</a></li>
+                <li class="uk-active"><a style="font-size: 18px; text-transform:none" href="/about">About</a></li>
+                <li><a style="font-size: 18px; text-transform: none" href="/documentation">Documentation</a></li>
+            </ul>
+            <a class="uk-navbar-toggle uk-hidden@s" uk-toggle="target: #sidenav" uk-navbar-toggle-icon href="#"></a>
         </nav>
     </div>
 
     <div id="sidenav" uk-offcanvas="overlay: true">
         <div class="uk-offcanvas-bar uk-flex uk-flex-column">
             <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
-                <li class="uk-active"><a style="font-size: 18px" href="/"> Home </a></li>
-                <li><a style="font-size: 18px" href="/about">About</a></li>
+                <li><a style="font-size: 18px" href="/"> Home </a></li>
+                <li class="uk-active"><a style="font-size: 18px" href="/about">About</a></li>
                 <li><a style="font-size: 18px" href="/documentation">Documentation</a></li>
             </ul>
         </div>
     </div>
 
-    <!-- Hexagon Stylesheet -->
-    
-    <link rel="stylesheet" type="text/css" href="css/hexagon.min.css">
+    <section class="uk-margin-large-bottom">
+        <h1 class="uk-heading-large uk-text-center"></h1>
+    </section>
 
-    <!-- Index Stylesheet -->
+    <!-- About -->
 
-    <link rel="stylesheet" type="text/css" href="css/index.min.css">
+    <link rel="stylesheet" href="/css/about.min.css">
 
-    <!-- Index -->
+    <section class="uk-margin-large-bottom">
+        <h1 class="uk-heading-large uk-text-center">About</h1>
+    </section>
 
-    <section>
-        <div class="uk-container uk-margin-xlarge-top uk-margin-xlarge-bottom">
-            <h1 class="uk-text-center">Welcome to group 26's Engineering 1 Project</h1>    
+    <section class="uk-margin-large-bottom">
+        <div class="uk-container">
+            <div class="uk-flex-center" uk-grid>
+                <div class="uk-width-expand@m">
+                    <p>Temporary</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <div class="uk-text-center uk-margin-xlarge-bottom uk-margin-xlarge-top">
-        <ul id="social-media" class="icons">
-            <li><a href="https://github.com/booksaw/DuckPirates"><img class="contain" src="https://cdn.svgporn.com/logos/github-icon.svg" alt="GitHub" loading="lazy" style = "width: 70px"></a></li>
-            <li><a href="https://discord.gg/6kqfxtRZ"><img class="contain" src="https://cdn.svgporn.com/logos/discord-icon.svg" alt="Discord-Link" loading="lazy" style = "width: 70px"></a></li>
-        </ul>
-    </div>
-
-    </div>
-
-    <section class="uk-margin-large-top">
-        <div class="uk-container uk-text-center">
-
-            <hr>
-
-            <a class="uk-button uk-button-text" href="https://booksaw.github.io/DuckPirates/"><h5>Find out more</h5></a>
-
-            <hr>
-            <hr style="height:5px; visibility:hidden;" />
-            
-            <div class="uk-grid-small uk-child-width-1-4@m uk-text-center uk-flex-center uk-margin-medium-bottom" uk-grid>
-                <div uk-lightbox>
-                    <a class="uk-button uk-button-text" href="https://github.com/booksaw/DuckPirates/blob/main/README.md" data-caption="To the README.md file for the Project" data-type="iframe"><h6 style="overflow:visible;">To the projects README.md file</h6></a>
-                </div>
-            </div>
+    <section class="uk-margin-large-bottom">
+        <div class="uk-container">
+            <div class="uk-child-width-1-4@l uk-child-width-1-2@s uk-child-width  uk-text-center uk-flex-between" uk-grid style="padding-left: 20px; padding-right: 20px">
         </div>
     </section>
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>ENG1 - Duck Pirates</title>
+        <title>ENG1 - Pirate Ducks</title>
         <link>https://booksaw.github.io/DuckPirates/documentation/</link>>
-        <description>Website for Duck Pirates for Engineering 1 Module at the University of York</description>
+        <description>Website for Pirate Ducks for Engineering 1 Module at the University of York</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <atom:link href="https://booksaw.github.io/DuckPirates/documentation/index.xml" rel="self" type="application/rss+xml" />

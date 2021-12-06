@@ -6,6 +6,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MyGdxGame extends ApplicationAdapter {
+
+	public static boolean getTrue() {
+		return true;
+	}
+
 	SpriteBatch batch;
 	Texture img;
 	
@@ -28,4 +33,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.dispose();
 		img.dispose();
 	}
+
+
 }

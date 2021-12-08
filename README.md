@@ -14,4 +14,4 @@
 - [Dan](https://github.com/dan-wade42)
 - [Charlie](https://github.com/CharlieCrosley)
 - [Marc](https://github.com/Anon0x19)
-- Alice (Doesn't have GitHub currently)
+- [Alice](https://github.com/sagedied)

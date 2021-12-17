@@ -6,10 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.level.LevelManager;
+import com.mygdx.game.screen.Screen;
 
 public class MyGdxGame extends ApplicationAdapter {
 
-	LevelManager manager;
+	private Screen currentScreen;
 
 	/**
 	 * Used to test junit functionality is working as intended
@@ -24,23 +25,41 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+
 		// jumping straight to the game, this will need to be changed in the future
-		manager = new LevelManager();
+		setCurrentScreen(new LevelManager());
 	}
 
 	@Override
 	public void render () {
-
 		batch.begin();
-		manager.render(batch);
+		currentScreen.draw(batch);
 		batch.end();
 
-		manager.update(Gdx.graphics.getDeltaTime());
+		currentScreen.update(Gdx.graphics.getDeltaTime());
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
+		// telling the current screen to dispose of resources
+		currentScreen.stopDisplaying();
+	}
+
+	public Screen getCurrentScreen(){
+		return currentScreen;
+	}
+
+	/**
+	 * Used to change which screen is currently being displayed
+	 * @param screen The screen to display
+	 */
+	public void setCurrentScreen(Screen screen) {
+		if(currentScreen != null) {
+			currentScreen.stopDisplaying();
+		}
+		currentScreen = screen;
+		currentScreen.startDisplaying();
 	}
 
 

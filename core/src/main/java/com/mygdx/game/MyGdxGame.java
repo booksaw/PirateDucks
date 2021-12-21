@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.level.LevelManager;
+import com.mygdx.game.screen.MainMenuScreen;
 import com.mygdx.game.screen.Screen;
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -27,7 +28,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		// jumping straight to the game, this will need to be changed in the future
-		setCurrentScreen(new LevelManager());
+		setCurrentScreen(new MainMenuScreen());
 	}
 
 	@Override

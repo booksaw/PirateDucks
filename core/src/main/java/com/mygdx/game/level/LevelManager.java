@@ -1,7 +1,10 @@
 package com.mygdx.game.level;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -16,11 +19,21 @@ public class LevelManager implements Screen {
 
     private final Array<GameObject> objects = new Array<GameObject>();
     private Player player = null;
+    private Sprite map;
 
     @Override
     public void startDisplaying() {
         // loading the game
         setPlayer(new Player());
+
+        // load the map
+        Texture texture = new Texture("map.png");
+        map = new Sprite(texture);
+        // scales the sprite depending on window size multiplied by a constant
+        float scaleRatio = map.getWidth() / Gdx.graphics.getWidth();
+        map.setSize(map.getWidth() / scaleRatio, map.getHeight() / scaleRatio);
+        // Centers the Game Over sprite
+        map.setPosition(0, 0);
     }
 
 
@@ -52,6 +65,8 @@ public class LevelManager implements Screen {
     public void draw(SpriteBatch batch){
         // adding a plain color background as we do not have a map yet
         ScreenUtils.clear(0, 0, 0.2f, 1);
+
+        map.draw(batch);
 
         for (GameObject object : objects) {
             object.render(batch);

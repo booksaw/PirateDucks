@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.level.LevelManager;
 import com.mygdx.game.screen.MainMenuScreen;
+import com.mygdx.game.screen.PauseScreen;
 import com.mygdx.game.screen.Screen;
+import jdk.tools.jmod.Main;
 
 public class MyGdxGame extends ApplicationAdapter {
 

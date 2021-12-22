@@ -1,4 +1,4 @@
-package com.mygdx.game.level;
+package io.github.pirateducks.level;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 

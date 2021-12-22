@@ -1,4 +1,4 @@
-package com.mygdx.game.level;
+package io.github.pirateducks.level;
 
 /**
  * Implemented by any object that has health

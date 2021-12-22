@@ -1,4 +1,4 @@
-package com.mygdx.game.screen;
+package io.github.pirateducks.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
 
-public class GameOverScreen implements Screen {
+public class VictoryScreen implements Screen {
 
     private final Array<Sprite> buttons = new Array<>();
     private Sprite gameOverSprite;
@@ -76,37 +76,37 @@ public class GameOverScreen implements Screen {
     @Override
     public void startDisplaying() {
         // Creates a sprite with the Game over title texture
-        Texture texture = new Texture("gameOverScreen/GameOver.png");
+        Texture texture = new Texture("victoryScreen/YouWinScreen.png");
         gameOverSprite = new Sprite(texture);
 
         // scales the sprite depending on window size multiplied by a constant
-        float scaleRatio = (gameOverSprite.getWidth() / Gdx.graphics.getWidth()) * 1.2f;
+        float scaleRatio = (gameOverSprite.getWidth() / Gdx.graphics.getWidth()) * 1.5f;
         gameOverSprite.setSize(gameOverSprite.getWidth() / scaleRatio, gameOverSprite.getHeight() / scaleRatio);
 
         // Centers the Game Over sprite
-        gameOverSprite.setPosition(Gdx.graphics.getWidth()/2 - gameOverSprite.getWidth()/2, (Gdx.graphics.getHeight()/2 - gameOverSprite.getHeight()/2) * 2.2f);
+        gameOverSprite.setPosition(Gdx.graphics.getWidth()/2 - gameOverSprite.getWidth()/2, (Gdx.graphics.getHeight()/2 - gameOverSprite.getHeight()/2) * 1.6f);
 
         addButtons();
     }
 
     private void addButtons() {
         // Add a return to menu button
-        Texture texture = new Texture("gameOverScreen/buttons/GameOverMenuButton.png");
+        Texture texture = new Texture("victoryScreen/buttons/VictoryScreenMenuButton.png");
         // Create sprite from texture
         Sprite button = new Sprite(texture);
         // scales the sprite based on window size multiplied by a constant since textures will be different size images
         float scaleRatio = (button.getWidth() / Gdx.graphics.getWidth()) * 3.5f;
         button.setSize(button.getWidth() / scaleRatio, button.getHeight() / scaleRatio);
         // Position the buttons with their x centered and under each other using an offset that's scaled with the window size
-        int offset = -20;
+        int offset = -10;
         button.setPosition(Gdx.graphics.getWidth()/2 - button.getWidth()/2, (Gdx.graphics.getHeight()/2 - button.getHeight()/2) + (offset / scaleRatio));
         buttons.add(button);
 
         // Add a quit button
-        texture = new Texture("gameOverScreen/buttons/GameOverQuitButton.png");
+        texture = new Texture("victoryScreen/buttons/VictoryScreenQuitButton.png");
         button = new Sprite(texture);
         scaleRatio = (button.getWidth() / Gdx.graphics.getWidth()) * 9f;
-        offset -= 60;
+        offset -= 20;
         button.setSize(button.getWidth() / scaleRatio, button.getHeight() / scaleRatio);
         button.setPosition(Gdx.graphics.getWidth()/2 - button.getWidth()/2, (Gdx.graphics.getHeight()/2 - button.getHeight()/2) + (offset / scaleRatio));
         buttons.add(button);

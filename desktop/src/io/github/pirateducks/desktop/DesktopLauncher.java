@@ -1,8 +1,8 @@
-package com.mygdx.game.desktop;
+package io.github.pirateducks.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.mygdx.game.*;
+import io.github.pirateducks.MyGdxGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

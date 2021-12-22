@@ -1,4 +1,4 @@
-package com.mygdx.game.screen;
+package io.github.pirateducks.screen;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 

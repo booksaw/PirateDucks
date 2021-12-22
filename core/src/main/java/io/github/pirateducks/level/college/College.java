@@ -1,8 +1,8 @@
-package com.mygdx.game.level.college;
+package io.github.pirateducks.level.college;
 
-import com.mygdx.game.level.Health;
-import com.mygdx.game.level.LevelManager;
-import com.mygdx.game.screen.Screen;
+import io.github.pirateducks.level.Health;
+import io.github.pirateducks.level.LevelManager;
+import io.github.pirateducks.screen.Screen;
 
 /**
  * Used to store all the methods required between all colleges

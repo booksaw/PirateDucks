@@ -1,15 +1,14 @@
-package com.mygdx.game.level;
+package io.github.pirateducks.level;
 
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.mygdx.game.level.gameObjects.Player;
-import com.mygdx.game.screen.Screen;
+import io.github.pirateducks.level.gameObjects.Player;
+import io.github.pirateducks.screen.Screen;
 
 /**
  * This class is the manager when the actual game is being displayed

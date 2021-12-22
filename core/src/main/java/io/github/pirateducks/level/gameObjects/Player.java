@@ -1,10 +1,10 @@
-package com.mygdx.game.level.gameObjects;
+package io.github.pirateducks.level.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.level.GameObject;
+import io.github.pirateducks.level.GameObject;
 
 public class Player extends GameObject {
     //Body is an object yet to be defined which will be defined as the main Player

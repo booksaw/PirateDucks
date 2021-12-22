@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package io.github.pirateducks;
 
 import com.mygdx.game.*;
 import org.junit.*;

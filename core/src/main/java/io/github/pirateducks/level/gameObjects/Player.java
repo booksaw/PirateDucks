@@ -5,8 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.pirateducks.level.GameObject;
+import io.github.pirateducks.level.Health;
 
-public class Player extends GameObject {
+public class Player extends GameObject implements Health {
     //Body is an object yet to be defined which will be defined as the main Player
 
     private final Texture texture;
@@ -17,6 +18,8 @@ public class Player extends GameObject {
         // loading the texture
         texture = new Texture(Gdx.files.internal("DuckBoat_TopView.png"));
         rotation = 0;
+        maxHealth = 6;
+        health = 3;
     }
 
     @Override
@@ -57,5 +60,33 @@ public class Player extends GameObject {
 
     public void dispose() {
         texture.dispose();
+    }
+
+    private int health;
+    private int maxHealth;
+
+    @Override
+    public int getHealth() {
+        return health;
+    }
+
+    @Override
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    /**
+     * Set the max health of the player, NOTE: This number must be even
+     * @param maxHealth The max health of the player
+     */
+    public void setMaxHealth(int maxHealth) {
+        if(maxHealth % 2 != 0){
+            throw new IllegalArgumentException("The game currently cannot render a max health which is odd.");
+        }
+        this.maxHealth = maxHealth;
     }
 }

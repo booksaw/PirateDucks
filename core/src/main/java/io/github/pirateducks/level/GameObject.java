@@ -45,4 +45,11 @@ public abstract class GameObject {
         return y;
     }
 
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
 }

@@ -1,15 +1,15 @@
-package com.mygdx.game.level;
+package io.github.pirateducks.level;
 
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.mygdx.game.level.gameObjects.Player;
-import com.mygdx.game.screen.Screen;
+import io.github.pirateducks.level.gameObjects.HealthIndicator;
+import io.github.pirateducks.level.gameObjects.Player;
+import io.github.pirateducks.screen.Screen;
 
 /**
  * This class is the manager when the actual game is being displayed
@@ -25,6 +25,8 @@ public class LevelManager implements Screen {
     public void startDisplaying() {
         // loading the game
         setPlayer(new Player());
+        addOverlay();
+
 
         // load the map
         Texture texture = new Texture("map.png");
@@ -32,8 +34,15 @@ public class LevelManager implements Screen {
         // scales the sprite depending on window size multiplied by a constant
         float scaleRatio = map.getWidth() / Gdx.graphics.getWidth();
         map.setSize(map.getWidth() / scaleRatio, map.getHeight() / scaleRatio);
-        // Centers the Game Over sprite
+        // Centers the map sprite
         map.setPosition(0, 0);
+    }
+
+    /**
+     * Used to add all elements in the overlay
+     */
+    private void addOverlay() {
+        objects.add(new HealthIndicator(getPlayer()));
     }
 
 

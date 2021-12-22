@@ -1,6 +1,5 @@
-package com.mygdx.game.screen;
+package io.github.pirateducks.screen;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,15 +9,18 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 
-public class MainMenuScreen implements Screen  {
+public class PauseScreen implements Screen  {
 
     private final Array<Sprite> buttons = new Array<>();
 
     private Texture gameLogoTexture;
     private Sprite gameLogoSprite;
 
-    private Texture startGameButtonTexture;
-    private Sprite startGameButtonSprite;
+    private Texture pauseTextTexture;
+    private Sprite pauseTextSprite;
+
+    private Texture continueButtonTexture;
+    private Sprite continueButtonSprite;
 
     private Texture settingsButtonTexture;
     private Sprite settingsButtonSprite;
@@ -37,6 +39,10 @@ public class MainMenuScreen implements Screen  {
 
         if (gameLogoSprite != null){
             gameLogoSprite.draw(batch);
+        }
+
+        if (pauseTextSprite != null){
+            pauseTextSprite.draw(batch);
         }
 
         for (Sprite button : buttons){
@@ -71,7 +77,7 @@ public class MainMenuScreen implements Screen  {
 
                 if (x >= buttonX && x<= (buttonX + buttonW) && y >= buttonY && y <= (buttonY + buttonH)){
                     if (i == 0){
-                        System.out.println("Start game button pressed");
+                        System.out.println("Continue button pressed");
                         buttonPressed = true;
                         //MyGdxGame.setCurrentScreen(new LevelManager());
 
@@ -102,21 +108,28 @@ public class MainMenuScreen implements Screen  {
         //Centre the logo
         gameLogoSprite.setPosition(Gdx.graphics.getWidth()/2 - gameLogoSprite.getWidth()/2,(Gdx.graphics.getHeight()/2 - gameLogoSprite.getHeight()/2) * 2.2f);
 
+        pauseTextTexture = new Texture("pauseScreen/pausedText.png");
+        pauseTextSprite = new Sprite(pauseTextTexture);
+
+        scaleRatio = (pauseTextSprite.getWidth() / Gdx.graphics.getWidth() * 2.0f);
+        pauseTextSprite.setSize(pauseTextSprite.getWidth() / scaleRatio, pauseTextSprite.getHeight()/scaleRatio);
+        pauseTextSprite.setPosition(Gdx.graphics.getWidth()/2 - pauseTextSprite.getWidth()/2,(Gdx.graphics.getHeight()/2 - pauseTextSprite.getHeight()/2) * 1.2f);
+
         //Buttons
 
         // Start Game Button
-        startGameButtonTexture = new Texture("mainMenuScreen/start.png");
-        startGameButtonSprite = new Sprite(startGameButtonTexture);
-        scaleRatio = buttonScaleRatio(startGameButtonSprite);
-        startGameButtonSprite.setSize(startGameButtonSprite.getWidth()/scaleRatio,startGameButtonSprite.getHeight()/scaleRatio);
+        continueButtonTexture = new Texture("pauseScreen/continue.png");
+        continueButtonSprite = new Sprite(continueButtonTexture);
+        scaleRatio = buttonScaleRatio(continueButtonSprite);
+        continueButtonSprite.setSize(continueButtonSprite.getWidth()/scaleRatio,continueButtonSprite.getHeight()/scaleRatio);
 
-        int offset = 0;
+        int offset = -200;
 
-        startGameButtonSprite.setPosition(Gdx.graphics.getWidth()/2 - startGameButtonSprite.getWidth()/2,(Gdx.graphics.getHeight()/2-startGameButtonSprite.getHeight()/2) + (offset/scaleRatio));
-        buttons.add(startGameButtonSprite);
+        continueButtonSprite.setPosition(Gdx.graphics.getWidth()/2 - continueButtonSprite.getWidth()/2,(Gdx.graphics.getHeight()/2-continueButtonSprite.getHeight()/2) + (offset/scaleRatio));
+        buttons.add(continueButtonSprite);
 
         // Settings Button
-        settingsButtonTexture = new Texture("mainMenuScreen/settings.png");
+        settingsButtonTexture = new Texture("pauseScreen/settings.png");
         settingsButtonSprite = new Sprite(settingsButtonTexture);
         scaleRatio = buttonScaleRatio(settingsButtonSprite);
         settingsButtonSprite.setSize(settingsButtonSprite.getWidth()/scaleRatio,settingsButtonSprite.getHeight()/scaleRatio);
@@ -128,7 +141,7 @@ public class MainMenuScreen implements Screen  {
 
         // Quit button
 
-        quitButtonTexture = new Texture("mainMenuScreen/quit.png");
+        quitButtonTexture = new Texture("pauseScreen/quit.png");
         quitButtonSprite = new Sprite(quitButtonTexture);
         scaleRatio = buttonScaleRatio(quitButtonSprite);
         quitButtonSprite.setSize(quitButtonSprite.getWidth()/scaleRatio,quitButtonSprite.getHeight()/scaleRatio);
@@ -150,7 +163,7 @@ public class MainMenuScreen implements Screen  {
      */
     public void stopDisplaying(){
         gameLogoTexture.dispose();
-        startGameButtonTexture.dispose();
+        continueButtonTexture.dispose();
         settingsButtonTexture.dispose();
         quitButtonTexture.dispose();
     }

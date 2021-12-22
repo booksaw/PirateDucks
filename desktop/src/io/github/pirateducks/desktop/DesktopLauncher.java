@@ -1,8 +1,8 @@
-package com.mygdx.game.desktop;
+package io.github.pirateducks.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.mygdx.game.*;
+import io.github.pirateducks.PirateDucks;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -11,6 +11,6 @@ public class DesktopLauncher {
 //		config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
 		config.title = "Pirate Ducks";
 //		config.fullscreen = true;
-		new LwjglApplication(new MyGdxGame(), config);
+		new LwjglApplication(new PirateDucks(), config);
 	}
 }

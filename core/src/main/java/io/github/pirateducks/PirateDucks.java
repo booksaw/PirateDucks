@@ -1,17 +1,13 @@
-package com.mygdx.game;
+package io.github.pirateducks;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.mygdx.game.level.LevelManager;
-import com.mygdx.game.screen.MainMenuScreen;
-import com.mygdx.game.screen.PauseScreen;
-import com.mygdx.game.screen.Screen;
-import jdk.tools.jmod.Main;
+import io.github.pirateducks.level.LevelManager;
+import io.github.pirateducks.screen.MainMenuScreen;
+import io.github.pirateducks.screen.Screen;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class PirateDucks extends ApplicationAdapter {
 
 	private Screen currentScreen;
 
@@ -30,7 +26,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		// jumping straight to the game, this will need to be changed in the future
-		setCurrentScreen(new MainMenuScreen());
+		setCurrentScreen(new LevelManager());
 	}
 
 	@Override

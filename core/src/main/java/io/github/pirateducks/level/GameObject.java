@@ -20,6 +20,17 @@ public abstract class GameObject {
     }
 
     /**
+     * This method is used to set the width and height of an object
+     *
+     * @param width The new width of the object
+     * @param height The new height of the object
+     */
+    public void SetSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    /**
      * This method is used to render the gameObject to the screen
      *
      * @param batch The spriteBatch that the game object is rendered as a part of. The batch will already be begun when this is called

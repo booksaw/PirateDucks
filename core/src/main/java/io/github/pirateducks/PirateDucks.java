@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.pirateducks.screen.MainMenuScreen;
 import io.github.pirateducks.screen.Screen;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class PirateDucks extends ApplicationAdapter {
 
 	private Screen currentScreen;
 

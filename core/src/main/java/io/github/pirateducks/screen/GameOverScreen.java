@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 
 public class GameOverScreen implements Screen {
@@ -20,7 +21,7 @@ public class GameOverScreen implements Screen {
      */
     @Override
     public void draw(SpriteBatch batch) {
-
+        ScreenUtils.clear(0, 0, 0.2f, 1);
         if (gameOverSprite != null) {
             gameOverSprite.draw(batch);
         }

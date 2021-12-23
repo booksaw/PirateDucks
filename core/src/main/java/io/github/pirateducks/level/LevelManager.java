@@ -101,6 +101,7 @@ public class LevelManager implements Screen {
         for (GameObject object : objects) {
             object.update(delta);
         }
+        System.out.println(objects.size);
     }
 
     @Override
@@ -122,6 +123,15 @@ public class LevelManager implements Screen {
      */
     public void addObject(GameObject object) {
         objects.add(object);
+    }
+
+    /**
+     * Used to remove a game object to the level
+     *
+     * @param object
+     */
+    public void removeObject(GameObject object) {
+        objects.removeValue(object, false);
     }
 
     public boolean isOnLand(float x, float y) {

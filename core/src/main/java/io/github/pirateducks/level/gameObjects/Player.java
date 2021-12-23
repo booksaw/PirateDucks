@@ -2,29 +2,38 @@ package io.github.pirateducks.level.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.Health;
+import io.github.pirateducks.level.LevelManager;
+import io.github.pirateducks.screen.GameOverScreen;
 
 public class Player extends GameObject implements Health {
     //Body is an object yet to be defined which will be defined as the main Player
 
     private final Texture texture;
     private float rotation;
+    private final LevelManager manager;
+    private final OrthographicCamera camera;
 
-    public Player() {
+    private float timeFired = 0;
+
+    public Player(LevelManager manager, OrthographicCamera camera) {
         super(100, 100);
+        this.camera = camera;
+        this.manager = manager;
         // loading the texture
         texture = new Texture(Gdx.files.internal("DuckBoat_TopView.png"));
         rotation = 0;
         maxHealth = 6;
-        health = 3;
+        health = 6;
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, x, y, width / 2, height/2, width, height, 1, 1, rotation, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+        batch.draw(texture, x, y, width / 2, height / 2, width, height, 1, 1, rotation, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
     }
 
     private final double SPEED = 5;
@@ -49,12 +58,46 @@ public class Player extends GameObject implements Health {
             vel_x += deltaSpeed;
         }
 
-        if(vel_x != 0 || vel_y != 0){
-           rotation = (float) Math.toDegrees(-Math.atan2(vel_x, vel_y));
+        if (vel_x != 0 || vel_y != 0) {
+            rotation = (float) Math.toDegrees(-Math.atan2(vel_x, vel_y));
         }
 
         x += vel_x;
         y += vel_y;
+
+        // limiting x
+        if (x <= -width / 2) {
+            x = -width / 2;
+        } else if (x >= camera.viewportWidth - width / 2) {
+            x = camera.viewportWidth - width / 2;
+        }
+
+        // limiting y
+        if (y <= -height / 2){
+            y = -height/2;
+        } else if(y >= camera.viewportHeight - height /2){
+            y = camera.viewportHeight - height / 2;
+        }
+
+        // firing code
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            // Cannonballs can only be fired once every 2 seconds
+            if (timeFired > 2) {
+                setHealth(health - 1);
+                // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
+                // inverse them before use
+                int mouseX = Gdx.input.getX();
+                int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+                // Center of boat sprite
+                float playerCenterX = x + width / 2 * 0.86f;
+                float playerCenterY = x + height / 2 * 0.75f;
+                // Fire a cannonball from boat center to mouse position
+                manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY));
+                timeFired = 0;
+            }
+        }
+        // Add delay between shots
+        timeFired += delta;
 
     }
 
@@ -73,6 +116,9 @@ public class Player extends GameObject implements Health {
     @Override
     public void setHealth(int health) {
         this.health = health;
+        if (health <= 0) {
+            manager.getMainClass().setCurrentScreen(new GameOverScreen());
+        }
     }
 
     public int getMaxHealth() {
@@ -81,10 +127,11 @@ public class Player extends GameObject implements Health {
 
     /**
      * Set the max health of the player, NOTE: This number must be even
+     *
      * @param maxHealth The max health of the player
      */
     public void setMaxHealth(int maxHealth) {
-        if(maxHealth % 2 != 0){
+        if (maxHealth % 2 != 0) {
             throw new IllegalArgumentException("The game currently cannot render a max health which is odd.");
         }
         this.maxHealth = maxHealth;

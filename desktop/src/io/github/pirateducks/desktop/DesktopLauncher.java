@@ -9,6 +9,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 //		config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
 //		config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
+		config.width = 848;
+		config.height = 480;
 		config.title = "Pirate Ducks";
 //		config.fullscreen = true;
 		new LwjglApplication(new PirateDucks(), config);

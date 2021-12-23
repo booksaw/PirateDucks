@@ -2,10 +2,12 @@ package io.github.pirateducks.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 
 public class GameOverScreen implements Screen {
@@ -19,8 +21,8 @@ public class GameOverScreen implements Screen {
      * @param batch
      */
     @Override
-    public void draw(SpriteBatch batch) {
-
+    public void draw(SpriteBatch batch, OrthographicCamera camera) {
+        ScreenUtils.clear(0, 0, 0.2f, 1);
         if (gameOverSprite != null) {
             gameOverSprite.draw(batch);
         }
@@ -74,22 +76,22 @@ public class GameOverScreen implements Screen {
      * Called when this screen becomes the active screen
      */
     @Override
-    public void startDisplaying() {
+    public void startDisplaying(OrthographicCamera camera) {
         // Creates a sprite with the Game over title texture
         Texture texture = new Texture("gameOverScreen/GameOver.png");
         gameOverSprite = new Sprite(texture);
 
         // scales the sprite depending on window size multiplied by a constant
-        float scaleRatio = (gameOverSprite.getWidth() / Gdx.graphics.getWidth()) * 1.2f;
+        float scaleRatio = (gameOverSprite.getWidth() / camera.viewportWidth) * 1.2f;
         gameOverSprite.setSize(gameOverSprite.getWidth() / scaleRatio, gameOverSprite.getHeight() / scaleRatio);
 
         // Centers the Game Over sprite
-        gameOverSprite.setPosition(Gdx.graphics.getWidth()/2 - gameOverSprite.getWidth()/2, (Gdx.graphics.getHeight()/2 - gameOverSprite.getHeight()/2) * 2.2f);
+        gameOverSprite.setPosition(camera.viewportWidth/2 - gameOverSprite.getWidth()/2, (camera.viewportHeight/2 - gameOverSprite.getHeight()/2) * 2.2f);
 
-        addButtons();
+        addButtons(camera);
     }
 
-    private void addButtons() {
+    private void addButtons(OrthographicCamera camera) {
         // Add a return to menu button
         Texture texture = new Texture("gameOverScreen/buttons/GameOverMenuButton.png");
         // Create sprite from texture
@@ -99,16 +101,16 @@ public class GameOverScreen implements Screen {
         button.setSize(button.getWidth() / scaleRatio, button.getHeight() / scaleRatio);
         // Position the buttons with their x centered and under each other using an offset that's scaled with the window size
         int offset = -20;
-        button.setPosition(Gdx.graphics.getWidth()/2 - button.getWidth()/2, (Gdx.graphics.getHeight()/2 - button.getHeight()/2) + (offset / scaleRatio));
+        button.setPosition(camera.viewportWidth/2 - button.getWidth()/2, (camera.viewportHeight/2 - button.getHeight()/2) + (offset / scaleRatio));
         buttons.add(button);
 
         // Add a quit button
         texture = new Texture("gameOverScreen/buttons/GameOverQuitButton.png");
         button = new Sprite(texture);
-        scaleRatio = (button.getWidth() / Gdx.graphics.getWidth()) * 9f;
+        scaleRatio = (button.getWidth() / camera.viewportWidth) * 9f;
         offset -= 60;
         button.setSize(button.getWidth() / scaleRatio, button.getHeight() / scaleRatio);
-        button.setPosition(Gdx.graphics.getWidth()/2 - button.getWidth()/2, (Gdx.graphics.getHeight()/2 - button.getHeight()/2) + (offset / scaleRatio));
+        button.setPosition(camera.viewportWidth/2 - button.getWidth()/2, (camera.viewportHeight/2 - button.getHeight()/2) + (offset / scaleRatio));
         buttons.add(button);
     }
 

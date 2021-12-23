@@ -3,11 +3,13 @@ package io.github.pirateducks.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.gameObjects.CannonBall;
 import io.github.pirateducks.level.gameObjects.HealthIndicator;
 import io.github.pirateducks.level.gameObjects.Player;
@@ -18,16 +20,20 @@ import io.github.pirateducks.screen.Screen;
  */
 public class LevelManager implements Screen {
 
+    private final PirateDucks mainClass;
+
+    public LevelManager(PirateDucks mainClass){
+        this.mainClass = mainClass;
+    }
 
     private final Array<GameObject> objects = new Array<GameObject>();
     private Player player = null;
     private Sprite map;
-    private float timeFired = 0;
 
     @Override
-    public void startDisplaying() {
+    public void startDisplaying(OrthographicCamera camera) {
         // loading the game
-        setPlayer(new Player());
+        setPlayer(new Player(this, camera));
         addOverlay();
 
 
@@ -35,7 +41,7 @@ public class LevelManager implements Screen {
         Texture texture = new Texture("map.png");
         map = new Sprite(texture);
         // scales the sprite depending on window size multiplied by a constant
-        float scaleRatio = map.getWidth() / Gdx.graphics.getWidth();
+        float scaleRatio = map.getWidth() / camera.viewportWidth;
         map.setSize(map.getWidth() / scaleRatio, map.getHeight() / scaleRatio);
         // Centers the map sprite
         map.setPosition(0, 0);
@@ -74,7 +80,7 @@ public class LevelManager implements Screen {
      * Used to render the level
      * @param batch The batch that is rendering the level
      */
-    public void draw(SpriteBatch batch){
+    public void draw(SpriteBatch batch, OrthographicCamera camera){
         // adding a plain color background as we do not have a map yet
         ScreenUtils.clear(0, 0, 0.2f, 1);
 
@@ -87,23 +93,6 @@ public class LevelManager implements Screen {
 
     @Override
     public void update(float delta){
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            // Cannonballs can only be fired once every 2 seconds
-            if (timeFired > 2) {
-                // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
-                // inverse them before use
-                int mouseX = Gdx.input.getX();
-                int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-                // Center of boat sprite
-                float playerCenterX = this.player.getX() + this.player.width / 2 * 0.86f;
-                float playerCenterY = this.player.getY() + this.player.height / 2 * 0.75f;
-                // Fire a cannonball from boat center to mouse position
-                objects.add(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY));
-                timeFired = 0;
-            }
-        }
-        // Add delay between shots
-        timeFired += delta;
 
         for (GameObject object : objects) {
             object.update(delta);
@@ -115,5 +104,17 @@ public class LevelManager implements Screen {
         for (GameObject object : objects) {
             object.dispose();
         }
+    }
+
+    public PirateDucks getMainClass() {
+        return mainClass;
+    }
+
+    /**
+     * Used to add a game object to the level
+     * @param object
+     */
+    public void addObject(GameObject object){
+        objects.add(object);
     }
 }

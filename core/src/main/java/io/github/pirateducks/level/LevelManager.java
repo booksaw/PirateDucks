@@ -101,7 +101,6 @@ public class LevelManager implements Screen {
         for (GameObject object : objects) {
             object.update(delta);
         }
-        System.out.println(objects.size);
     }
 
     @Override

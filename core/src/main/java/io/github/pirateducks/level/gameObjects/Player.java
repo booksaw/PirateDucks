@@ -102,16 +102,15 @@ public class Player extends GameObject implements Health {
                 int mouseX = Gdx.input.getX();
                 int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
                 // Center of boat sprite
-                float playerCenterX = x + width / 2 * 0.86f;
-                float playerCenterY = x + height / 2 * 0.75f;
+                float playerCenterX = x + width / 2;
+                float playerCenterY = y + height / 2;
                 // Fire a cannonball from boat center to mouse position
-                manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY));
+                manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY, manager, camera));
                 timeFired = 0;
             }
         }
         // Add delay between shots
         timeFired += delta;
-
     }
 
     public void dispose() {

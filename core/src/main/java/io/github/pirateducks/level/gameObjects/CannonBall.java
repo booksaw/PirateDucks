@@ -1,19 +1,25 @@
 package io.github.pirateducks.level.gameObjects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.pirateducks.level.GameObject;
+import io.github.pirateducks.level.LevelManager;
 
 public class CannonBall extends GameObject {
 
     private final Texture texture;
-    private float cannonBallX, cannonBallY;
     private int damage = 50;
     private double angle;
+    private final LevelManager manager;
+    private final OrthographicCamera camera;
 
-    public CannonBall(float playerX, float playerY, int targetX, int targetY) {
+    public CannonBall(float playerX, float playerY, int targetX, int targetY, LevelManager manager, OrthographicCamera camera) {
         super(100, 100);
+
+        this.camera = camera;
+        this.manager = manager;
 
         // loading the texture
         texture = new Texture("CannonBall.png");
@@ -21,26 +27,46 @@ public class CannonBall extends GameObject {
         // scales the sprite depending on window size multiplied by a constant
         float scaleRatio = ((float) texture.getWidth() / (float) Gdx.graphics.getWidth()) * 135f;
         SetSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
-        cannonBallX = playerX;
-        cannonBallY = playerY;
+        x = playerX;
+        y = playerY;
 
         // We use a triangle to calculate the new trajectory
-        angle = Math.atan2(targetY - cannonBallY, targetX - cannonBallX);
+        angle = Math.atan2(targetY - y, targetX - x);
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, cannonBallX, cannonBallY, width / 2, height/2, width, height, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+        batch.draw(texture, x, y, width / 2, height/2, width, height, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
     }
 
     @Override
     public void update(float delta) {
         float velocity = 200 * delta;
-        cannonBallX += Math.cos(angle) * velocity;
-        cannonBallY += Math.sin(angle) * velocity;
+        x += Math.cos(angle) * velocity;
+        y += Math.sin(angle) * velocity;
+
+        // limiting x
+        if (x <= -width / 2) {
+            x = -width / 2;
+            dispose();
+        } else if (x >= camera.viewportWidth - width / 2) {
+            x = camera.viewportWidth - width / 2;
+            dispose();
+        }
+
+        // limiting y
+        if (y <= -height / 2) {
+            y = -height / 2;
+            dispose();
+        } else if (y >= camera.viewportHeight - height / 2) {
+            y = camera.viewportHeight - height / 2;
+            dispose();
+        }
     }
 
     public void dispose() {
         texture.dispose();
+        // Remove cannonball object from the list of objects to be rendered
+        manager.removeObject(this);
     }
 }

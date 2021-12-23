@@ -18,6 +18,8 @@ public class Player extends GameObject implements Health {
     private final LevelManager manager;
     private final OrthographicCamera camera;
 
+    private float timeFired = 0;
+
     public Player(LevelManager manager, OrthographicCamera camera) {
         super(100, 100);
         this.camera = camera;
@@ -76,6 +78,26 @@ public class Player extends GameObject implements Health {
         } else if(y >= camera.viewportHeight - height /2){
             y = camera.viewportHeight - height / 2;
         }
+
+        // firing code
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            // Cannonballs can only be fired once every 2 seconds
+            if (timeFired > 2) {
+                setHealth(health - 1);
+                // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
+                // inverse them before use
+                int mouseX = Gdx.input.getX();
+                int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+                // Center of boat sprite
+                float playerCenterX = x + width / 2 * 0.86f;
+                float playerCenterY = x + height / 2 * 0.75f;
+                // Fire a cannonball from boat center to mouse position
+                manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY));
+                timeFired = 0;
+            }
+        }
+        // Add delay between shots
+        timeFired += delta;
 
     }
 

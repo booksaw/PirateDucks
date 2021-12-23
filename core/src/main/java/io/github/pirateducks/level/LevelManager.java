@@ -29,7 +29,6 @@ public class LevelManager implements Screen {
     private final Array<GameObject> objects = new Array<GameObject>();
     private Player player = null;
     private Sprite map;
-    private float timeFired = 0;
 
     @Override
     public void startDisplaying(OrthographicCamera camera) {
@@ -94,24 +93,6 @@ public class LevelManager implements Screen {
 
     @Override
     public void update(float delta){
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            // Cannonballs can only be fired once every 2 seconds
-            if (timeFired > 2) {
-                player.setHealth(player.getHealth() - 1);
-                // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
-                // inverse them before use
-                int mouseX = Gdx.input.getX();
-                int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-                // Center of boat sprite
-                float playerCenterX = this.player.getX() + this.player.width / 2 * 0.86f;
-                float playerCenterY = this.player.getY() + this.player.height / 2 * 0.75f;
-                // Fire a cannonball from boat center to mouse position
-                objects.add(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY));
-                timeFired = 0;
-            }
-        }
-        // Add delay between shots
-        timeFired += delta;
 
         for (GameObject object : objects) {
             object.update(delta);
@@ -127,5 +108,13 @@ public class LevelManager implements Screen {
 
     public PirateDucks getMainClass() {
         return mainClass;
+    }
+
+    /**
+     * Used to add a game object to the level
+     * @param object
+     */
+    public void addObject(GameObject object){
+        objects.add(object);
     }
 }

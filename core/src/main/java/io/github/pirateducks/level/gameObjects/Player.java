@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.Health;
@@ -22,6 +23,7 @@ public class Player extends GameObject implements Health {
 
     public Player(LevelManager manager, OrthographicCamera camera) {
         super(100, 100);
+
         this.camera = camera;
         this.manager = manager;
         // loading the texture
@@ -62,9 +64,20 @@ public class Player extends GameObject implements Health {
             rotation = (float) Math.toDegrees(-Math.atan2(vel_x, vel_y));
         }
 
-        x += vel_x;
-        y += vel_y;
+        float newX = x + vel_x, newY = y + vel_y;
+        // testing if the boat is on land, if the boat is on land reducing the speed of the boat until it is not
+        while (manager.isOnLand(newX + width / 2, newY + height / 2) && (vel_x != 0 || vel_y != 0)) {
+            // reducing the velocity until a valid speed is found
+            vel_x *= 0.9;
+            vel_y *= 0.9;
+            // applying the new speed
+            newX = x + vel_x;
+            newY = y + vel_y;
 
+        }
+
+        x = newX;
+        y = newY;
         // limiting x
         if (x <= -width / 2) {
             x = -width / 2;
@@ -73,9 +86,9 @@ public class Player extends GameObject implements Health {
         }
 
         // limiting y
-        if (y <= -height / 2){
-            y = -height/2;
-        } else if(y >= camera.viewportHeight - height /2){
+        if (y <= -height / 2) {
+            y = -height / 2;
+        } else if (y >= camera.viewportHeight - height / 2) {
             y = camera.viewportHeight - height / 2;
         }
 

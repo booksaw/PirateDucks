@@ -3,7 +3,9 @@ package io.github.pirateducks.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,17 +24,19 @@ public class LevelManager implements Screen {
 
     private final PirateDucks mainClass;
 
-    public LevelManager(PirateDucks mainClass){
+    public LevelManager(PirateDucks mainClass) {
         this.mainClass = mainClass;
     }
 
     private final Array<GameObject> objects = new Array<GameObject>();
     private Player player = null;
     private Sprite map;
+    private OrthographicCamera camera;
 
     @Override
     public void startDisplaying(OrthographicCamera camera) {
         // loading the game
+        this.camera = camera;
         setPlayer(new Player(this, camera));
         addOverlay();
 
@@ -41,8 +45,7 @@ public class LevelManager implements Screen {
         Texture texture = new Texture("map.png");
         map = new Sprite(texture);
         // scales the sprite depending on window size multiplied by a constant
-        float scaleRatio = map.getWidth() / camera.viewportWidth;
-        map.setSize(map.getWidth() / scaleRatio, map.getHeight() / scaleRatio);
+        map.setSize(camera.viewportWidth, camera.viewportHeight);
         // Centers the map sprite
         map.setPosition(0, 0);
     }
@@ -62,7 +65,7 @@ public class LevelManager implements Screen {
      */
     public void setPlayer(Player player) {
         // closing the current player
-        if(this.player != null) {
+        if (this.player != null) {
             objects.removeValue(this.player, true);
             this.player.dispose();
         }
@@ -78,9 +81,10 @@ public class LevelManager implements Screen {
 
     /**
      * Used to render the level
+     *
      * @param batch The batch that is rendering the level
      */
-    public void draw(SpriteBatch batch, OrthographicCamera camera){
+    public void draw(SpriteBatch batch, OrthographicCamera camera) {
         // adding a plain color background as we do not have a map yet
         ScreenUtils.clear(0, 0, 0.2f, 1);
 
@@ -92,7 +96,7 @@ public class LevelManager implements Screen {
     }
 
     @Override
-    public void update(float delta){
+    public void update(float delta) {
 
         for (GameObject object : objects) {
             object.update(delta);
@@ -101,6 +105,7 @@ public class LevelManager implements Screen {
 
     @Override
     public void stopDisplaying() {
+        map.getTexture().dispose();
         for (GameObject object : objects) {
             object.dispose();
         }
@@ -112,9 +117,37 @@ public class LevelManager implements Screen {
 
     /**
      * Used to add a game object to the level
+     *
      * @param object
      */
-    public void addObject(GameObject object){
+    public void addObject(GameObject object) {
         objects.add(object);
+    }
+
+    public boolean isOnLand(float x, float y) {
+        Color color = getColorOfMap(x, y);
+        // this needs improving
+        return !(color.r > 0.2) || !(color.r < 0.3) || !(color.g >= 0.7) || !(color.g <= 0.8) || !(color.b > 0.8) || !(color.b < 0.9);
+    }
+
+    public Color getColorOfMap(float x, float y) {
+        Texture texture = map.getTexture();
+        x -= map.getX();
+        y -= map.getY();
+        // inverting y as pixmap goes frop top left not bottom left
+        y = camera.viewportHeight - y;
+
+        // scaling to the image size as it is not its real size
+        x = x * (texture.getWidth() / map.getWidth());
+        y = y * (texture.getHeight() / map.getHeight());
+
+        if (!texture.getTextureData().isPrepared()) {
+            texture.getTextureData().prepare();
+        }
+
+        Pixmap pixmap = texture.getTextureData().consumePixmap();
+
+        Color color = new Color(pixmap.getPixel((int) x, (int) y));
+        return color;
     }
 }

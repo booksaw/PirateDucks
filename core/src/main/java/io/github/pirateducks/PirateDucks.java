@@ -27,23 +27,23 @@ public class PirateDucks extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,848, 480);
-		camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0);
+//		camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0);
+		camera.update();
 		viewport = new FitViewport(848, 480);
 		batch = new SpriteBatch();
 
 		// jumping straight to the game, this will need to be changed in the future
-//		setCurrentScreen(new LevelManager(this));
+//		setCurrentScreen(new MainMenuScreen());
 		setCurrentScreen(new LevelManager(this));
 	}
 
 	@Override
 	public void render () {
 		camera.update();
-		batch.setTransformMatrix(camera.view);
-		batch.setProjectionMatrix(camera.projection);
+//		batch.setTransformMatrix(camera.view);
+		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		currentScreen.draw(batch, camera);
 		batch.end();

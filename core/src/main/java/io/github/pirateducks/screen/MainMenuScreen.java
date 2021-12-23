@@ -60,7 +60,7 @@ public class MainMenuScreen implements Screen  {
 
                 // As mouse position coordinates start in top left whereas game coordinates start in bottom left
                 // we need to inverse them
-                int x = Gdx.graphics.getWidth() - Gdx.input.getX();
+                int x = Gdx.input.getX();
                 int y = Gdx.graphics.getHeight() - Gdx.input.getY();
 
                 // Check if mouse position is inside button when clicked

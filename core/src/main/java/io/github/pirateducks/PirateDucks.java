@@ -36,7 +36,7 @@ public class PirateDucks extends ApplicationAdapter {
 
 		// jumping straight to the game, this will need to be changed in the future
 //		setCurrentScreen(new LevelManager(this));
-		setCurrentScreen(new MainMenuScreen());
+		setCurrentScreen(new LevelManager(this));
 	}
 
 	@Override

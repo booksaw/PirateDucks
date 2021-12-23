@@ -2,6 +2,7 @@ package io.github.pirateducks.level.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.pirateducks.level.GameObject;
@@ -15,9 +16,11 @@ public class Player extends GameObject implements Health {
     private final Texture texture;
     private float rotation;
     private final LevelManager manager;
+    private final OrthographicCamera camera;
 
-    public Player(LevelManager manager) {
+    public Player(LevelManager manager, OrthographicCamera camera) {
         super(100, 100);
+        this.camera = camera;
         this.manager = manager;
         // loading the texture
         texture = new Texture(Gdx.files.internal("DuckBoat_TopView.png"));
@@ -59,6 +62,20 @@ public class Player extends GameObject implements Health {
 
         x += vel_x;
         y += vel_y;
+
+        // limiting x
+        if (x <= -width / 2) {
+            x = -width / 2;
+        } else if (x >= camera.viewportWidth - width / 2) {
+            x = camera.viewportWidth - width / 2;
+        }
+
+        // limiting y
+        if (y <= -height / 2){
+            y = -height/2;
+        } else if(y >= camera.viewportHeight - height /2){
+            y = camera.viewportHeight - height / 2;
+        }
 
     }
 

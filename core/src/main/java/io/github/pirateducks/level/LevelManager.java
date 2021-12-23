@@ -34,7 +34,7 @@ public class LevelManager implements Screen {
     @Override
     public void startDisplaying(OrthographicCamera camera) {
         // loading the game
-        setPlayer(new Player(this));
+        setPlayer(new Player(this, camera));
         addOverlay();
 
 

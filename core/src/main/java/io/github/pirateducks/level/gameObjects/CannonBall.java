@@ -46,20 +46,12 @@ public class CannonBall extends GameObject {
         y += Math.sin(angle) * velocity;
 
         // limiting x
-        if (x <= -width / 2) {
-            x = -width / 2;
-            dispose();
-        } else if (x >= camera.viewportWidth - width / 2) {
-            x = camera.viewportWidth - width / 2;
+        if (x <= -width / 2 || x >= camera.viewportWidth - width / 2) {
             dispose();
         }
 
         // limiting y
-        if (y <= -height / 2) {
-            y = -height / 2;
-            dispose();
-        } else if (y >= camera.viewportHeight - height / 2) {
-            y = camera.viewportHeight - height / 2;
+        if (y <= -height / 2 || y >= camera.viewportHeight - height / 2) {
             dispose();
         }
     }

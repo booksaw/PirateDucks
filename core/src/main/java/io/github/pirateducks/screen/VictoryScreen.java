@@ -66,6 +66,7 @@ public class VictoryScreen implements Screen {
                         Gdx.app.exit();
                         System.exit(0);
                     }
+
                 }
             }
         }

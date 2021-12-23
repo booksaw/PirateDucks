@@ -14,7 +14,7 @@ public class HealthIndicator extends GameObject {
     private final Texture fullHeart, halfHeart, emptyHeart;
     private final Texture fullHeartWhite, halfHeartWhite, emptyHeartWhite;
     private int currentHealth;
-    private int flashDuration = 20;
+    private final int flashDuration = 20;
     private int currentDuration = -1;
 
     public HealthIndicator(Player player) {
@@ -56,12 +56,12 @@ public class HealthIndicator extends GameObject {
     public void update(float delta) {
         int health = player.getHealth();
 
-        if(health < currentHealth) {
+        if (health < currentHealth) {
             currentDuration = 0;
             currentHealth = health;
-        } else if(currentDuration != -1){
+        } else if (currentDuration != -1) {
             currentDuration++;
-            if(currentDuration >= flashDuration){
+            if (currentDuration >= flashDuration) {
                 currentDuration = -1;
             }
         }

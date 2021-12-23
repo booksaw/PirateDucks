@@ -28,7 +28,7 @@ public class Player extends GameObject implements Health {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, x, y, width / 2, height/2, width, height, 1, 1, rotation, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+        batch.draw(texture, x, y, width / 2, height / 2, width, height, 1, 1, rotation, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
     }
 
     private final double SPEED = 5;
@@ -53,8 +53,8 @@ public class Player extends GameObject implements Health {
             vel_x += deltaSpeed;
         }
 
-        if(vel_x != 0 || vel_y != 0){
-           rotation = (float) Math.toDegrees(-Math.atan2(vel_x, vel_y));
+        if (vel_x != 0 || vel_y != 0) {
+            rotation = (float) Math.toDegrees(-Math.atan2(vel_x, vel_y));
         }
 
         x += vel_x;
@@ -77,7 +77,7 @@ public class Player extends GameObject implements Health {
     @Override
     public void setHealth(int health) {
         this.health = health;
-        if(health <= 0){
+        if (health <= 0) {
             manager.getMainClass().setCurrentScreen(new GameOverScreen());
         }
     }
@@ -88,10 +88,11 @@ public class Player extends GameObject implements Health {
 
     /**
      * Set the max health of the player, NOTE: This number must be even
+     *
      * @param maxHealth The max health of the player
      */
     public void setMaxHealth(int maxHealth) {
-        if(maxHealth % 2 != 0){
+        if (maxHealth % 2 != 0) {
             throw new IllegalArgumentException("The game currently cannot render a max health which is odd.");
         }
         this.maxHealth = maxHealth;

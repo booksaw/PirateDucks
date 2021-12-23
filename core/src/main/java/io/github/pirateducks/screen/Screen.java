@@ -1,5 +1,6 @@
 package io.github.pirateducks.screen;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public interface Screen {
@@ -8,7 +9,7 @@ public interface Screen {
      * Called to draw the screen
      * @param batch
      */
-    public void draw(SpriteBatch batch);
+    public void draw(SpriteBatch batch, OrthographicCamera camera);
 
     /**
      * Called to update the screen
@@ -19,7 +20,7 @@ public interface Screen {
     /**
      * Called when this screen becomes the active screen
      */
-    public void startDisplaying();
+    public void startDisplaying(OrthographicCamera camera);
 
     /**
      * Called when this screen is no longer the active screen

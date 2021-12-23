@@ -2,6 +2,7 @@ package io.github.pirateducks.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,7 +31,7 @@ public class MainMenuScreen implements Screen  {
      * Called to draw the screen
      * @param batch
      */
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch, OrthographicCamera camera) {
         // Plain white background for now
         ScreenUtils.clear(1, 1, 1, 1);
 
@@ -89,56 +90,56 @@ public class MainMenuScreen implements Screen  {
     /**
      * Called when this screen becomes the active screen
      */
-    public void startDisplaying(){
+    public void startDisplaying(OrthographicCamera camera){
         // Create game logo sprite
         gameLogoTexture = new Texture("logo.png");
         gameLogoSprite = new Sprite(gameLogoTexture);
 
         // Scale logo depending on window size
-        float scaleRatio = (gameLogoSprite .getWidth() / Gdx.graphics.getWidth()) * 1.2f;
+        float scaleRatio = (gameLogoSprite .getWidth() / camera.viewportWidth) * 1.2f;
         gameLogoSprite.setSize(gameLogoSprite.getWidth() / scaleRatio, gameLogoSprite.getHeight()/scaleRatio);
 
         //Centre the logo
-        gameLogoSprite.setPosition(Gdx.graphics.getWidth()/2 - gameLogoSprite.getWidth()/2,(Gdx.graphics.getHeight()/2 - gameLogoSprite.getHeight()/2) * 2.2f);
+        gameLogoSprite.setPosition(camera.viewportWidth/2 - gameLogoSprite.getWidth()/2,(camera.viewportHeight/2 - gameLogoSprite.getHeight()/2) * 2.2f);
 
         //Buttons
 
         // Start Game Button
         startGameButtonTexture = new Texture("mainMenuScreen/start.png");
         startGameButtonSprite = new Sprite(startGameButtonTexture);
-        scaleRatio = buttonScaleRatio(startGameButtonSprite);
+        scaleRatio = buttonScaleRatio(startGameButtonSprite, camera);
         startGameButtonSprite.setSize(startGameButtonSprite.getWidth()/scaleRatio,startGameButtonSprite.getHeight()/scaleRatio);
 
         int offset = 0;
 
-        startGameButtonSprite.setPosition(Gdx.graphics.getWidth()/2 - startGameButtonSprite.getWidth()/2,(Gdx.graphics.getHeight()/2-startGameButtonSprite.getHeight()/2) + (offset/scaleRatio));
+        startGameButtonSprite.setPosition(camera.viewportWidth/2 - startGameButtonSprite.getWidth()/2,(camera.viewportHeight/2-startGameButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(startGameButtonSprite);
 
         // Settings Button
         settingsButtonTexture = new Texture("mainMenuScreen/settings.png");
         settingsButtonSprite = new Sprite(settingsButtonTexture);
-        scaleRatio = buttonScaleRatio(settingsButtonSprite);
+        scaleRatio = buttonScaleRatio(settingsButtonSprite, camera);
         settingsButtonSprite.setSize(settingsButtonSprite.getWidth()/scaleRatio,settingsButtonSprite.getHeight()/scaleRatio);
 
         offset -= 320;
 
-        settingsButtonSprite.setPosition(Gdx.graphics.getWidth()/2 - settingsButtonSprite.getWidth()/2,(Gdx.graphics.getHeight()/2-settingsButtonSprite.getHeight()/2) + (offset/scaleRatio));
+        settingsButtonSprite.setPosition(camera.viewportWidth/2 - settingsButtonSprite.getWidth()/2,(camera.viewportHeight/2-settingsButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(settingsButtonSprite);
 
         // Quit button
 
         quitButtonTexture = new Texture("mainMenuScreen/quit.png");
         quitButtonSprite = new Sprite(quitButtonTexture);
-        scaleRatio = buttonScaleRatio(quitButtonSprite);
+        scaleRatio = buttonScaleRatio(quitButtonSprite, camera);
         quitButtonSprite.setSize(quitButtonSprite.getWidth()/scaleRatio,quitButtonSprite.getHeight()/scaleRatio);
 
-        offset -= 600;
-        quitButtonSprite.setPosition(Gdx.graphics.getWidth()/2 - quitButtonSprite.getWidth()/2,(Gdx.graphics.getHeight()/2-quitButtonSprite.getHeight()/2) + (offset/scaleRatio));
+        offset -= 320;
+        quitButtonSprite.setPosition(camera.viewportWidth/2 - quitButtonSprite.getWidth()/2,(camera.viewportHeight/2-quitButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(quitButtonSprite);
     }
 
-    private float buttonScaleRatio(Sprite button){
-        float scaleRatio = (button.getWidth()/Gdx.graphics.getWidth()) * 3.5f;
+    private float buttonScaleRatio(Sprite button, OrthographicCamera camera){
+        float scaleRatio = (button.getWidth()/camera.viewportWidth) * 3.5f;
         return scaleRatio;
     }
 

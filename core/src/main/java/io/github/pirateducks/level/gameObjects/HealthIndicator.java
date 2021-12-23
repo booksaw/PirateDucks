@@ -70,7 +70,10 @@ public class HealthIndicator extends GameObject {
     @Override
     public void dispose() {
         fullHeart.dispose();
+        fullHeartWhite.dispose();
         halfHeart.dispose();
+        halfHeartWhite.dispose();
+        emptyHeart.dispose();
         emptyHeart.dispose();
     }
 }

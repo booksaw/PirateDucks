@@ -2,10 +2,12 @@ package io.github.pirateducks;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.pirateducks.level.LevelManager;
-import io.github.pirateducks.screen.MainMenuScreen;
-import io.github.pirateducks.screen.Screen;
+import io.github.pirateducks.screen.*;
 
 public class PirateDucks extends ApplicationAdapter {
 
@@ -19,25 +21,36 @@ public class PirateDucks extends ApplicationAdapter {
 		return true;
 	}
 
-	SpriteBatch batch;
-	
+	private SpriteBatch batch;
+	private OrthographicCamera camera;
+	private Viewport viewport;
+
 	@Override
 	public void create () {
+
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false,848, 480);
+		camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0);
+		viewport = new FitViewport(848, 480);
 		batch = new SpriteBatch();
 
 		// jumping straight to the game, this will need to be changed in the future
-		setCurrentScreen(new LevelManager(this));
+//		setCurrentScreen(new LevelManager(this));
+		setCurrentScreen(new MainMenuScreen());
 	}
 
 	@Override
 	public void render () {
+		camera.update();
+		batch.setTransformMatrix(camera.view);
+		batch.setProjectionMatrix(camera.projection);
 		batch.begin();
-		currentScreen.draw(batch);
+		currentScreen.draw(batch, camera);
 		batch.end();
 
 		currentScreen.update(Gdx.graphics.getDeltaTime());
 	}
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();
@@ -49,6 +62,11 @@ public class PirateDucks extends ApplicationAdapter {
 		return currentScreen;
 	}
 
+	@Override
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+	}
+
 	/**
 	 * Used to change which screen is currently being displayed
 	 * @param screen The screen to display
@@ -58,7 +76,7 @@ public class PirateDucks extends ApplicationAdapter {
 			currentScreen.stopDisplaying();
 		}
 		currentScreen = screen;
-		currentScreen.startDisplaying();
+		currentScreen.startDisplaying(camera);
 	}
 
 

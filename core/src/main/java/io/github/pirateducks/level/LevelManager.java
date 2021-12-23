@@ -3,6 +3,7 @@ package io.github.pirateducks.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -31,7 +32,7 @@ public class LevelManager implements Screen {
     private float timeFired = 0;
 
     @Override
-    public void startDisplaying() {
+    public void startDisplaying(OrthographicCamera camera) {
         // loading the game
         setPlayer(new Player(this));
         addOverlay();
@@ -41,7 +42,7 @@ public class LevelManager implements Screen {
         Texture texture = new Texture("map.png");
         map = new Sprite(texture);
         // scales the sprite depending on window size multiplied by a constant
-        float scaleRatio = map.getWidth() / Gdx.graphics.getWidth();
+        float scaleRatio = map.getWidth() / camera.viewportWidth;
         map.setSize(map.getWidth() / scaleRatio, map.getHeight() / scaleRatio);
         // Centers the map sprite
         map.setPosition(0, 0);
@@ -80,7 +81,7 @@ public class LevelManager implements Screen {
      * Used to render the level
      * @param batch The batch that is rendering the level
      */
-    public void draw(SpriteBatch batch){
+    public void draw(SpriteBatch batch, OrthographicCamera camera){
         // adding a plain color background as we do not have a map yet
         ScreenUtils.clear(0, 0, 0.2f, 1);
 

@@ -2,6 +2,7 @@ package io.github.pirateducks.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -33,7 +34,7 @@ public class PauseScreen implements Screen  {
      * Called to draw the screen
      * @param batch
      */
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch, OrthographicCamera camera) {
         // Plain white background for now
         ScreenUtils.clear(1, 1, 1, 1);
 
@@ -96,63 +97,62 @@ public class PauseScreen implements Screen  {
     /**
      * Called when this screen becomes the active screen
      */
-    public void startDisplaying(){
+    public void startDisplaying(OrthographicCamera camera){
         // Create game logo sprite
         gameLogoTexture = new Texture("logo.png");
         gameLogoSprite = new Sprite(gameLogoTexture);
-
         // Scale logo depending on window size
-        float scaleRatio = (gameLogoSprite .getWidth() / Gdx.graphics.getWidth()) * 1.2f;
+        float scaleRatio = (gameLogoSprite .getWidth() / camera.viewportWidth) * 1.2f;
         gameLogoSprite.setSize(gameLogoSprite.getWidth() / scaleRatio, gameLogoSprite.getHeight()/scaleRatio);
 
         //Centre the logo
-        gameLogoSprite.setPosition(Gdx.graphics.getWidth()/2 - gameLogoSprite.getWidth()/2,(Gdx.graphics.getHeight()/2 - gameLogoSprite.getHeight()/2) * 2.2f);
+        gameLogoSprite.setPosition(camera.viewportWidth/2 - gameLogoSprite.getWidth()/2,(camera.viewportHeight/2 - gameLogoSprite.getHeight()/2) * 2.2f);
 
         pauseTextTexture = new Texture("pauseScreen/pausedText.png");
         pauseTextSprite = new Sprite(pauseTextTexture);
 
-        scaleRatio = (pauseTextSprite.getWidth() / Gdx.graphics.getWidth() * 2.0f);
+        scaleRatio = (pauseTextSprite.getWidth() / camera.viewportWidth * 2.0f);
         pauseTextSprite.setSize(pauseTextSprite.getWidth() / scaleRatio, pauseTextSprite.getHeight()/scaleRatio);
-        pauseTextSprite.setPosition(Gdx.graphics.getWidth()/2 - pauseTextSprite.getWidth()/2,(Gdx.graphics.getHeight()/2 - pauseTextSprite.getHeight()/2) * 1.2f);
+        pauseTextSprite.setPosition(camera.viewportWidth/2 - pauseTextSprite.getWidth()/2,(camera.viewportHeight/2 - pauseTextSprite.getHeight()/2) * 1.2f);
 
         //Buttons
 
         // Start Game Button
         continueButtonTexture = new Texture("pauseScreen/continue.png");
         continueButtonSprite = new Sprite(continueButtonTexture);
-        scaleRatio = buttonScaleRatio(continueButtonSprite);
+        scaleRatio = buttonScaleRatio(continueButtonSprite, camera);
         continueButtonSprite.setSize(continueButtonSprite.getWidth()/scaleRatio,continueButtonSprite.getHeight()/scaleRatio);
 
         int offset = -200;
 
-        continueButtonSprite.setPosition(Gdx.graphics.getWidth()/2 - continueButtonSprite.getWidth()/2,(Gdx.graphics.getHeight()/2-continueButtonSprite.getHeight()/2) + (offset/scaleRatio));
+        continueButtonSprite.setPosition(camera.viewportWidth/2 - continueButtonSprite.getWidth()/2,(camera.viewportHeight/2-continueButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(continueButtonSprite);
 
         // Settings Button
         settingsButtonTexture = new Texture("pauseScreen/settings.png");
         settingsButtonSprite = new Sprite(settingsButtonTexture);
-        scaleRatio = buttonScaleRatio(settingsButtonSprite);
+        scaleRatio = buttonScaleRatio(settingsButtonSprite, camera);
         settingsButtonSprite.setSize(settingsButtonSprite.getWidth()/scaleRatio,settingsButtonSprite.getHeight()/scaleRatio);
 
         offset -= 320;
 
-        settingsButtonSprite.setPosition(Gdx.graphics.getWidth()/2 - settingsButtonSprite.getWidth()/2,(Gdx.graphics.getHeight()/2-settingsButtonSprite.getHeight()/2) + (offset/scaleRatio));
+        settingsButtonSprite.setPosition(camera.viewportWidth/2 - settingsButtonSprite.getWidth()/2,(camera.viewportHeight/2-settingsButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(settingsButtonSprite);
 
         // Quit button
 
         quitButtonTexture = new Texture("pauseScreen/quit.png");
         quitButtonSprite = new Sprite(quitButtonTexture);
-        scaleRatio = buttonScaleRatio(quitButtonSprite);
+        scaleRatio = buttonScaleRatio(quitButtonSprite, camera);
         quitButtonSprite.setSize(quitButtonSprite.getWidth()/scaleRatio,quitButtonSprite.getHeight()/scaleRatio);
 
-        offset -= 600;
-        quitButtonSprite.setPosition(Gdx.graphics.getWidth()/2 - quitButtonSprite.getWidth()/2,(Gdx.graphics.getHeight()/2-quitButtonSprite.getHeight()/2) + (offset/scaleRatio));
+        offset -= 320;
+        quitButtonSprite.setPosition(camera.viewportWidth/2 - quitButtonSprite.getWidth()/2,(camera.viewportHeight/2-quitButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(quitButtonSprite);
     }
 
-    private float buttonScaleRatio(Sprite button){
-        float scaleRatio = (button.getWidth()/Gdx.graphics.getWidth()) * 3.5f;
+    private float buttonScaleRatio(Sprite button, OrthographicCamera camera){
+        float scaleRatio = (button.getWidth()/camera.viewportWidth) * 3.5f;
         return scaleRatio;
     }
 

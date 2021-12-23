@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.gameObjects.CannonBall;
 import io.github.pirateducks.level.gameObjects.HealthIndicator;
 import io.github.pirateducks.level.gameObjects.Player;
@@ -18,6 +19,11 @@ import io.github.pirateducks.screen.Screen;
  */
 public class LevelManager implements Screen {
 
+    private final PirateDucks mainClass;
+
+    public LevelManager(PirateDucks mainClass){
+        this.mainClass = mainClass;
+    }
 
     private final Array<GameObject> objects = new Array<GameObject>();
     private Player player = null;
@@ -27,7 +33,7 @@ public class LevelManager implements Screen {
     @Override
     public void startDisplaying() {
         // loading the game
-        setPlayer(new Player());
+        setPlayer(new Player(this));
         addOverlay();
 
 
@@ -90,6 +96,7 @@ public class LevelManager implements Screen {
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             // Cannonballs can only be fired once every 2 seconds
             if (timeFired > 2) {
+                player.setHealth(player.getHealth() - 1);
                 // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
                 // inverse them before use
                 int mouseX = Gdx.input.getX();
@@ -115,5 +122,9 @@ public class LevelManager implements Screen {
         for (GameObject object : objects) {
             object.dispose();
         }
+    }
+
+    public PirateDucks getMainClass() {
+        return mainClass;
     }
 }

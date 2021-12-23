@@ -6,20 +6,24 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.Health;
+import io.github.pirateducks.level.LevelManager;
+import io.github.pirateducks.screen.GameOverScreen;
 
 public class Player extends GameObject implements Health {
     //Body is an object yet to be defined which will be defined as the main Player
 
     private final Texture texture;
     private float rotation;
+    private final LevelManager manager;
 
-    public Player() {
+    public Player(LevelManager manager) {
         super(100, 100);
+        this.manager = manager;
         // loading the texture
         texture = new Texture(Gdx.files.internal("DuckBoat_TopView.png"));
         rotation = 0;
         maxHealth = 6;
-        health = 3;
+        health = 6;
     }
 
     @Override
@@ -73,6 +77,9 @@ public class Player extends GameObject implements Health {
     @Override
     public void setHealth(int health) {
         this.health = health;
+        if(health <= 0){
+            manager.getMainClass().setCurrentScreen(new GameOverScreen());
+        }
     }
 
     public int getMaxHealth() {

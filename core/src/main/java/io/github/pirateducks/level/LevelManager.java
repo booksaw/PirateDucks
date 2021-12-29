@@ -20,7 +20,7 @@ import io.github.pirateducks.screen.Screen;
 /**
  * This class is the manager when the actual game is being displayed
  */
-public class LevelManager implements Screen {
+public abstract class LevelManager implements Screen {
 
     private final PirateDucks mainClass;
 
@@ -42,12 +42,14 @@ public class LevelManager implements Screen {
 
 
         // load the map
-        Texture texture = new Texture("map.png");
+        Texture texture = getMapTexture();
         map = new Sprite(texture);
         // scales the sprite depending on window size multiplied by a constant
         map.setSize(camera.viewportWidth, camera.viewportHeight);
         // Centers the map sprite
         map.setPosition(0, 0);
+
+        setup();
     }
 
     /**
@@ -98,8 +100,8 @@ public class LevelManager implements Screen {
     @Override
     public void update(float delta) {
 
-        for (GameObject object : objects) {
-            object.update(delta);
+        for(int i = 0; i < objects.size; i++){
+            objects.get(i).update(delta);
         }
     }
 
@@ -159,4 +161,15 @@ public class LevelManager implements Screen {
         Color color = new Color(pixmap.getPixel((int) x, (int) y));
         return color;
     }
+
+    /**
+     * @return the texture of the map for this level
+     */
+    protected abstract Texture getMapTexture();
+
+    /**
+     * called when the level is being setup to setup the default layout of the level
+     */
+    protected abstract void setup();
+
 }

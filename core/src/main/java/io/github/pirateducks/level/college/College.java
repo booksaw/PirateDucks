@@ -2,23 +2,25 @@ package io.github.pirateducks.level.college;
 
 import io.github.pirateducks.level.Health;
 import io.github.pirateducks.level.LevelManager;
+import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.screen.Screen;
 
 /**
  * Used to store all the methods required between all colleges
  */
-public abstract class College implements Screen, Health {
+public abstract class College extends LevelManager implements Health {
 
     private int health;
-    private final LevelManager levelManager;
+    private final MainLevel mainLevel;
 
 
-    public College(LevelManager levelManager) {
-        this.levelManager = levelManager;
+    public College(MainLevel mainLevel) {
+        super(mainLevel.getMainClass());
+        this.mainLevel = mainLevel;
     }
 
-    public LevelManager getLevelManager() {
-        return levelManager;
+    public MainLevel getLevelManager() {
+        return mainLevel;
     }
 
     @Override

@@ -100,8 +100,8 @@ public abstract class LevelManager implements Screen {
     @Override
     public void update(float delta) {
 
-        for (GameObject object : objects) {
-            object.update(delta);
+        for(int i = 0; i < objects.size; i++){
+            objects.get(i).update(delta);
         }
     }
 

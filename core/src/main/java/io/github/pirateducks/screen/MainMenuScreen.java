@@ -43,16 +43,11 @@ public class MainMenuScreen implements Screen  {
      * @param batch
      */
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
-        // Plain white background for now
-        ScreenUtils.clear(1, 1, 1, 1);
 
-        // load the map
+        // set background as blurred map
         backgroundTexture = new Texture("map_blurred.png");
-
         backgroundSprite = new Sprite(backgroundTexture);
-        // scales the sprite depending on window size multiplied by a constant
         backgroundSprite.setSize(camera.viewportWidth, camera.viewportHeight);
-        // Centers the map sprite
         backgroundSprite.setPosition(0, 0);
 
         if (backgroundSprite != null){

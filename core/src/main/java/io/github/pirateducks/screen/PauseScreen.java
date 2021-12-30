@@ -15,9 +15,6 @@ public class PauseScreen implements Screen  {
 
     private final Array<Sprite> buttons = new Array<>();
 
-    private Texture gameLogoTexture;
-    private Sprite gameLogoSprite;
-
     private Texture pauseTextTexture;
     private Sprite pauseTextSprite;
 
@@ -55,9 +52,6 @@ public class PauseScreen implements Screen  {
             backgroundSprite.draw(batch);
         }
 
-        if (gameLogoSprite != null){
-            gameLogoSprite.draw(batch);
-        }
 
         if (pauseTextSprite != null){
             pauseTextSprite.draw(batch);
@@ -81,7 +75,6 @@ public class PauseScreen implements Screen  {
 
             for (int i=0;i<buttons.size;i++){
                 Sprite button = buttons.get(i);
-
                 // As mouse position coordinates start in top left whereas game coordinates start in bottom left
                 // we need to inverse them
                 int x = Gdx.graphics.getWidth() - Gdx.input.getX();
@@ -117,21 +110,21 @@ public class PauseScreen implements Screen  {
      */
     public void startDisplaying(OrthographicCamera camera){
         // Create game logo sprite
-        gameLogoTexture = new Texture("logo.png");
-        gameLogoSprite = new Sprite(gameLogoTexture);
-        // Scale logo depending on window size
-        float scaleRatio = (gameLogoSprite .getWidth() / camera.viewportWidth) * 1.2f;
-        gameLogoSprite.setSize(gameLogoSprite.getWidth() / scaleRatio, gameLogoSprite.getHeight()/scaleRatio);
-
-        //Centre the logo
-        gameLogoSprite.setPosition(camera.viewportWidth/2 - gameLogoSprite.getWidth()/2,(camera.viewportHeight/2 - gameLogoSprite.getHeight()/2) * 2.2f);
+//        gameLogoTexture = new Texture("logo.png");
+//        gameLogoSprite = new Sprite(gameLogoTexture);
+//        // Scale logo depending on window size
+//        float scaleRatio = (gameLogoSprite .getWidth() / camera.viewportWidth) * 1.5f;
+//        gameLogoSprite.setSize(gameLogoSprite.getWidth() / scaleRatio, gameLogoSprite.getHeight()/scaleRatio);
+//
+//        //Centre the logo
+//        gameLogoSprite.setPosition(camera.viewportWidth/2 - gameLogoSprite.getWidth()/2,(camera.viewportHeight/2 - gameLogoSprite.getHeight()/2) * 2.5f);
 
         pauseTextTexture = new Texture("pauseScreen/pausedText.png");
         pauseTextSprite = new Sprite(pauseTextTexture);
 
-        scaleRatio = (pauseTextSprite.getWidth() / camera.viewportWidth * 2.0f);
+        float scaleRatio = (pauseTextSprite.getWidth() / camera.viewportWidth * 1.8f);
         pauseTextSprite.setSize(pauseTextSprite.getWidth() / scaleRatio, pauseTextSprite.getHeight()/scaleRatio);
-        pauseTextSprite.setPosition(camera.viewportWidth/2 - pauseTextSprite.getWidth()/2,(camera.viewportHeight/2 - pauseTextSprite.getHeight()/2) * 1.2f);
+        pauseTextSprite.setPosition(camera.viewportWidth/2 - pauseTextSprite.getWidth()/2,(camera.viewportHeight/2 - pauseTextSprite.getHeight()/2) * 1.5f);
 
         //Buttons
 
@@ -141,7 +134,7 @@ public class PauseScreen implements Screen  {
         scaleRatio = buttonScaleRatio(continueButtonSprite, camera);
         continueButtonSprite.setSize(continueButtonSprite.getWidth()/scaleRatio,continueButtonSprite.getHeight()/scaleRatio);
 
-        int offset = -200;
+        int offset = -10;
 
         continueButtonSprite.setPosition(camera.viewportWidth/2 - continueButtonSprite.getWidth()/2,(camera.viewportHeight/2-continueButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(continueButtonSprite);
@@ -152,7 +145,7 @@ public class PauseScreen implements Screen  {
         scaleRatio = buttonScaleRatio(settingsButtonSprite, camera);
         settingsButtonSprite.setSize(settingsButtonSprite.getWidth()/scaleRatio,settingsButtonSprite.getHeight()/scaleRatio);
 
-        offset -= 320;
+        offset -= 20;
 
         settingsButtonSprite.setPosition(camera.viewportWidth/2 - settingsButtonSprite.getWidth()/2,(camera.viewportHeight/2-settingsButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(settingsButtonSprite);
@@ -164,7 +157,7 @@ public class PauseScreen implements Screen  {
         scaleRatio = buttonScaleRatio(quitButtonSprite, camera);
         quitButtonSprite.setSize(quitButtonSprite.getWidth()/scaleRatio,quitButtonSprite.getHeight()/scaleRatio);
 
-        offset -= 320;
+        offset -= 20;
         quitButtonSprite.setPosition(camera.viewportWidth/2 - quitButtonSprite.getWidth()/2,(camera.viewportHeight/2-quitButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(quitButtonSprite);
     }
@@ -180,7 +173,6 @@ public class PauseScreen implements Screen  {
      * Use this method to dispose of everything
      */
     public void stopDisplaying(){
-        gameLogoTexture.dispose();
         continueButtonTexture.dispose();
         settingsButtonTexture.dispose();
         quitButtonTexture.dispose();

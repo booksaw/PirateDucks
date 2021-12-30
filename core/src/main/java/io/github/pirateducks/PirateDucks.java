@@ -36,8 +36,8 @@ public class PirateDucks extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		// jumping straight to the game, this will need to be changed in the future
-//		setCurrentScreen(new MainMenuScreen());
-		setCurrentScreen(new MainLevel(this));
+		setCurrentScreen(new MainMenuScreen(this));
+		//setCurrentScreen(new MainLevel(this));
 	}
 
 	@Override

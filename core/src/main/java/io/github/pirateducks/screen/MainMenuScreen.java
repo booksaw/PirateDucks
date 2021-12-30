@@ -139,7 +139,7 @@ public class MainMenuScreen implements Screen  {
         scaleRatio = buttonScaleRatio(settingsButtonSprite, camera);
         settingsButtonSprite.setSize(settingsButtonSprite.getWidth()/scaleRatio,settingsButtonSprite.getHeight()/scaleRatio);
 
-        offset -= 320;
+        offset -= 20;
 
         settingsButtonSprite.setPosition(camera.viewportWidth/2 - settingsButtonSprite.getWidth()/2,(camera.viewportHeight/2-settingsButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(settingsButtonSprite);
@@ -151,7 +151,7 @@ public class MainMenuScreen implements Screen  {
         scaleRatio = buttonScaleRatio(quitButtonSprite, camera);
         quitButtonSprite.setSize(quitButtonSprite.getWidth()/scaleRatio,quitButtonSprite.getHeight()/scaleRatio);
 
-        offset -= 320;
+        offset -= 20;
         quitButtonSprite.setPosition(camera.viewportWidth/2 - quitButtonSprite.getWidth()/2,(camera.viewportHeight/2-quitButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(quitButtonSprite);
     }

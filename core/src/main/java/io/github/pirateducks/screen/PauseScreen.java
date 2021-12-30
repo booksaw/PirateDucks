@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.pirateducks.PirateDucks;
 
 
 public class PauseScreen implements Screen  {
@@ -29,14 +30,30 @@ public class PauseScreen implements Screen  {
     private Texture quitButtonTexture;
     private Sprite quitButtonSprite;
 
+    private PirateDucks mainClass;
+    private Screen prevScreen;
 
+    private Texture backgroundTexture;
+    private Sprite backgroundSprite;
+
+    public PauseScreen(PirateDucks mainClass, Screen prevScreen){
+        this.mainClass = mainClass;
+        this.prevScreen = prevScreen;
+    }
     /**
      * Called to draw the screen
      * @param batch
      */
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
-        // Plain white background for now
-        ScreenUtils.clear(1, 1, 1, 1);
+        // set background as blurred map
+        backgroundTexture = new Texture("map_blurred.png");
+        backgroundSprite = new Sprite(backgroundTexture);
+        backgroundSprite.setSize(camera.viewportWidth, camera.viewportHeight);
+        backgroundSprite.setPosition(0, 0);
+
+        if (backgroundSprite != null){
+            backgroundSprite.draw(batch);
+        }
 
         if (gameLogoSprite != null){
             gameLogoSprite.draw(batch);
@@ -81,6 +98,7 @@ public class PauseScreen implements Screen  {
                         System.out.println("Continue button pressed");
                         buttonPressed = true;
                         //MyGdxGame.setCurrentScreen(new LevelManager());
+                        mainClass.setCurrentScreen(prevScreen);
 
                     } else if (i==1) {
                         System.out.println("Settings button pressed");

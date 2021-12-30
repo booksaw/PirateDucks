@@ -8,11 +8,17 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.pirateducks.PirateDucks;
+import io.github.pirateducks.level.LevelManager;
+import io.github.pirateducks.level.MainLevel;
 
 
 public class MainMenuScreen implements Screen  {
 
     private final Array<Sprite> buttons = new Array<>();
+
+    private Texture backgroundTexture;
+    private Sprite backgroundSprite;
 
     private Texture gameLogoTexture;
     private Sprite gameLogoSprite;
@@ -26,15 +32,27 @@ public class MainMenuScreen implements Screen  {
     private Texture quitButtonTexture;
     private Sprite quitButtonSprite;
 
+    private PirateDucks mainClass;
+
+    public MainMenuScreen(PirateDucks mainClass){
+        this.mainClass = mainClass;
+    }
 
     /**
      * Called to draw the screen
      * @param batch
      */
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
-        // Plain white background for now
-        ScreenUtils.clear(1, 1, 1, 1);
 
+        // set background as blurred map
+        backgroundTexture = new Texture("map_blurred.png");
+        backgroundSprite = new Sprite(backgroundTexture);
+        backgroundSprite.setSize(camera.viewportWidth, camera.viewportHeight);
+        backgroundSprite.setPosition(0, 0);
+
+        if (backgroundSprite != null){
+            backgroundSprite.draw(batch);
+        }
         if (gameLogoSprite != null){
             gameLogoSprite.draw(batch);
         }
@@ -73,7 +91,7 @@ public class MainMenuScreen implements Screen  {
                     if (i == 0){
                         System.out.println("Start game button pressed");
                         buttonPressed = true;
-                        //MyGdxGame.setCurrentScreen(new LevelManager());
+                        mainClass.setCurrentScreen(new MainLevel(mainClass));
 
                     } else if (i==1) {
                         System.out.println("Settings button pressed");
@@ -153,6 +171,7 @@ public class MainMenuScreen implements Screen  {
         startGameButtonTexture.dispose();
         settingsButtonTexture.dispose();
         quitButtonTexture.dispose();
+        backgroundTexture.dispose();
     }
 
 }

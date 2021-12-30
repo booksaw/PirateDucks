@@ -15,6 +15,7 @@ import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.gameObjects.CannonBall;
 import io.github.pirateducks.level.gameObjects.HealthIndicator;
 import io.github.pirateducks.level.gameObjects.Player;
+import io.github.pirateducks.screen.PauseScreen;
 import io.github.pirateducks.screen.Screen;
 
 /**
@@ -102,6 +103,11 @@ public abstract class LevelManager implements Screen {
 
         for(int i = 0; i < objects.size; i++){
             objects.get(i).update(delta);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            System.out.println("Escape Key Pressed");
+            mainClass.setCurrentScreen(new PauseScreen(mainClass,this));
         }
     }
 

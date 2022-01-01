@@ -18,8 +18,6 @@ public class Fruit extends GameObject {
     private int startX;
     private int startY;
 
-    private int blastPower = 10; // Amount of damage fruit does
-
     /**
      * Fruit
      * Be able to set an image for the fruit: Yes
@@ -64,6 +62,11 @@ public class Fruit extends GameObject {
         angle = Math.atan2(startY - y, startX - x);
     }
 
+    /**
+     * Used to render the Fruit
+     *
+     * @param batch The batch that is rendering the Fruit
+     */
     @Override
     public void render(SpriteBatch batch) {
         batch.draw(texture, x, y, width / 2, height / 2, width, height, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(), false, false);

@@ -1,4 +1,4 @@
-package io.github.pirateducks.screen;
+package io.github.pirateducks.level.college;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,16 +6,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import io.github.pirateducks.level.GameObject;
-import io.github.pirateducks.level.LevelManager;
-import io.github.pirateducks.level.college.College;
+import io.github.pirateducks.level.MainLevel;
 
-public class BulletHellScreen extends College implements Screen {
+public class Langwith extends College {
 
     private final Array<GameObject> objects = new Array<>();
     private Sprite map;
 
-    public BulletHellScreen(LevelManager levelManager) {
-        super(levelManager);
+    public Langwith(MainLevel mainLevel) {
+        super(mainLevel);
     }
 
     /**
@@ -79,5 +78,21 @@ public class BulletHellScreen extends College implements Screen {
         for (GameObject object : objects) {
             object.dispose();
         }
+    }
+
+    /**
+     * @return the texture of the map for this level
+     */
+    @Override
+    protected Texture getMapTexture() {
+        return null;
+    }
+
+    /**
+     * called when the level is being setup to setup the default layout of the level
+     */
+    @Override
+    protected void setup() {
+
     }
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
+import io.github.pirateducks.level.college.Langwith;
 import io.github.pirateducks.screen.*;
 
 public class PirateDucks extends ApplicationAdapter {
@@ -36,9 +37,8 @@ public class PirateDucks extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		// jumping straight to the game, this will need to be changed in the future
-//		setCurrentScreen(new MainMenuScreen());
-		//setCurrentScreen(new BulletHellScreen(new LevelManager(this)));
-		setCurrentScreen(new MainMenuScreen(this));
+		setCurrentScreen(new Langwith(new MainLevel(this)));
+		//setCurrentScreen(new MainMenuScreen(this));
 		//setCurrentScreen(new MainLevel(this));
 	}
 

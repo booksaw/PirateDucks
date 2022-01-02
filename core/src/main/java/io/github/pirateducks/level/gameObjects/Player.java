@@ -22,7 +22,7 @@ public class Player extends GameObject implements Health {
     private float timeFired = 0;
 
     public Player(LevelManager manager, OrthographicCamera camera) {
-        super(100, 100);
+        super(45, 55);
 
         this.camera = camera;
         this.manager = manager;

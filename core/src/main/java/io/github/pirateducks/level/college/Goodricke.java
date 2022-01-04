@@ -13,11 +13,8 @@ import io.github.pirateducks.level.gameObjects.Fruit;
 import io.github.pirateducks.level.gameObjects.Player;
 
 public class Goodricke extends College { // Projectiles
-    private final LevelManager manager;
     private final OrthographicCamera camera;
-    private final Texture texture;
-    private final Array<GameObject> objects = new Array<GameObject>();
-    private Player player = null;
+//    private final Texture texture;
 
     private int health;
     private int time; // How long the game has been going on
@@ -42,13 +39,12 @@ public class Goodricke extends College { // Projectiles
      * Be able to adjust player health: No
      */
 
-    public Goodricke(MainLevel level, LevelManager manager, OrthographicCamera camera) {
+    public Goodricke(MainLevel level, OrthographicCamera camera) {
         super(level);
 
         this.camera = camera;
-        this.manager = manager;
-
-        texture = new Texture(Gdx.files.internal("sand.png"));
+        // im not sure what this is, sand.png does not exist
+        // texture = new Texture(Gdx.files.internal("sand.png"));
     }
 
     @Override
@@ -63,18 +59,21 @@ public class Goodricke extends College { // Projectiles
      */
     @Override
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
-
+        super.draw(batch, camera);
     }
 
     @Override
     public void update(float delta) {
+        // updating all game objects
+        super.update(delta);
+
         if (quantityLeft > 0 && health > 0){
             // Find players current location
-            playerX = player.getX();
-            playerY = player.getY();
+            playerX = getPlayer().getX();
+            playerY = getPlayer().getY();
 
             // Projects the object at the target for the player to dodge
-            manager.addObject(new Fruit(playerX, playerY, fruitSize, fruitSelect, manager, camera));
+            addObject(new Fruit(playerX, playerY, fruitSize, fruitSelect, this, camera));
             timeFired = 0;
             quantityLeft -= 1;
         }
@@ -93,13 +92,12 @@ public class Goodricke extends College { // Projectiles
     }
 
     @Override
-    public void startDisplaying(OrthographicCamera camera) {
-        setPlayer(new Player(this, camera));
+    public void setup(OrthographicCamera camera) {
     }
 
     @Override
     public void stopDisplaying() {
-
+        super.stopDisplaying();
     }
 
     /**
@@ -107,31 +105,7 @@ public class Goodricke extends College { // Projectiles
      */
     @Override
     protected Texture getMapTexture() {
-        return null;
-    }
-
-    /**
-     * called when the level is being setup to setup the default layout of the level
-     */
-    @Override
-    protected void setup() {
-
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        // closing the current player
-        if (this.player != null) {
-            objects.removeValue(this.player, true);
-            this.player.dispose();
-        }
-
-        // declaring the new player
-        this.player = player;
-        objects.add(this.player);
+        return new Texture("goodricke/goodrickemap.png");
     }
 
     /**

@@ -35,7 +35,7 @@ public abstract class LevelManager implements Screen {
     private OrthographicCamera camera;
 
     @Override
-    public void startDisplaying(OrthographicCamera camera) {
+    public final void startDisplaying(OrthographicCamera camera) {
         // loading the game
         this.camera = camera;
         setPlayer(new Player(this, camera));
@@ -50,7 +50,7 @@ public abstract class LevelManager implements Screen {
         // Centers the map sprite
         map.setPosition(0, 0);
 
-        setup();
+        setup(camera);
     }
 
     /**
@@ -90,7 +90,6 @@ public abstract class LevelManager implements Screen {
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
         // adding a plain color background as we do not have a map yet
         ScreenUtils.clear(0, 0, 0.2f, 1);
-
         map.draw(batch);
 
         for (GameObject object : objects) {
@@ -176,6 +175,6 @@ public abstract class LevelManager implements Screen {
     /**
      * called when the level is being setup to setup the default layout of the level
      */
-    protected abstract void setup();
+    protected abstract void setup(OrthographicCamera camera);
 
 }

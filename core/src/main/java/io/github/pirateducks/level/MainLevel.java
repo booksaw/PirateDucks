@@ -1,5 +1,6 @@
 package io.github.pirateducks.level;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import io.github.pirateducks.PirateDucks;
 
@@ -15,7 +16,7 @@ public class MainLevel extends LevelManager {
     }
 
     @Override
-    protected void setup() {
+    protected void setup(OrthographicCamera camera) {
         // nothing to do
     }
 

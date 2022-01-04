@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import java.util.Random;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.LevelManager;
@@ -22,6 +23,7 @@ public class Goodricke extends College { // Projectiles
     private float timeFired = 0; // Time since fruit was fired
     private int fruitSize = 1; // Size of fruit
     private int fruitSelect = 0; // Select which fruit
+    private int[] fruitList = {0, 1, 2, 3};
     private int lastFruit; // The last fruit used
     private int blastPower = 10; // Amount of damage fruit does
     private float playerX = 0; // Default player co-ordinates
@@ -113,8 +115,10 @@ public class Goodricke extends College { // Projectiles
      */
     public void nextFruit() {
         lastFruit = fruitSelect; // Sets the last fruit used as the current fruit selected
-        while (fruitSelect != lastFruit) {
-
+        while (fruitSelect == lastFruit) { // Ensures that the same fruit will not be selected
+            Random generator = new Random(); // Randomly selects the next fruit
+            int ranIndex = generator.nextInt(fruitList.length);
+            fruitSelect = fruitList[ranIndex];
         }
         // To make the game more difficult, the size can be increased
         fruitSize += 1;

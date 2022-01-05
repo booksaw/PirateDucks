@@ -8,7 +8,11 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
+<<<<<<< HEAD
 import io.github.pirateducks.level.college.Langwith;
+=======
+import io.github.pirateducks.level.college.Goodricke;
+>>>>>>> fb89c040494556b9e3954eb48a8e036eb5cb97ac
 import io.github.pirateducks.screen.*;
 
 public class PirateDucks extends ApplicationAdapter {
@@ -37,9 +41,10 @@ public class PirateDucks extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		// jumping straight to the game, this will need to be changed in the future
-		setCurrentScreen(new Langwith(new MainLevel(this)));
-		//setCurrentScreen(new MainMenuScreen(this));
-		//setCurrentScreen(new MainLevel(this));
+		MainLevel level = new MainLevel(this);
+		//setCurrentScreen(new Goodricke(level, camera));
+		setCurrentScreen(new MainMenuScreen(this));
+		//setCurrentScreen(new Langwith(new MainLevel(this)));
 	}
 
 	@Override

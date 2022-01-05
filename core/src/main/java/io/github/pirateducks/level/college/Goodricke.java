@@ -50,7 +50,7 @@ public class Goodricke extends College { // Projectiles
     }
 
     @Override
-    public int getMaxHeath() {
+    public int getMaxHealth() {
         return 0;
     }
 

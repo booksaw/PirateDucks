@@ -89,15 +89,12 @@ public class MainMenuScreen implements Screen  {
 
                 if (x >= buttonX && x<= (buttonX + buttonW) && y >= buttonY && y <= (buttonY + buttonH)){
                     if (i == 0){
-                        System.out.println("Start game button pressed");
                         buttonPressed = true;
                         mainClass.setCurrentScreen(new MainLevel(mainClass));
 
                     } else if (i==1) {
-                        System.out.println("Settings button pressed");
                         buttonPressed = true;
                     } else if (i == 2){
-                        System.out.println("Quit button pressed");
                         Gdx.app.exit();
                     }
                 }

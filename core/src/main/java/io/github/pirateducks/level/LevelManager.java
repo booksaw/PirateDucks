@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
+import io.github.pirateducks.level.college.ConstantineMemoryGame;
+import io.github.pirateducks.level.college.Goodricke;
 import io.github.pirateducks.level.gameObjects.CannonBall;
 import io.github.pirateducks.level.gameObjects.HealthIndicator;
 import io.github.pirateducks.level.gameObjects.Player;
@@ -33,9 +35,13 @@ public abstract class LevelManager implements Screen {
     private Player player = null;
     private Sprite map;
     private OrthographicCamera camera;
+    private MainLevel mainLevel;
 
     @Override
     public final void startDisplaying(OrthographicCamera camera) {
+
+        this.mainLevel = new MainLevel(mainClass);
+
         // loading the game
         this.camera = camera;
         setPlayer(new Player(this, camera));
@@ -105,8 +111,17 @@ public abstract class LevelManager implements Screen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-            System.out.println("Escape Key Pressed");
             mainClass.setCurrentScreen(new PauseScreen(mainClass,this));
+        }
+
+        // Temporary method to launch Memory Game
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)){
+            mainClass.setCurrentScreen(new ConstantineMemoryGame(mainLevel,camera));
+        }
+
+        // Temporary method to launch Goodricke college game
+        if (Gdx.input.isKeyJustPressed(Input.Keys.G)){
+            mainClass.setCurrentScreen(new Goodricke(mainLevel,camera));
         }
     }
 

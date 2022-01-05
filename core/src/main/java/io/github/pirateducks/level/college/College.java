@@ -57,7 +57,7 @@ public abstract class College extends LevelManager implements Health {
     /**
      * @return The max health of the college building
      */
-    public abstract int getMaxHeath();
+    public abstract int getMaxHealth();
 
 
 }

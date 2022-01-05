@@ -38,8 +38,8 @@ public class PirateDucks extends ApplicationAdapter {
 
 		// jumping straight to the game, this will need to be changed in the future
 		MainLevel level = new MainLevel(this);
-		setCurrentScreen(new Goodricke(level, camera));
-		//setCurrentScreen(new MainLevel(this));
+		//setCurrentScreen(new Goodricke(level, camera));
+		setCurrentScreen(new MainMenuScreen(this));
 	}
 
 	@Override

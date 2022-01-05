@@ -8,11 +8,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
-<<<<<<< HEAD
 import io.github.pirateducks.level.college.Langwith;
-=======
 import io.github.pirateducks.level.college.Goodricke;
->>>>>>> fb89c040494556b9e3954eb48a8e036eb5cb97ac
+
 import io.github.pirateducks.screen.*;
 
 public class PirateDucks extends ApplicationAdapter {
@@ -86,6 +84,4 @@ public class PirateDucks extends ApplicationAdapter {
 		currentScreen = screen;
 		currentScreen.startDisplaying(camera);
 	}
-
-
 }

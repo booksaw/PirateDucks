@@ -1,27 +1,32 @@
 package io.github.pirateducks.level.gameObjects;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.pirateducks.level.GameObject;
+import io.github.pirateducks.level.GameObjectHealth;
 
 public class HealthIndicator extends GameObject {
 
     private static final int HEARTSIZE = 20;
     private static final int PADDING = 5;
 
-    private final Player player;
+    private final GameObjectHealth object;
     private final Texture fullHeart, halfHeart, emptyHeart;
     private final Texture fullHeartWhite, halfHeartWhite, emptyHeartWhite;
     private int currentHealth;
     private final int flashDuration = 20;
     private int currentDuration = -1;
 
-    public HealthIndicator(Player player) {
+    public HealthIndicator(GameObjectHealth parent, float x, float y) {
+
         // giving dimensions of 0 as it does not have collision
         super(0, 0);
-        this.player = player;
-        currentHealth = player.getHealth();
+        this.object = parent;
+        this.x = x;
+        this.y = y;
+        currentHealth = object.getHealth();
         fullHeart = new Texture(Gdx.files.internal("Heart.png"));
         halfHeart = new Texture(Gdx.files.internal("Half_Heart.png"));
         emptyHeart = new Texture(Gdx.files.internal("Empty_Heart.png"));
@@ -34,27 +39,27 @@ public class HealthIndicator extends GameObject {
     @Override
     public void render(SpriteBatch batch) {
 
-        int x = PADDING;
-        int health = player.getHealth();
+        float heartX = x;
+        float heartY = y;
+        int health = object.getHealth();
 
-        for (int rendered = 0; rendered < player.getMaxHealth(); rendered += 2) {
+        for (int rendered = 0; rendered < object.getMaxHealth(); rendered += 2) {
             int diff = health - rendered;
             if (diff <= 0) {
-                batch.draw((currentDuration == -1) ? emptyHeart : emptyHeartWhite, x, PADDING, HEARTSIZE, HEARTSIZE);
+                batch.draw((currentDuration == -1) ? emptyHeart : emptyHeartWhite, heartX, y, HEARTSIZE, HEARTSIZE);
             } else if (diff == 1) {
-                batch.draw((currentDuration == -1) ? halfHeart : halfHeartWhite, x, PADDING, HEARTSIZE, HEARTSIZE);
+                batch.draw((currentDuration == -1) ? halfHeart : halfHeartWhite, heartX, y, HEARTSIZE, HEARTSIZE);
             } else {
-                batch.draw((currentDuration == -1) ? fullHeart : fullHeartWhite, x, PADDING, HEARTSIZE, HEARTSIZE);
+                batch.draw((currentDuration == -1) ? fullHeart : fullHeartWhite, heartX, y, HEARTSIZE, HEARTSIZE);
             }
 
-            x += HEARTSIZE + PADDING;
+            heartX += HEARTSIZE + PADDING;
         }
-
     }
 
     @Override
     public void update(float delta) {
-        int health = player.getHealth();
+        int health = object.getHealth();
 
         if (health < currentHealth) {
             currentDuration = 0;

@@ -4,21 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import io.github.pirateducks.level.GameObject;
-import io.github.pirateducks.level.Health;
+import io.github.pirateducks.level.GameObjectHealth;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.screen.GameOverScreen;
 
-public class Player extends GameObject implements Health {
+public class Player extends GameObjectHealth {
     //Body is an object yet to be defined which will be defined as the main Player
 
     private final Texture texture;
     private float rotation;
     private final LevelManager manager;
     private final OrthographicCamera camera;
-
     private float timeFired = 0;
 
     public Player(LevelManager manager, OrthographicCamera camera) {
@@ -105,7 +104,7 @@ public class Player extends GameObject implements Health {
                 float playerCenterX = x + width / 2;
                 float playerCenterY = y + height / 2;
                 // Fire a cannonball from boat center to mouse position
-                manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY, manager, camera));
+                manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY, this, manager, camera));
                 timeFired = 0;
             }
         }

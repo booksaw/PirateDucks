@@ -6,22 +6,28 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import io.github.pirateducks.level.GameObject;
+import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
+import io.github.pirateducks.level.gameObjects.Cannon;
 
 public class Langwith extends College {
 
+    private final OrthographicCamera camera;
+    private final LevelManager manager;
     private final Array<GameObject> objects = new Array<>();
     private Sprite map;
 
-    public Langwith(MainLevel mainLevel) {
+    public Langwith(MainLevel mainLevel, OrthographicCamera camera, LevelManager manager) {
         super(mainLevel);
+        this.manager = manager;
+        this.camera = camera;
     }
 
     /**
      * @return The max health of the college building
      */
     @Override
-    public int getMaxHeath() {
+    public int getMaxHealth() {
         // Each cannon will be worth 100 health
         return 400;
     }
@@ -35,6 +41,7 @@ public class Langwith extends College {
     @Override
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
         map.draw(batch);
+        super.draw(batch, camera);
 
         for (GameObject object : objects) {
             object.render(batch);
@@ -48,24 +55,13 @@ public class Langwith extends College {
      */
     @Override
     public void update(float delta) {
+        // updating all game objects
+        super.update(delta);
 
-    }
 
-    /**
-     * Called when this screen becomes the active screen
-     *
-     * @param camera
-     */
-    @Override
-    public void startDisplaying(OrthographicCamera camera) {
-
-        // load the map
-        Texture texture = new Texture("BulletHellBackground.png");
-        map = new Sprite(texture);
-        // scales the sprite depending on window size multiplied by a constant
-        map.setSize(camera.viewportWidth, camera.viewportHeight);
-        // Centers the map sprite
-        map.setPosition(0, 0);
+        for (GameObject object : objects) {
+            object.update(delta);
+        }
     }
 
     /**
@@ -85,14 +81,28 @@ public class Langwith extends College {
      */
     @Override
     protected Texture getMapTexture() {
-        return null;
+        return new Texture("Langwith/BulletHellBackground.png");
     }
+
 
     /**
      * called when the level is being setup to setup the default layout of the level
+     *
+     * @param camera
      */
     @Override
-    protected void setup() {
+    protected void setup(OrthographicCamera camera) {
+        // load the map
+        Texture texture = new Texture("Langwith/BulletHellBackground.png");
+        map = new Sprite(texture);
+        // scales the sprite depending on window size multiplied by a constant
+        map.setSize(camera.viewportWidth, camera.viewportHeight);
 
+        // Add 4 cannons to the level, separated by an offset
+        int offset = 0;
+        for (int i = 0; i < 4; i++) {
+            objects.add(new Cannon(130, 130, 50 + offset, camera.viewportHeight - 105, manager));
+            offset += 200;
+        }
     }
 }

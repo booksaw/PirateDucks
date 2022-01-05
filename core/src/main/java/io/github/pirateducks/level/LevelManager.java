@@ -12,6 +12,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
+import io.github.pirateducks.level.college.ConstantineMemoryGame;
+import io.github.pirateducks.level.college.Goodricke;
+import io.github.pirateducks.level.college.Langwith;
 import io.github.pirateducks.level.gameObjects.CannonBall;
 import io.github.pirateducks.level.gameObjects.HealthIndicator;
 import io.github.pirateducks.level.gameObjects.Player;
@@ -24,18 +27,21 @@ import io.github.pirateducks.screen.Screen;
 public abstract class LevelManager implements Screen {
 
     private final PirateDucks mainClass;
+    private final Array<GameObject> objects = new Array<>();
+    private Player player = null;
+    private Sprite map;
+    private OrthographicCamera camera;
+    private MainLevel mainLevel;
 
     public LevelManager(PirateDucks mainClass) {
         this.mainClass = mainClass;
     }
 
-    private final Array<GameObject> objects = new Array<GameObject>();
-    private Player player = null;
-    private Sprite map;
-    private OrthographicCamera camera;
-
     @Override
-    public void startDisplaying(OrthographicCamera camera) {
+    public final void startDisplaying(OrthographicCamera camera) {
+
+        this.mainLevel = new MainLevel(mainClass);
+
         // loading the game
         this.camera = camera;
         setPlayer(new Player(this, camera));
@@ -50,16 +56,15 @@ public abstract class LevelManager implements Screen {
         // Centers the map sprite
         map.setPosition(0, 0);
 
-        setup();
+        setup(camera);
     }
 
     /**
      * Used to add all elements in the overlay
      */
     private void addOverlay() {
-        objects.add(new HealthIndicator(getPlayer()));
+        objects.add(new HealthIndicator(getPlayer(), 5, 5));
     }
-
 
     /**
      * Used to change the game object that is acting as the player
@@ -90,7 +95,6 @@ public abstract class LevelManager implements Screen {
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
         // adding a plain color background as we do not have a map yet
         ScreenUtils.clear(0, 0, 0.2f, 1);
-
         map.draw(batch);
 
         for (GameObject object : objects) {
@@ -106,8 +110,22 @@ public abstract class LevelManager implements Screen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-            System.out.println("Escape Key Pressed");
             mainClass.setCurrentScreen(new PauseScreen(mainClass,this));
+        }
+
+        // Temporary method to launch Memory Game
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)){
+            mainClass.setCurrentScreen(new ConstantineMemoryGame(mainLevel,camera));
+        }
+
+        // Temporary method to launch Goodricke college game
+        if (Gdx.input.isKeyJustPressed(Input.Keys.G)){
+            mainClass.setCurrentScreen(new Goodricke(mainLevel,camera));
+        }
+
+        // Temporary method to launch Langwith college game
+        if (Gdx.input.isKeyJustPressed(Input.Keys.L)){
+            mainClass.setCurrentScreen(new Langwith(mainLevel,camera,this));
         }
     }
 
@@ -133,7 +151,7 @@ public abstract class LevelManager implements Screen {
     }
 
     /**
-     * Used to remove a game object to the level
+     * Used to remove a game object from the level
      *
      * @param object
      */
@@ -176,6 +194,6 @@ public abstract class LevelManager implements Screen {
     /**
      * called when the level is being setup to setup the default layout of the level
      */
-    protected abstract void setup();
+    protected abstract void setup(OrthographicCamera camera);
 
 }

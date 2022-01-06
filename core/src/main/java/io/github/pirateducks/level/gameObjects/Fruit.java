@@ -33,7 +33,7 @@ public class Fruit extends GameObject {
      * Be able to explode when hit: No
      */
 
-    public Fruit(float x, float y, int size, int select, LevelManager manager, OrthographicCamera camera) {
+    public Fruit(float x, float y, float size, int select, LevelManager manager, OrthographicCamera camera) {
         super(100, 100);
 
         this.camera = camera;
@@ -61,8 +61,8 @@ public class Fruit extends GameObject {
         this.x = x;
         this.y = y;
 
-        startX = 0;
-        startY = 0;
+        startX = 100;
+        startY = 100;
 
         // We use a triangle to calculate the new trajectory
         angle = Math.atan2(startY - y, startX - x);

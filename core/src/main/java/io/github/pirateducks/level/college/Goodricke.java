@@ -27,10 +27,10 @@ public class Goodricke extends College { // Projectiles
     private int time; // How long the game has been going on
     private int quantityLeft = 10; // Number of fruit left
     private float timeFired = 0; // Time since fruit was fired
-    private int fruitSize = 1; // Size of fruit
+    private float fruitSize = 10; // Size of fruit
+    private final float sizeMultiplier = (float) 0.95;
     private int fruitSelect = 0; // Select which fruit
     private final int[] fruitList = {0, 1, 2, 3};
-    private int lastFruit; // The last fruit used
     private final int blastPower = 10; // Amount of damage fruit does
     private float playerX = 0; // Default player co-ordinates
     private float playerY = 0;
@@ -51,14 +51,11 @@ public class Goodricke extends College { // Projectiles
         super(level);
 
         this.camera = camera;
-        // im not sure what this is, sand.png does not exist
-        // texture = new Texture(Gdx.files.internal("sand.png"));
-
     }
 
     @Override
     public int getMaxHealth() {
-        return 0;
+        return 10;
     }
 
     @Override
@@ -74,7 +71,6 @@ public class Goodricke extends College { // Projectiles
             // Projects the object at the target for the player to dodge
 //            addObject(new Fruit(playerX, playerY, fruitSize, fruitSelect, this, camera));
             timeFired = 0;
-            quantityLeft -= 1;
         }
 
         // checking if any cannonballs are hitting any fruit
@@ -115,16 +111,14 @@ public class Goodricke extends College { // Projectiles
      * @param y the y coord of the fruit
      */
     public void spawnFruit(float x, float y) {
+        // To make the game more difficult, the size can be decreased
+        fruitSize = fruitSize * sizeMultiplier;
+        // Decreases the number of fruit left to spawn
+        quantityLeft -= 1;
         Random rnd = new Random();
         Fruit f = new Fruit(x, y, 5, rnd.nextInt(Fruit.UNIQUEFRUIT), this, camera);
         fruit.add(f);
         addObject(f);
-    }
-
-    public void playerDamaged() {
-        // When the fruit hits the player
-        // When player is hit by fruit: lose health
-        setHealth(health - 1);
     }
 
     @Override
@@ -147,20 +141,6 @@ public class Goodricke extends College { // Projectiles
     @Override
     protected Texture getMapTexture() {
         return new Texture("goodricke/goodrickemap.png");
-    }
-
-    /**
-     * Used to select the next fruit for the game, not using the same one as before
-     */
-    public void nextFruit() {
-        lastFruit = fruitSelect; // Sets the last fruit used as the current fruit selected
-        while (fruitSelect == lastFruit) { // Ensures that the same fruit will not be selected
-            Random generator = new Random(); // Randomly selects the next fruit
-            int ranIndex = generator.nextInt(fruitList.length);
-            fruitSelect = fruitList[ranIndex];
-        }
-        // To make the game more difficult, the size can be increased
-        fruitSize += 1;
     }
 
     /**

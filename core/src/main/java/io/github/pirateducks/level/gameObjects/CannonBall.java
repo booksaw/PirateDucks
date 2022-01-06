@@ -3,33 +3,42 @@ package io.github.pirateducks.level.gameObjects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.level.GameObject;
+import io.github.pirateducks.level.GameObjectHealth;
 import io.github.pirateducks.level.LevelManager;
 
 public class CannonBall extends GameObject {
 
     private final Texture texture;
+    private final Sprite sprite;
     private int damage = 50;
     private double angle;
     private final LevelManager manager;
+    private final GameObjectHealth FiredBy;
     private final OrthographicCamera camera;
 
-    public CannonBall(float playerX, float playerY, int targetX, int targetY, LevelManager manager, OrthographicCamera camera) {
+    public CannonBall(float sourceX, float sourceY, int targetX, int targetY, GameObjectHealth FiredBy, LevelManager manager, OrthographicCamera camera) {
         super(100, 100);
 
         this.camera = camera;
         this.manager = manager;
+        // To stop cannonball instantly colliding with object after firing
+        this.FiredBy = FiredBy;
 
         // loading the texture
         texture = new Texture("CannonBall.png");
+        sprite = new Sprite(texture);
 
         // scales the sprite depending on window size multiplied by a constant
         float scaleRatio = ((float) texture.getWidth() / (float) Gdx.graphics.getWidth()) * 135f;
         SetSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
-        x = playerX;
-        y = playerY;
+        sprite.setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
+
+        x = sourceX;
+        y = sourceY;
 
         // We use a triangle to calculate the new trajectory
         angle = Math.atan2(targetY - y, targetX - x);
@@ -39,6 +48,8 @@ public class CannonBall extends GameObject {
     public void render(SpriteBatch batch) {
         batch.draw(texture, x, y, width / 2, height/2, width, height, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
     }
+
+    public Sprite getSprite() {return sprite;}
 
     @Override
     public void update(float delta) {

@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.college.ConstantineMemoryGame;
 import io.github.pirateducks.level.college.Goodricke;
+import io.github.pirateducks.level.college.Langwith;
 import io.github.pirateducks.level.gameObjects.CannonBall;
 import io.github.pirateducks.level.gameObjects.HealthIndicator;
 import io.github.pirateducks.level.gameObjects.Player;
@@ -28,16 +29,15 @@ import java.util.ArrayList;
 public abstract class LevelManager implements Screen {
 
     private final PirateDucks mainClass;
-
-    public LevelManager(PirateDucks mainClass) {
-        this.mainClass = mainClass;
-    }
-
-    private final Array<GameObject> objects = new Array<GameObject>();
+    private final Array<GameObject> objects = new Array<>();
     private Player player = null;
     private Sprite map;
     private OrthographicCamera camera;
     private MainLevel mainLevel;
+
+    public LevelManager(PirateDucks mainClass) {
+        this.mainClass = mainClass;
+    }
 
     @Override
     public final void startDisplaying(OrthographicCamera camera) {
@@ -65,9 +65,8 @@ public abstract class LevelManager implements Screen {
      * Used to add all elements in the overlay
      */
     private void addOverlay() {
-        objects.add(new HealthIndicator(getPlayer()));
+        objects.add(new HealthIndicator(getPlayer(), 5, 5));
     }
-
 
     /**
      * Used to change the game object that is acting as the player
@@ -135,6 +134,11 @@ public abstract class LevelManager implements Screen {
                 delay = 0;
             }
         }
+
+        // Temporary method to launch Langwith college game
+        if (Gdx.input.isKeyJustPressed(Input.Keys.L)){
+            mainClass.setCurrentScreen(new Langwith(mainLevel,camera,this));
+        }
     }
 
     @Override
@@ -159,7 +163,7 @@ public abstract class LevelManager implements Screen {
     }
 
     /**
-     * Used to remove a game object to the level
+     * Used to remove a game object from the level
      *
      * @param object
      */

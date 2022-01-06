@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.GameObjectHealth;
 import io.github.pirateducks.level.LevelManager;
@@ -70,6 +71,17 @@ public class CannonBall extends GameObject {
     public void dispose() {
         texture.dispose();
         // Remove cannonball object from the list of objects to be rendered
+        manager.removeObject(this);
+    }
+
+    public Rectangle getCollision(){
+        return new Rectangle(x, y, width, height);
+    }
+
+    /**
+     * Called when the cannonball hits something so it can be despawned
+     */
+    public void collide(){
         manager.removeObject(this);
     }
 }

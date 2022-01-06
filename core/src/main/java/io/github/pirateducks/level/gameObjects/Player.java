@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.Health;
 import io.github.pirateducks.level.LevelManager;
@@ -147,5 +148,9 @@ public class Player extends GameObject implements Health {
             throw new IllegalArgumentException("The game currently cannot render a max health which is odd.");
         }
         this.maxHealth = maxHealth;
+    }
+
+    public Rectangle getCollision(){
+        return new Rectangle(x, y, width, height);
     }
 }

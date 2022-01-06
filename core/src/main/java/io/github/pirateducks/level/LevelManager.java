@@ -20,6 +20,8 @@ import io.github.pirateducks.level.gameObjects.Player;
 import io.github.pirateducks.screen.PauseScreen;
 import io.github.pirateducks.screen.Screen;
 
+import java.util.ArrayList;
+
 /**
  * This class is the manager when the actual game is being displayed
  */
@@ -97,31 +99,41 @@ public abstract class LevelManager implements Screen {
         // adding a plain color background as we do not have a map yet
         ScreenUtils.clear(0, 0, 0.2f, 1);
         map.draw(batch);
-
         for (GameObject object : objects) {
             object.render(batch);
         }
     }
 
+    int delay = 1000;
+
     @Override
     public void update(float delta) {
 
-        for(int i = 0; i < objects.size; i++){
+        for (int i = 0; i < objects.size; i++) {
             objects.get(i).update(delta);
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-            mainClass.setCurrentScreen(new PauseScreen(mainClass,this));
-        }
+        // adding delay to the temp buttons so things dont break
+        if (delay < 1000) {
+            delay++;
+        } else {
 
-        // Temporary method to launch Memory Game
-        if (Gdx.input.isKeyJustPressed(Input.Keys.M)){
-            mainClass.setCurrentScreen(new ConstantineMemoryGame(mainLevel,camera));
-        }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                mainClass.setCurrentScreen(new PauseScreen(mainClass, this));
+                delay = 0;
+            }
 
-        // Temporary method to launch Goodricke college game
-        if (Gdx.input.isKeyJustPressed(Input.Keys.G)){
-            mainClass.setCurrentScreen(new Goodricke(mainLevel,camera));
+            // Temporary method to launch Memory Game
+            if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+                mainClass.setCurrentScreen(new ConstantineMemoryGame(mainLevel, camera));
+                delay = 0;
+            }
+
+            // Temporary method to launch Goodricke college game
+            if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
+                mainClass.setCurrentScreen(new Goodricke(mainLevel, camera));
+                delay = 0;
+            }
         }
     }
 
@@ -192,4 +204,7 @@ public abstract class LevelManager implements Screen {
      */
     protected abstract void setup(OrthographicCamera camera);
 
+    public Array<GameObject> getObjectsClone() {
+        return new Array<GameObject>(objects);
+    }
 }

@@ -4,10 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.LevelManager;
 
 public class Fruit extends GameObject {
+
+    /**
+     * Stores the number of unique fruit that exist in the game
+     */
+    public static final int UNIQUEFRUIT = 4;
 
     private final Texture texture;
     private final LevelManager manager;
@@ -27,7 +33,7 @@ public class Fruit extends GameObject {
      * Be able to explode when hit: No
      */
 
-    public Fruit(float playerX, float playerY, int size, int select, LevelManager manager, OrthographicCamera camera) {
+    public Fruit(float x, float y, int size, int select, LevelManager manager, OrthographicCamera camera) {
         super(100, 100);
 
         this.camera = camera;
@@ -45,15 +51,15 @@ public class Fruit extends GameObject {
         }
 
         // loads the texture
-        texture = new Texture(Gdx.files.internal(fruitChoice));
+        texture = new Texture(Gdx.files.internal("goodricke/" + fruitChoice));
 
         // scales the sprite depending on window size multiplied by a constant
         float scaleRatio = ((float) texture.getWidth() / (float) Gdx.graphics.getWidth()) * 135f;
         // increases the sprite based on the multiplier 'size' (default=1)
         SetSize((texture.getWidth() / scaleRatio) * size, (texture.getHeight() / scaleRatio) * size);
 
-        x = playerX;
-        y = playerY;
+        this.x = x;
+        this.y = y;
 
         startX = 0;
         startY = 0;
@@ -72,19 +78,23 @@ public class Fruit extends GameObject {
         batch.draw(texture, x, y, width / 2, height / 2, width, height, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
     }
 
+    public Rectangle getCollision(){
+        return new Rectangle(x, y, width, height);
+    }
+
     @Override
     public void update(float delta) {
-        float velocity = 200 * delta;
+        float velocity = 0 * delta;
         x += Math.cos(angle) * velocity;
         y += Math.sin(angle) * velocity;
 
         // limiting x
-        if (x <= -width / 2 || x >= camera.viewportWidth - width / 2) {
+        if (x <= -width / 2 || x >= camera.viewportWidth + width / 2) {
             dispose();
         }
 
         // limiting y
-        if (y <= -height / 2 || y >= camera.viewportHeight - height / 2) {
+        if (y <= -height / 2 || y >= camera.viewportHeight + height / 2) {
             dispose();
         }
     }
@@ -97,8 +107,8 @@ public class Fruit extends GameObject {
 
     public void explode() {
         // Display explosion animation over the fruit
-
         // Then remove the fruit
+        manager.removeObject(this);
         dispose();
     }
 

@@ -69,6 +69,7 @@ public class MainMenuScreen implements Screen  {
      * @param delta The delta time since the last update
      */
     public void update(float delta){
+
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
             // We need to ensure multiple buttons are not pressed at once
             boolean buttonPressed = false;
@@ -91,6 +92,7 @@ public class MainMenuScreen implements Screen  {
                     if (i == 0){
                         buttonPressed = true;
                         mainClass.setCurrentScreen(new MainLevel(mainClass));
+                        this.stopDisplaying();
 
                     } else if (i==1) {
                         buttonPressed = true;

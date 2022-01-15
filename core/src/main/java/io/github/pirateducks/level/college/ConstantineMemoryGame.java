@@ -19,6 +19,7 @@ import io.github.pirateducks.screen.Screen;
 import javax.swing.*;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 
 public class ConstantineMemoryGame extends College {
@@ -32,6 +33,8 @@ public class ConstantineMemoryGame extends College {
     private Sprite startGameSprite;
     private Texture closeTexture;
     private Sprite closeSprite;
+    private Texture countdownTexture;
+    private Sprite countdownSprite;
 
 
     private Array<Texture> cardTextures = new Array<>();
@@ -90,12 +93,19 @@ public class ConstantineMemoryGame extends College {
             currentxpos += 105;
         }
 
+        countdownTexture = new Texture("memoryGame/countdown-10.png");
+        countdownSprite = new Sprite(countdownTexture);
+
+        scaleRatio = (countdownSprite.getWidth()/camera.viewportWidth * 6.0f);
+        countdownSprite.setSize(countdownSprite.getWidth()/scaleRatio,countdownSprite.getHeight()/scaleRatio);
+        countdownSprite.setPosition(camera.viewportWidth/2 - countdownSprite.getWidth()/2,(camera.viewportHeight/2 - countdownSprite.getHeight()/2 - 100));
+
         startGameTexture = new Texture("memoryGame/start-game.png");
         startGameSprite = new Sprite(startGameTexture);
 
         scaleRatio = (startGameSprite.getWidth()/camera.viewportWidth * 3.0f);
         startGameSprite.setSize(startGameSprite.getWidth()/scaleRatio,startGameSprite.getHeight()/scaleRatio);
-        startGameSprite.setPosition(camera.viewportWidth/2 - startGameSprite.getWidth()/2,(camera.viewportHeight/2 - startGameSprite.getHeight()/2 - 100));
+        startGameSprite.setPosition(camera.viewportWidth/2 - startGameSprite.getWidth()/2,(camera.viewportHeight/2 - startGameSprite.getHeight()/2 - 200));
 
         buttons.add(startGameSprite);
 
@@ -105,7 +115,7 @@ public class ConstantineMemoryGame extends College {
 
         scaleRatio = (closeSprite.getWidth()/camera.viewportWidth * 3.0f);
         closeSprite.setSize(closeSprite.getWidth()/scaleRatio,closeSprite.getHeight()/scaleRatio);
-        closeSprite.setPosition(camera.viewportWidth/2 - closeSprite.getWidth()/2,(camera.viewportHeight/2 - closeSprite.getHeight()/2 - 100));
+        closeSprite.setPosition(camera.viewportWidth/2 - closeSprite.getWidth()/2,(camera.viewportHeight/2 - closeSprite.getHeight()/2 - 200));
 
         buttons.add(closeSprite);
         closeSprite.setAlpha(0);
@@ -163,6 +173,10 @@ public class ConstantineMemoryGame extends College {
             closeSprite.draw(batch);
         }
 
+        if (countdownSprite != null){
+            countdownSprite.draw(batch);
+        }
+
         if (!cardTextures.isEmpty() && !cardSprites.isEmpty()){
             for (int x=0;x<8;x++){
                 cardSprites.get(x).draw(batch);
@@ -170,7 +184,7 @@ public class ConstantineMemoryGame extends College {
         }
     }
 
-    private int countdownLength = 5;
+    private int countdownLength = 10;
 
     private Timer.Task countdown = new Timer.Task(){
         int numSeconds = countdownLength;
@@ -178,30 +192,35 @@ public class ConstantineMemoryGame extends College {
         public void run(){
             System.out.println(numSeconds);
             numSeconds -= 1;
+            String filepath = "memoryGame/countdown-" + numSeconds + ".png";
+            countdownTexture = new Texture(filepath);
+            countdownSprite.setTexture(countdownTexture);
+            float scaleRatio = (countdownSprite.getWidth()/camera.viewportWidth * 6.0f);
+            countdownSprite.setSize(countdownSprite.getWidth()/scaleRatio,countdownSprite.getHeight()/scaleRatio);
+            countdownSprite.setPosition(camera.viewportWidth/2 - countdownSprite.getWidth()/2,(camera.viewportHeight/2 - countdownSprite.getHeight()/2 - 100));
+
             if (numSeconds == 0){
                 hideCards();
                 countdown.cancel();
                 numSeconds = countdownLength;
-                checkDigits();
                 inGame = false;
                 gameFinished = true;
+                checkDigits();
             }
         }
     };
 
     private void hideCards(){
-
-    }
-
-
-    private void checkDigits(){
-
         for (int x =0;x<8;x++){
             System.out.println(x);
             String filepath = "memoryGame/question-mark.png";
             cardTextures.set(x,new Texture(filepath));
             cardSprites.get(x).setTexture(cardTextures.get(x));
         }
+    }
+
+
+    private void checkDigits(){
 
         // Convert int array to single string
         StringBuilder builder = new StringBuilder();
@@ -213,7 +232,10 @@ public class ConstantineMemoryGame extends College {
         JFrame frame = new JFrame();
 
         System.out.println("now asking");
-        String digits = JOptionPane.showInputDialog("Enter the digits you have just memorised: ");
+        //String digits = "";
+
+        String digits = JOptionPane.showInputDialog("Enter the digits you have memorised:");
+
 
         if (digits != null && digits.equals(correctDigits)){
             JOptionPane.showMessageDialog(frame,"Correct");
@@ -226,6 +248,14 @@ public class ConstantineMemoryGame extends College {
         inGame = false;
         // Show close button
         closeSprite.setAlpha(1);
+
+        // Show cards again
+        //for (int x =0;x<8;x++){
+            //System.out.println(x);
+            //String filepath = "memoryGame/card-" + digitsToMemorise[x] + ".png";
+            //cardTextures.set(x,new Texture(filepath));
+            //cardSprites.get(x).setTexture(cardTextures.get(x));
+        //}
 
     }
 

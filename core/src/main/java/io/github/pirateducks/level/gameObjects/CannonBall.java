@@ -14,7 +14,6 @@ public class CannonBall extends GameObject {
 
     private final Texture texture;
     private final Sprite sprite;
-    private int damage = 50;
     private double angle;
     private final LevelManager manager;
     private final GameObjectHealth FiredBy;
@@ -74,8 +73,17 @@ public class CannonBall extends GameObject {
         manager.removeObject(this);
     }
 
-    public Rectangle getCollision(){
+    public Rectangle getCollision() {
         return new Rectangle(x, y, width, height);
+    }
+
+    /**
+     * Returns the object that fired the cannonball
+     *
+     * @return the object that fired the cannonball
+     */
+    public GameObjectHealth getFiredBy() {
+        return this.FiredBy;
     }
 
     /**

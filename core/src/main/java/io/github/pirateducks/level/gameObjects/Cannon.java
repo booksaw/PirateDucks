@@ -3,6 +3,7 @@ package io.github.pirateducks.level.gameObjects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.GameObjectHealth;
@@ -16,9 +17,9 @@ public class Cannon extends GameObjectHealth {
     private final HealthIndicator healthIndicator;
     private int health;
     private int maxHealth;
-    private final LevelManager manager;
+    private final Langwith manager;
 
-    public Cannon(float width, float height, float x, float y, LevelManager manager) {
+    public Cannon(float width, float height, float x, float y, Langwith manager) {
         super(width, height);
         this.x = x;
         this.y = y;
@@ -91,6 +92,10 @@ public class Cannon extends GameObjectHealth {
         this.maxHealth = maxHealth;
     }
 
+    public Rectangle getCollision(){
+        return new Rectangle(x, y, width, height);
+    }
+
     /**
      * Use this method to dispose of any resources (ie Texture resources)
      */
@@ -98,6 +103,6 @@ public class Cannon extends GameObjectHealth {
     public void dispose() {
         texture.dispose();
         // Remove cannon object from the list of objects to be rendered
-        manager.removeObject(this);
+        manager.removeCannon(this);
     }
 }

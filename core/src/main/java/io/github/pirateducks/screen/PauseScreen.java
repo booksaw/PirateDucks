@@ -92,6 +92,7 @@ public class PauseScreen implements Screen  {
                         buttonPressed = true;
                         //MyGdxGame.setCurrentScreen(new LevelManager());
                         mainClass.setCurrentScreen(prevScreen);
+                        this.stopDisplaying();
 
                     } else if (i==1) {
                         System.out.println("Settings button pressed");

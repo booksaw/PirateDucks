@@ -1,37 +1,25 @@
 package io.github.pirateducks.level.college;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.Random;
 
-import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.GameObject;
-import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.level.gameObjects.CannonBall;
 import io.github.pirateducks.level.gameObjects.Fruit;
-import io.github.pirateducks.level.gameObjects.Player;
+import io.github.pirateducks.level.gameObjects.GoodrickeCannon;
 
 public class Goodricke extends College { // Projectiles
     private final OrthographicCamera camera;
     private final Array<Fruit> fruit = new Array<>();
 //    private final Texture texture;
 
-    private int health;
-    private int time; // How long the game has been going on
-    private int quantityLeft = 10; // Number of fruit left
-    private float timeFired = 0; // Time since fruit was fired
     private float fruitSize = 10; // Size of fruit
-    private final float sizeMultiplier = (float) 0.95;
-    private int fruitSelect = 0; // Select which fruit
-    private final int[] fruitList = {0, 1, 2, 3};
-    private final int blastPower = 10; // Amount of damage fruit does
+    private final float sizeMultiplier = (float) 1;
     private float playerX = 0; // Default player co-ordinates
     private float playerY = 0;
 
@@ -63,17 +51,20 @@ public class Goodricke extends College { // Projectiles
         // updating all game objects
         super.update(delta);
 
-        if (quantityLeft > 0 && health > 0) {
-            // Find players current location
-            playerX = getPlayer().getX();
-            playerY = getPlayer().getY();
-
-            // Projects the object at the target for the player to dodge
-//            addObject(new Fruit(playerX, playerY, fruitSize, fruitSelect, this, camera));
-            timeFired = 0;
+        // checking if all the cannons are dead
+        boolean dead = true;
+        for(GoodrickeCannon cannon : cannons){
+            if(cannon.getHealth() > 0){
+                dead = false;
+                break;
+            }
+        }
+        if(dead){
+            // all cannons are dead, the college has been defeated setting its health to 0
+            setHealth(0);
         }
 
-        // checking if any cannonballs are hitting any fruit
+        // checking if any cannonballs are hitting any fruit or cannons
         for (GameObject object : getObjectsClone()) {
             if (object instanceof CannonBall) {
                 // checking if the cannonball is colliding with fruit
@@ -85,6 +76,17 @@ public class Goodricke extends College { // Projectiles
                         // despawning the cannonball and the fruit
                         f.explode();
                         ((CannonBall) object).collide();
+                        continue; // cannot both collide with fruit and cannon in the same collision
+                    }
+                }
+
+                for(GoodrickeCannon cannon : cannons){
+                    // looping through the cannons to check collision
+                    if(collision.overlaps(cannon.getCollision())){
+                        cannon.setHealth(cannon.getHealth() - 2);
+                        ((CannonBall)object).collide();
+                        continue;
+                        // no need to check other cannons
                     }
                 }
             }
@@ -110,19 +112,30 @@ public class Goodricke extends College { // Projectiles
      * @param x The x coord of the fruit
      * @param y the y coord of the fruit
      */
-    public void spawnFruit(float x, float y) {
+    public void spawnFruit(float x, float y, float angle) {
         // To make the game more difficult, the size can be decreased
         fruitSize = fruitSize * sizeMultiplier;
-        // Decreases the number of fruit left to spawn
-        quantityLeft -= 1;
         Random rnd = new Random();
-        Fruit f = new Fruit(x, y, 5, rnd.nextInt(Fruit.UNIQUEFRUIT), this, camera);
+        Fruit f = new Fruit(x - fruitSize / 2, y - fruitSize / 2, fruitSize, rnd.nextInt(Fruit.UNIQUEFRUIT), this, camera, angle);
         fruit.add(f);
         addObject(f);
     }
 
+    GoodrickeCannon[] cannons;
+
     @Override
     public void setup(OrthographicCamera camera) {
+
+        // init the cannons
+        cannons = new GoodrickeCannon[3];
+        cannons[0] = new GoodrickeCannon(130, 130, 200, 300, this, camera);
+        addObject(cannons[0]);
+
+        cannons[1] = new GoodrickeCannon(130, 130, 350, 240, this, camera);
+        addObject(cannons[1]);
+
+        cannons[2] = new GoodrickeCannon(130, 130, 500, 300, this, camera);
+        addObject(cannons[2]);
     }
 
     @Override
@@ -144,11 +157,18 @@ public class Goodricke extends College { // Projectiles
     }
 
     /**
-     * Used to get a clone of the fruit array to avoid GdxRuntimeException
-     *
-     * @return
+     * @return a clone of the fruit array to avoid GdxRuntimeException
      */
     public Array<Fruit> getFruitClone() {
         return new Array<>(fruit);
+    }
+
+    /**
+     * Used to remove a fruit from the level
+     * @param toRemove The fruit that should be removed
+     */
+    public void removeFruit(Fruit toRemove){
+        fruit.removeValue(toRemove, true);
+        removeObject(toRemove);
     }
 }

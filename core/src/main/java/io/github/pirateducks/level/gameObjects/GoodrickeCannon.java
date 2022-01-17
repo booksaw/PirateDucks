@@ -54,4 +54,10 @@ public class GoodrickeCannon extends Cannon {
         // launch a fruit
         goodricke.spawnFruit(x + width / 2, y, getAngle());
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        goodricke.removeObject(this);
+    }
 }

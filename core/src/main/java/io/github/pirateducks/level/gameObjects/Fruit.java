@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.LevelManager;
+import io.github.pirateducks.level.college.Goodricke;
+
+import java.util.Random;
 
 public class Fruit extends GameObject {
 
@@ -16,28 +19,35 @@ public class Fruit extends GameObject {
     public static final int UNIQUEFRUIT = 4;
 
     private final Texture texture;
-    private final LevelManager manager;
+    private final Goodricke manager;
     private final OrthographicCamera camera;
-    private double angle;
+    private float angle;
+    private float rotation = 0;
     private String fruitChoice = "apple.png";
 
     private int startX;
     private int startY;
 
     /**
-     * Fruit
-     * Be able to set an image for the fruit: Yes
-     * Be able to change between apple, banana, melon: Yes
-     * Be able to change size: Yes
-     * Be able to start the fruit from outside the window: Maybe
-     * Be able to explode when hit: No
+     * Create a new fruit
+     * @param x The starting x location of the fruit
+     * @param y The starting y location of the fruit
+     * @param size the size of the fruit
+     * @param select which fruit to select
+     * @param manager the LevelManager that the fruit are in (must be goodricke)
+     * @param camera the camera for the level
+     * @param angle The angle that the fruit will travel at
      */
-
-    public Fruit(float x, float y, float size, int select, LevelManager manager, OrthographicCamera camera) {
+    public Fruit(float x, float y, float size, int select, LevelManager manager, OrthographicCamera camera, float angle) {
         super(100, 100);
 
         this.camera = camera;
-        this.manager = manager;
+
+        if(!(manager instanceof  Goodricke)){
+            throw new IllegalArgumentException("The fruit class can only be used during the goodricke battle");
+        }
+        this.manager = (Goodricke) manager;
+
 
         // Allows the fruit to be changed using an int value
         if (select == 0) {
@@ -50,6 +60,8 @@ public class Fruit extends GameObject {
             fruitChoice = "bomb.png";
         }
 
+        // converting degrees to radians as libgdx works in degrees but java Math.sin works in radians
+        this.angle = (float)Math.toRadians(angle);
         // loads the texture
         texture = new Texture(Gdx.files.internal("goodricke/" + fruitChoice));
 
@@ -61,11 +73,8 @@ public class Fruit extends GameObject {
         this.x = x;
         this.y = y;
 
-        startX = 100;
-        startY = 100;
-
-        // We use a triangle to calculate the new trajectory
-        angle = Math.atan2(startY - y, startX - x);
+        Random rnd = new Random();
+        rotation = (float)rnd.nextDouble();
     }
 
     /**
@@ -75,7 +84,7 @@ public class Fruit extends GameObject {
      */
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, x, y, width / 2, height / 2, width, height, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+        batch.draw(texture, x, y, width / 2, height / 2, width, height, 1, 1, rotation, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
     }
 
     public Rectangle getCollision(){
@@ -84,17 +93,18 @@ public class Fruit extends GameObject {
 
     @Override
     public void update(float delta) {
-        float velocity = 0 * delta;
-        x += Math.cos(angle) * velocity;
-        y += Math.sin(angle) * velocity;
+        rotation += 1;
+        float velocity = 80 * delta;
+        x += Math.sin(angle) * velocity;
+        y += -Math.cos(angle) * velocity;
 
         // limiting x
-        if (x <= -width / 2 || x >= camera.viewportWidth + width / 2) {
+        if (x <= -width || x >= camera.viewportWidth + width) {
             dispose();
         }
 
         // limiting y
-        if (y <= -height / 2 || y >= camera.viewportHeight + height / 2) {
+        if (y <= -height || y >= camera.viewportHeight + height) {
             dispose();
         }
     }
@@ -102,13 +112,13 @@ public class Fruit extends GameObject {
     public void dispose() {
         texture.dispose();
         // Remove fruit object from the list of objects to be rendered
-        manager.removeObject(this);
+        manager.removeFruit(this);
     }
 
     public void explode() {
         // Display explosion animation over the fruit
         // Then remove the fruit
-        manager.removeObject(this);
+        manager.removeFruit(this);
         dispose();
     }
 

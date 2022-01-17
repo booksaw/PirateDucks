@@ -3,13 +3,14 @@ package io.github.pirateducks.level.gameObjects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.GameObjectHealth;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.college.Langwith;
 
-public class Cannon extends GameObjectHealth {
+public abstract class Cannon extends GameObjectHealth {
 
     private final Texture texture;
     private final Sprite sprite;
@@ -17,6 +18,8 @@ public class Cannon extends GameObjectHealth {
     private int health;
     private int maxHealth;
     private final LevelManager manager;
+
+    protected float angle = 0;
 
     public Cannon(float width, float height, float x, float y, LevelManager manager) {
         super(width, height);
@@ -31,6 +34,14 @@ public class Cannon extends GameObjectHealth {
         healthIndicator = new HealthIndicator(this, x + 30, y + 85);
     }
 
+    public void setAngle(float angle) {
+        this.angle = angle;
+    }
+
+    public float getAngle() {
+        return angle;
+    }
+
     /**
      * This method is used to render the gameObject to the screen
      *
@@ -38,7 +49,7 @@ public class Cannon extends GameObjectHealth {
      */
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, x, y, width/2, height/2, width, height, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+        batch.draw(texture, x, y, width/2, height/2, width, height, 1, 1, angle, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
         healthIndicator.render(batch);
     }
 
@@ -99,5 +110,9 @@ public class Cannon extends GameObjectHealth {
         texture.dispose();
         // Remove cannon object from the list of objects to be rendered
         manager.removeObject(this);
+    }
+
+    public Rectangle getCollision(){
+        return new Rectangle(x, y, width, height);
     }
 }

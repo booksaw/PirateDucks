@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
-import io.github.pirateducks.level.gameObjects.Cannon;
+import io.github.pirateducks.level.gameObjects.LangwithCannon;
 
 public class Langwith extends College {
 
@@ -101,7 +101,7 @@ public class Langwith extends College {
         // Add 4 cannons to the level, separated by an offset
         int offset = 0;
         for (int i = 0; i < 4; i++) {
-            objects.add(new Cannon(130, 130, 50 + offset, camera.viewportHeight - 105, manager));
+            objects.add(new LangwithCannon(130, 130, 50 + offset, camera.viewportHeight - 105, manager));
             offset += 200;
         }
     }

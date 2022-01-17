@@ -96,7 +96,6 @@ public class Player extends GameObjectHealth {
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             // Cannonballs can only be fired once every 2 seconds
             if (timeFired > 2) {
-                setHealth(health - 1);
                 // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
                 // inverse them before use
                 int mouseX = Gdx.input.getX();

@@ -19,10 +19,10 @@ public class CannonBall extends GameObject {
     private final GameObjectHealth FiredBy;
     private final OrthographicCamera camera;
 
-    public CannonBall(float sourceX, float sourceY, int targetX, int targetY, GameObjectHealth FiredBy, LevelManager manager, OrthographicCamera camera) {
+    public CannonBall(float sourceX, float sourceY, double targetX, double targetY, GameObjectHealth FiredBy, LevelManager manager) {
         super(100, 100);
 
-        this.camera = camera;
+        this.camera = manager.getCamera();
         this.manager = manager;
         // To stop cannonball instantly colliding with object after firing
         this.FiredBy = FiredBy;
@@ -32,7 +32,7 @@ public class CannonBall extends GameObject {
         sprite = new Sprite(texture);
 
         // scales the sprite depending on window size multiplied by a constant
-        float scaleRatio = ((float) texture.getWidth() / (float) Gdx.graphics.getWidth()) * 135f;
+        float scaleRatio = ((float) texture.getWidth() / (float) Gdx.graphics.getWidth()) * 50f;
         SetSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
         sprite.setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
 

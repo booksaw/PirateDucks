@@ -203,6 +203,11 @@ public abstract class LevelManager implements Screen {
     }
 
     /**
+     * @return the camera of the level
+     */
+    public OrthographicCamera getCamera() { return camera; }
+
+    /**
      * @return the texture of the map for this level
      */
     protected abstract Texture getMapTexture();

@@ -2,11 +2,15 @@ package io.github.pirateducks.level.gameObjects;
 
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.college.Langwith;
+import java.util.Random;
 
 public class LangwithCannon extends Cannon {
 
-    private final Langwith manager;
-    private int direction = 1;
+    private final Langwith langwith;
+    private int phase = 1;
+    private int shotsFired = 0;
+    private double rotationSpeed = 0.5;
+    private boolean startFiring = false;
 
     public LangwithCannon(float width, float height, float x, float y, LevelManager manager) {
         super(width, height, x, y, manager);
@@ -14,25 +18,86 @@ public class LangwithCannon extends Cannon {
         if(!(manager instanceof  Langwith)){
             throw new IllegalArgumentException("The level manager must be an instance of Langwith");
         }
-        this.manager = (Langwith) manager;
-
+        this.langwith = (Langwith) manager;
     }
+
+    int untilNextShot = 50;
 
     @Override
     public void update(float delta) {
         super.update(delta);
 
-        if(angle==90f || angle==-90f){
-            direction = -direction;
+        if (startFiring) {
+            // Every 5 cannonballs fired will swap the phase between a pattern and rotating randomly
+            angle += rotationSpeed;
+            if (phase == 1) {
+                shootPattern(delta);
+            }
+            else {
+                shootRandomly(delta);
+            }
         }
-        angle += 45f * direction;
+        else {
+            // Rotate cannons to -45 at the start
+            angle -= rotationSpeed;
+            if (angle == -45) {
+                startFiring = true;
+            }
+        }
+        untilNextShot -= delta;
+    }
 
+    private void shootCannonball(float delta) {
+        shotsFired++;
+        langwith.spawnCannonball(x + width / 2, y, getAngle());
+    }
+
+    /**
+     * Sweep left to right firing cannonballs
+     */
+    private void shootPattern(float delta) {
+        if ((untilNextShot <= 0)) {
+            if (angle >= 50 || angle <= -50 ) {
+                rotationSpeed = - rotationSpeed;
+            }
+            if (shotsFired == 0) {
+                angle = -45f;
+                rotationSpeed = Math.abs(rotationSpeed);
+                shootCannonball(delta);
+            }
+            else if (shotsFired == 5) {
+                phase = 2;
+                shotsFired = 0;
+            }
+            else {
+                shootCannonball(delta);
+            }
+            untilNextShot = 70;
+        }
+    }
+
+    /**
+     * Randomly rotate left and right firing cannonballs
+     */
+    private void shootRandomly(float delta) {
+        if (untilNextShot <= 0) {
+            Random rnd = new Random();
+            if (angle >= 40 || angle <= -40 || rnd.nextDouble() < 0.5) {
+                rotationSpeed = - rotationSpeed;
+            }
+            shootCannonball(delta);
+            if (shotsFired == 5) {
+                phase = 1;
+                shotsFired = 0;
+            }
+            untilNextShot = 70;
+        }
     }
 
     @Override
     public void dispose() {
         super.dispose();
         // Remove cannon object from the list of objects to be rendered
-        manager.removeCannon(this);
+        langwith.removeCannon(this);
     }
 }

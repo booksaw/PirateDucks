@@ -17,11 +17,15 @@ public abstract class Cannon extends GameObjectHealth {
     private final HealthIndicator healthIndicator;
     private int health;
     private int maxHealth;
-    private final LevelManager manager;
+    private final Langwith manager;
+    private float angle;
+    private int direction = 1;
+
 
     protected float angle = 0;
 
     public Cannon(float width, float height, float x, float y, LevelManager manager) {
+
         super(width, height);
         this.x = x;
         this.y = y;
@@ -32,6 +36,7 @@ public abstract class Cannon extends GameObjectHealth {
         sprite = new Sprite(texture);
         sprite.setSize(width, height);
         healthIndicator = new HealthIndicator(this, x + 30, y + 85);
+        angle = 0f;
     }
 
     public void setAngle(float angle) {
@@ -51,6 +56,10 @@ public abstract class Cannon extends GameObjectHealth {
     public void render(SpriteBatch batch) {
         batch.draw(texture, x, y, width/2, height/2, width, height, 1, 1, angle, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
         healthIndicator.render(batch);
+        if(angle==90f || angle==-90f){
+            direction = -direction;
+        }
+        angle += 45f * direction;
     }
 
     /**
@@ -102,6 +111,10 @@ public abstract class Cannon extends GameObjectHealth {
         this.maxHealth = maxHealth;
     }
 
+    public Rectangle getCollision(){
+        return new Rectangle(x, y, width, height);
+    }
+
     /**
      * Use this method to dispose of any resources (ie Texture resources)
      */
@@ -109,7 +122,7 @@ public abstract class Cannon extends GameObjectHealth {
     public void dispose() {
         texture.dispose();
         // Remove cannon object from the list of objects to be rendered
-        manager.removeObject(this);
+        manager.removeCannon(this);
     }
 
     public Rectangle getCollision(){

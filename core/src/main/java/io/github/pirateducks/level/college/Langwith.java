@@ -4,17 +4,23 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.level.gameObjects.LangwithCannon;
+import io.github.pirateducks.level.gameObjects.Cannon;
+import io.github.pirateducks.level.gameObjects.CannonBall;
+import io.github.pirateducks.level.gameObjects.Fruit;
+import io.github.pirateducks.level.gameObjects.Player;
+
 
 public class Langwith extends College {
 
     private final OrthographicCamera camera;
     private final LevelManager manager;
-    private final Array<GameObject> objects = new Array<>();
+    private final Array<Cannon> cannons = new Array<>();
     private Sprite map;
 
     public Langwith(MainLevel mainLevel, OrthographicCamera camera, LevelManager manager) {
@@ -43,7 +49,7 @@ public class Langwith extends College {
         map.draw(batch);
         super.draw(batch, camera);
 
-        for (GameObject object : objects) {
+        for (GameObject object : cannons) {
             object.render(batch);
         }
     }
@@ -58,10 +64,28 @@ public class Langwith extends College {
         // updating all game objects
         super.update(delta);
 
+        // checking if any cannonballs are hitting any fruit
+        for (GameObject object : getObjectsClone()) {
+            if (object instanceof CannonBall) {
+                // checking if the cannonball is colliding with fruit
+                Rectangle collision = ((CannonBall) object).getCollision();
 
-        for (GameObject object : objects) {
+                // looping through cannons to check collision
+                for (Cannon c : cannons) {
+                    // Check what fired cannonball to stop instant collision with itself
+                    if (collision.overlaps(c.getCollision()) && ((CannonBall) object).getFiredBy() instanceof Player) {
+                        // despawning the cannonball and lowering the cannons health
+                        c.setHealth(c.getHealth()-1);
+                        ((CannonBall) object).collide();
+                    }
+                }
+            }
+        }
+
+        for (GameObject object : cannons) {
             object.update(delta);
         }
+
     }
 
     /**
@@ -71,7 +95,7 @@ public class Langwith extends College {
     @Override
     public void stopDisplaying() {
         map.getTexture().dispose();
-        for (GameObject object : objects) {
+        for (GameObject object : cannons) {
             object.dispose();
         }
     }
@@ -84,6 +108,9 @@ public class Langwith extends College {
         return new Texture("Langwith/BulletHellBackground.png");
     }
 
+    public void removeCannon(Cannon cannon) {
+        cannons.removeValue(cannon, false);
+    }
 
     /**
      * called when the level is being setup to setup the default layout of the level
@@ -101,7 +128,7 @@ public class Langwith extends College {
         // Add 4 cannons to the level, separated by an offset
         int offset = 0;
         for (int i = 0; i < 4; i++) {
-            objects.add(new LangwithCannon(130, 130, 50 + offset, camera.viewportHeight - 105, manager));
+            cannons.add(new LangwithCannon(130, 130, 50 + offset, camera.viewportHeight - 105, this));
             offset += 200;
         }
     }

@@ -9,11 +9,9 @@ import com.badlogic.gdx.utils.Array;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
-import io.github.pirateducks.level.gameObjects.LangwithCannon;
-import io.github.pirateducks.level.gameObjects.Cannon;
-import io.github.pirateducks.level.gameObjects.CannonBall;
-import io.github.pirateducks.level.gameObjects.Fruit;
-import io.github.pirateducks.level.gameObjects.Player;
+import io.github.pirateducks.level.gameObjects.*;
+
+import java.util.Random;
 
 
 public class Langwith extends College {
@@ -80,6 +78,18 @@ public class Langwith extends College {
                     }
                 }
             }
+
+            if (object instanceof LangwithCannonball) {
+                // checking if the cannonball is colliding with fruit
+                Rectangle collision = ((LangwithCannonball) object).getCollision();
+
+                // Check if LangwithCannonball collided with player
+                if (collision.overlaps(getPlayer().getCollision())) {
+                    // despawning the cannonball and lowering the players health
+                    getPlayer().setHealth(getPlayer().getHealth()-1);
+                    object.dispose();
+                }
+            }
         }
 
         for (GameObject object : cannons) {
@@ -98,6 +108,16 @@ public class Langwith extends College {
         for (GameObject object : cannons) {
             object.dispose();
         }
+    }
+
+    /**
+     * Spawns a cannonball from the cannons
+     */
+    public void spawnCannonball(float x, float y, float angle) {
+        Random rnd = new Random();
+        float size = 4;
+        LangwithCannonball c = new LangwithCannonball(x - size / 2, y - size / 2, size, this, camera, angle);
+        addObject(c);
     }
 
     /**

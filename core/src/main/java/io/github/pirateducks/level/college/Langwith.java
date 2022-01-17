@@ -20,7 +20,7 @@ public class Langwith extends College {
 
     private final OrthographicCamera camera;
     private final LevelManager manager;
-    private final Array<Cannon> cannons = new Array<>();
+    private final Array<LangwithCannon> cannons = new Array<>();
     private Sprite map;
 
     public Langwith(MainLevel mainLevel, OrthographicCamera camera, LevelManager manager) {
@@ -71,7 +71,7 @@ public class Langwith extends College {
                 Rectangle collision = ((CannonBall) object).getCollision();
 
                 // looping through cannons to check collision
-                for (Cannon c : cannons) {
+                for (LangwithCannon c : cannons) {
                     // Check what fired cannonball to stop instant collision with itself
                     if (collision.overlaps(c.getCollision()) && ((CannonBall) object).getFiredBy() instanceof Player) {
                         // despawning the cannonball and lowering the cannons health
@@ -108,7 +108,7 @@ public class Langwith extends College {
         return new Texture("Langwith/BulletHellBackground.png");
     }
 
-    public void removeCannon(Cannon cannon) {
+    public void removeCannon(LangwithCannon cannon) {
         cannons.removeValue(cannon, false);
     }
 

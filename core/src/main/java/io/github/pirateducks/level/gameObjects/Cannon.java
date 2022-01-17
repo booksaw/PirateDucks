@@ -18,6 +18,8 @@ public class Cannon extends GameObjectHealth {
     private int health;
     private int maxHealth;
     private final Langwith manager;
+    private float angle;
+    private int direction = 1;
 
     public Cannon(float width, float height, float x, float y, Langwith manager) {
         super(width, height);
@@ -30,6 +32,7 @@ public class Cannon extends GameObjectHealth {
         sprite = new Sprite(texture);
         sprite.setSize(width, height);
         healthIndicator = new HealthIndicator(this, x + 30, y + 85);
+        angle = 0f;
     }
 
     /**
@@ -39,8 +42,12 @@ public class Cannon extends GameObjectHealth {
      */
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, x, y, width/2, height/2, width, height, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+        batch.draw(texture, x, y, width/2, height/2, width, height, 1, 1, angle, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
         healthIndicator.render(batch);
+        if(angle==90f || angle==-90f){
+            direction = -direction;
+        }
+        angle += 45f * direction;
     }
 
     /**

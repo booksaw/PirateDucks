@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.screen.PauseScreen;
 import io.github.pirateducks.screen.Screen;
@@ -19,7 +20,7 @@ import io.github.pirateducks.screen.Screen;
 import javax.swing.*;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 
 public class ConstantineMemoryGame extends College {
@@ -205,7 +206,16 @@ public class ConstantineMemoryGame extends College {
                 numSeconds = countdownLength;
                 inGame = false;
                 gameFinished = true;
-                checkDigits();
+
+                // Delay asking user for digits, as we need to make sure cards are hidden first.
+                ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+                Callable<Boolean> task = new Callable<Boolean>(){
+                    public Boolean call() {
+                        return checkDigits();
+                    }
+                };
+
+                Future<Boolean> result = scheduler.schedule(task,500,TimeUnit.MILLISECONDS);
             }
         }
     };
@@ -220,7 +230,7 @@ public class ConstantineMemoryGame extends College {
     }
 
 
-    private void checkDigits(){
+    private boolean checkDigits(){
 
         // Convert int array to single string
         StringBuilder builder = new StringBuilder();
@@ -236,18 +246,23 @@ public class ConstantineMemoryGame extends College {
 
         String digits = JOptionPane.showInputDialog("Enter the digits you have memorised:");
 
+        Boolean win = false;
 
         if (digits != null && digits.equals(correctDigits)){
             JOptionPane.showMessageDialog(frame,"Correct");
+            win = true;
             // Code to process correct input here
         } else {
             JOptionPane.showMessageDialog(frame,"Incorrect");
+            win = false;
             // Code to process incorrect input here
         }
 
         inGame = false;
         // Show close button
         closeSprite.setAlpha(1);
+
+        return win;
 
         // Show cards again
         //for (int x =0;x<8;x++){

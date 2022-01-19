@@ -47,11 +47,11 @@ public class MainLevel extends LevelManager {
 
         Rectangle playerCollision = getPlayer().getCollision();
 
-        if (playerCollision.overlaps(constantine)){
+        if (playerCollision.overlaps(constantine)) {
             font.draw(batch, "Press \"E\" to fight Constantine College", 250, camera.viewportHeight - 10);
-        } else if(playerCollision.overlaps(goodricke)){
+        } else if (playerCollision.overlaps(goodricke)) {
             font.draw(batch, "Press \"E\" to fight Goodricke College", 250, camera.viewportHeight - 10);
-        } else if(playerCollision.overlaps(langwith)){
+        } else if (playerCollision.overlaps(langwith)) {
             font.draw(batch, "Press \"E\" to fight Langwith College", 250, camera.viewportHeight - 10);
         }
 
@@ -67,15 +67,15 @@ public class MainLevel extends LevelManager {
         // checking constantine
         Rectangle playerCollision = getPlayer().getCollision();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             if (playerCollision.overlaps(constantine)) {
-                    getMainClass().setCurrentScreen(new ConstantineMemoryGame(this, getCamera(), this));
-            } else if(playerCollision.overlaps(goodricke)){
+                getMainClass().setCurrentScreen(new ConstantineMemoryGame(this, getCamera(), this));
+            } else if (playerCollision.overlaps(goodricke)) {
                 getMainClass().setCurrentScreen(new Goodricke(this, getCamera()));
-            } else if(playerCollision.overlaps(langwith)){
+            } else if (playerCollision.overlaps(langwith)) {
                 getMainClass().setCurrentScreen(new Langwith(this, getCamera(), this));
             }
-
+        }
         //Sets the background music
         music = Gdx.audio.newMusic(Gdx.files.internal("Main_Theme.ogg"));
         music.setLooping(true);

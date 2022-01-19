@@ -36,13 +36,13 @@ public class GoodrickeCannon extends Cannon {
         untilNextShot -= delta;
         Random rnd = new Random();
         // flipping the direction of spin if it is out of bounds, or giving it a random chance of flipping mid rotation
-        if(angle >= 45 || angle <= -45 || rnd.nextDouble() < 0.005){
+        if(angle >= 60 || angle <= -60 || rnd.nextDouble() < 0.005){
             rotationSpeed = - rotationSpeed;
         }
 
         if (untilNextShot <= 0) {
             shootFruit();
-            untilNextShot = rnd.nextInt(300) + 200;
+            untilNextShot = rnd.nextInt(100) + 50;
         }
 
     }

@@ -82,7 +82,7 @@ public class Goodricke extends College { // Projectiles
 
                 for(GoodrickeCannon cannon : cannons){
                     // looping through the cannons to check collision
-                    if(collision.overlaps(cannon.getCollision())){
+                    if(cannon.getHealth() > 0 && collision.overlaps(cannon.getCollision())){
                         cannon.setHealth(cannon.getHealth() - 2);
                         ((CannonBall)object).collide();
                         continue;

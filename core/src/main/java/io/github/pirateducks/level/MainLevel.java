@@ -36,9 +36,7 @@ public class MainLevel extends LevelManager {
 
     @Override
     protected void setup(OrthographicCamera camera) {
-
         font = new BitmapFont();
-
     }
 
     @Override
@@ -92,6 +90,5 @@ public class MainLevel extends LevelManager {
     public void stopDisplaying() {
         music.dispose();
         sfx_ocean.dispose();
-
     }
 }

@@ -103,45 +103,12 @@ public abstract class LevelManager implements Screen {
         }
     }
 
-    int delay = 1000;
 
     @Override
     public void update(float delta) {
 
         for (int i = 0; i < objects.size; i++) {
             objects.get(i).update(delta);
-        }
-
-        // adding delay to the temp buttons so things dont break
-        if (delay < 1000) {
-            delay++;
-        } else {
-
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-                mainClass.setCurrentScreen(new PauseScreen(mainClass, this));
-                this.stopDisplaying();
-                delay = 0;
-            }
-
-            // Temporary method to launch Constantine
-            if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
-                mainClass.setCurrentScreen(new ConstantineMemoryGame(mainLevel, camera,this));
-                this.stopDisplaying();
-                delay = 0;
-            }
-
-            // Temporary method to launch Goodricke college game
-            if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
-                mainClass.setCurrentScreen(new Goodricke(mainLevel, camera));
-                this.stopDisplaying();
-                delay = 0;
-            }
-        }
-
-        // Temporary method to launch Langwith college game
-        if (Gdx.input.isKeyJustPressed(Input.Keys.L)){
-            mainClass.setCurrentScreen(new Langwith(mainLevel,camera,this));
-            this.stopDisplaying();
         }
     }
 

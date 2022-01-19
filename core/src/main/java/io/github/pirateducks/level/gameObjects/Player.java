@@ -104,7 +104,7 @@ public class Player extends GameObjectHealth {
                 float playerCenterX = x + width / 2;
                 float playerCenterY = y + height / 2;
                 // Fire a cannonball from boat center to mouse position
-                manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY, this, manager, camera));
+                manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY, this, manager));
                 timeFired = 0;
             }
         }

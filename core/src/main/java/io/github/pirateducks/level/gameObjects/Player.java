@@ -2,6 +2,7 @@ package io.github.pirateducks.level.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -106,6 +107,8 @@ public class Player extends GameObjectHealth {
                 // Fire a cannonball from boat center to mouse position
                 manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY, this, manager));
                 timeFired = 0;
+                Sound cannon = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
+                cannon.play();
             }
         }
         // Add delay between shots

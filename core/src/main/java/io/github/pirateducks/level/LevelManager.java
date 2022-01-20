@@ -1,8 +1,5 @@
 package io.github.pirateducks.level;
 
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -12,16 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
-import io.github.pirateducks.level.college.ConstantineMemoryGame;
-import io.github.pirateducks.level.college.Goodricke;
-import io.github.pirateducks.level.college.Langwith;
-import io.github.pirateducks.level.gameObjects.CannonBall;
 import io.github.pirateducks.level.gameObjects.HealthIndicator;
 import io.github.pirateducks.level.gameObjects.Player;
-import io.github.pirateducks.screen.PauseScreen;
 import io.github.pirateducks.screen.Screen;
-
-import java.util.ArrayList;
 
 /**
  * This class is the manager when the actual game is being displayed
@@ -35,9 +25,7 @@ public abstract class LevelManager implements Screen {
     private OrthographicCamera camera;
     private MainLevel mainLevel;
 
-    public LevelManager(PirateDucks mainClass) {
-        this.mainClass = mainClass;
-    }
+    public LevelManager(PirateDucks mainClass) { this.mainClass = mainClass; }
 
     @Override
     public final void startDisplaying(OrthographicCamera camera) {
@@ -46,9 +34,12 @@ public abstract class LevelManager implements Screen {
 
         // loading the game
         this.camera = camera;
-        setPlayer(new Player(this, camera));
-        addOverlay();
 
+        // Setup player and health only once at the start of game
+        if (player == null) {
+            setPlayer(new Player(this, camera));
+            addOverlay();
+        }
 
         // load the map
         Texture texture = getMapTexture();
@@ -120,9 +111,7 @@ public abstract class LevelManager implements Screen {
         }
     }
 
-    public PirateDucks getMainClass() {
-        return mainClass;
-    }
+    public PirateDucks getMainClass() { return mainClass; }
 
     /**
      * Used to add a game object to the level

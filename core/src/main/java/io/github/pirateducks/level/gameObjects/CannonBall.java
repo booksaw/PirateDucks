@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.level.GameObject;
-import io.github.pirateducks.level.GameObjectHealth;
 import io.github.pirateducks.level.LevelManager;
 
 public class CannonBall extends GameObject {
@@ -16,16 +15,13 @@ public class CannonBall extends GameObject {
     private final Sprite sprite;
     private double angle;
     private final LevelManager manager;
-    private final GameObjectHealth FiredBy;
     private final OrthographicCamera camera;
 
-    public CannonBall(float sourceX, float sourceY, double targetX, double targetY, GameObjectHealth FiredBy, LevelManager manager) {
+    public CannonBall(float sourceX, float sourceY, double targetX, double targetY, LevelManager manager) {
         super(100, 100);
 
         this.camera = manager.getCamera();
         this.manager = manager;
-        // To stop cannonball instantly colliding with object after firing
-        this.FiredBy = FiredBy;
 
         // loading the texture
         texture = new Texture("CannonBall.png");
@@ -75,15 +71,6 @@ public class CannonBall extends GameObject {
 
     public Rectangle getCollision() {
         return new Rectangle(x, y, width, height);
-    }
-
-    /**
-     * Returns the object that fired the cannonball
-     *
-     * @return the object that fired the cannonball
-     */
-    public GameObjectHealth getFiredBy() {
-        return this.FiredBy;
     }
 
     /**

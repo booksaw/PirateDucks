@@ -1,5 +1,7 @@
 package io.github.pirateducks.level.gameObjects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.college.Langwith;
 import java.util.Random;
@@ -11,6 +13,7 @@ public class LangwithCannon extends Cannon {
     private int shotsFired = 0;
     private double rotationSpeed = 0.5;
     private boolean startFiring = false;
+    private Sound cannonFireSound = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
 
     public LangwithCannon(float width, float height, float x, float y, LevelManager manager) {
         super(width, height, x, y, manager);
@@ -50,6 +53,8 @@ public class LangwithCannon extends Cannon {
     private void shootCannonball(float delta) {
         shotsFired++;
         langwith.spawnCannonball(x + width / 2, y, getAngle());
+        long id = cannonFireSound.play();
+        cannonFireSound.setVolume(id, 0.01f);
     }
 
     /**
@@ -99,5 +104,6 @@ public class LangwithCannon extends Cannon {
         super.dispose();
         // Remove cannon object from the list of objects to be rendered
         langwith.removeCannon(this);
+        cannonFireSound.dispose();
     }
 }

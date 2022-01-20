@@ -6,11 +6,11 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.math.Rectangle;
-import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.GameObjectHealth;
 import io.github.pirateducks.level.LevelManager;
+import io.github.pirateducks.level.MainLevel;
+import io.github.pirateducks.level.college.ConstantineMemoryGame;
 import io.github.pirateducks.screen.GameOverScreen;
 
 public class Player extends GameObjectHealth {
@@ -95,24 +95,47 @@ public class Player extends GameObjectHealth {
 
         // firing code
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            // Cannonballs can only be fired once every 2 seconds
-            if (timeFired > 1) {
-                // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
-                // inverse them before use
-                int mouseX = Gdx.input.getX();
-                int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-                // Center of boat sprite
-                float playerCenterX = x + width / 2;
-                float playerCenterY = y + height / 2;
-                // Fire a cannonball from boat center to mouse position
-                manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY, this, manager));
-                timeFired = 0;
-                Sound cannon = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
-                cannon.play();
+            // Stops player from firing cannons on Memory game and Main level
+            if (!(manager.getMainClass().getCurrentScreen() instanceof ConstantineMemoryGame) &&
+                    !(manager.getMainClass().getCurrentScreen() instanceof MainLevel)) {
+                // Cannonballs can only be fired once every 2 seconds
+                if (timeFired > 1) {
+                    // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
+                    // inverse them before use
+                    int mouseX = Gdx.input.getX();
+                    int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+                    // Center of boat sprite
+                    float playerCenterX = x + width / 2;
+                    float playerCenterY = y + height / 2;
+                    // Fire a cannonball from boat center to mouse position
+                    manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY, manager));
+                    timeFired = 0;
+                    Sound cannon = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
+                    long id = cannon.play();
+                    cannon.setVolume(id, 0.06f);
+                }
             }
         }
         // Add delay between shots
         timeFired += delta;
+    }
+
+    /**
+     * Set the x position of the player
+     *
+     * @param x The new x position
+     */
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    /**
+     * Set the y position of the player
+     *
+     * @param y The new y position
+     */
+    public void setY(float y) {
+        this.y = y;
     }
 
     public void dispose() {

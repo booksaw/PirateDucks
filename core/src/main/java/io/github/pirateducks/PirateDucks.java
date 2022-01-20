@@ -6,11 +6,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.pirateducks.level.LevelManager;
-import io.github.pirateducks.level.MainLevel;
-import io.github.pirateducks.level.college.Langwith;
-import io.github.pirateducks.level.college.Goodricke;
-
 import io.github.pirateducks.screen.*;
 
 public class PirateDucks extends ApplicationAdapter {
@@ -33,22 +28,17 @@ public class PirateDucks extends ApplicationAdapter {
 	public void create () {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,848, 480);
-//		camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0);
 		camera.update();
 		viewport = new FitViewport(848, 480);
 		batch = new SpriteBatch();
 
-		// jumping straight to the game, this will need to be changed in the future
-		MainLevel level = new MainLevel(this);
-		//setCurrentScreen(new Goodricke(level, camera));
+		// Start game on main menu
 		setCurrentScreen(new MainMenuScreen(this));
-		//setCurrentScreen(new Langwith(new MainLevel(this)));
 	}
 
 	@Override
 	public void render () {
 		camera.update();
-//		batch.setTransformMatrix(camera.view);
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		currentScreen.draw(batch, camera);
@@ -62,10 +52,6 @@ public class PirateDucks extends ApplicationAdapter {
 		batch.dispose();
 		// telling the current screen to dispose of resources
 		currentScreen.stopDisplaying();
-	}
-
-	public Screen getCurrentScreen(){
-		return currentScreen;
 	}
 
 	@Override
@@ -84,4 +70,9 @@ public class PirateDucks extends ApplicationAdapter {
 		currentScreen = screen;
 		currentScreen.startDisplaying(camera);
 	}
+
+	/**
+	 * Used to get which screen is currently being displayed
+	 */
+	public Screen getCurrentScreen() { return currentScreen; }
 }

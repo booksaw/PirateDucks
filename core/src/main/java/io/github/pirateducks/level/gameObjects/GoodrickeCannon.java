@@ -1,5 +1,7 @@
 package io.github.pirateducks.level.gameObjects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.college.Goodricke;
@@ -11,6 +13,7 @@ public class GoodrickeCannon extends Cannon {
     private final Goodricke goodricke;
     private final OrthographicCamera camera;
     private double rotationSpeed = 0.3;
+    private Sound cannonFireSound = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
 
     public GoodrickeCannon(float width, float height, float x, float y, LevelManager manager, OrthographicCamera camera) {
         super(width, height, x, y, manager);
@@ -53,11 +56,14 @@ public class GoodrickeCannon extends Cannon {
     private void shootFruit() {
         // launch a fruit
         goodricke.spawnFruit(x + width / 2, y, getAngle());
+        long id = cannonFireSound.play();
+        cannonFireSound.setVolume(id, 0.03f);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        goodricke.removeObject(this);
+        goodricke.removeCannon(this);
+        cannonFireSound.dispose();
     }
 }

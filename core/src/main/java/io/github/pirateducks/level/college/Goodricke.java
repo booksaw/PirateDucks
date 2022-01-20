@@ -1,27 +1,32 @@
 package io.github.pirateducks.level.college;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-
 import java.util.Random;
-
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.level.gameObjects.CannonBall;
 import io.github.pirateducks.level.gameObjects.Fruit;
 import io.github.pirateducks.level.gameObjects.GoodrickeCannon;
+import io.github.pirateducks.screen.PauseScreen;
 
 public class Goodricke extends College { // Projectiles
     private final OrthographicCamera camera;
     private final Array<Fruit> fruit = new Array<>();
-//    private final Texture texture;
+    private final Array<GoodrickeCannon> cannons = new Array<>();
 
     private float fruitSize = 10; // Size of fruit
     private final float sizeMultiplier = (float) 1;
     private float playerX = 0; // Default player co-ordinates
     private float playerY = 0;
+    private boolean save = false;
+    public Music sfx_ocean;
 
     /**
      * Goodricke
@@ -39,6 +44,11 @@ public class Goodricke extends College { // Projectiles
         super(level);
 
         this.camera = camera;
+
+        sfx_ocean = Gdx.audio.newMusic(Gdx.files.internal("Ocean.ogg"));
+        sfx_ocean.setLooping(true);
+        sfx_ocean.setVolume(0.005f);
+        sfx_ocean.play();
     }
 
     @Override
@@ -46,22 +56,55 @@ public class Goodricke extends College { // Projectiles
         return 10;
     }
 
+    /**
+     * Called to draw the screen
+     *
+     * @param batch
+     * @param camera
+     */
+    @Override
+    public void draw(SpriteBatch batch, OrthographicCamera camera) {
+        super.draw(batch, camera);
+
+        for (GoodrickeCannon cannon : cannons) {
+            cannon.render(batch);
+        }
+
+        for (Fruit f : fruit) {
+            f.render(batch);
+        }
+    }
+
     @Override
     public void update(float delta) {
         // updating all game objects
         super.update(delta);
 
-        // checking if all the cannons are dead
-        boolean dead = true;
-        for(GoodrickeCannon cannon : cannons){
-            if(cannon.getHealth() > 0){
-                dead = false;
-                break;
-            }
+        for(GoodrickeCannon cannon : cannons) {
+            cannon.update(delta);
         }
-        if(dead){
+        for (Fruit f : fruit) {
+            f.update(delta);
+        }
+
+        if (cannons.isEmpty()) {
             // all cannons are dead, the college has been defeated setting its health to 0
             setHealth(0);
+        }
+
+        // Pause game when escape key is pressed
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            save = true;
+            playerX = getPlayer().getX();
+            playerY = getPlayer().getY();
+            this.stopDisplaying();
+            getLevelManager().getMainClass().setCurrentScreen(new PauseScreen(getLevelManager().getMainClass(),this));
+        }
+
+        // Return to main level if college is defeated
+        if (isDefeated()) {
+            save = false;
+            getLevelManager().getMainClass().setCurrentScreen(getLevelManager());
         }
 
         // checking if any cannonballs are hitting any fruit or cannons
@@ -101,9 +144,6 @@ public class Goodricke extends College { // Projectiles
                 getPlayer().setHealth(getPlayer().getHealth() - 2);
             }
         }
-
-        // temp code to test fruit
-
     }
 
     /**
@@ -118,34 +158,37 @@ public class Goodricke extends College { // Projectiles
         Random rnd = new Random();
         Fruit f = new Fruit(x - fruitSize / 2, y - fruitSize / 2, fruitSize, rnd.nextInt(Fruit.UNIQUEFRUIT), this, camera, angle);
         fruit.add(f);
-        addObject(f);
     }
-
-    GoodrickeCannon[] cannons;
 
     @Override
     public void setup(OrthographicCamera camera) {
-
-        // init the cannons
-        cannons = new GoodrickeCannon[3];
-        cannons[0] = new GoodrickeCannon(130, 130, 200, 300, this, camera);
-        addObject(cannons[0]);
-
-        cannons[1] = new GoodrickeCannon(130, 130, 350, 240, this, camera);
-        addObject(cannons[1]);
-
-        cannons[2] = new GoodrickeCannon(130, 130, 500, 300, this, camera);
-        addObject(cannons[2]);
+        // Don't add new cannons when unpausing
+        if (!save) {
+            // init the cannons
+            cannons.add(new GoodrickeCannon(130, 130, 200, 300, this, camera));
+            cannons.add(new GoodrickeCannon(130, 130, 350, 240, this, camera));
+            cannons.add(new GoodrickeCannon(130, 130, 500, 300, this, camera));
+        }
+        // Keep players position when unpausing
+        getPlayer().setX(playerX);
+        getPlayer().setY(playerY);
     }
 
     @Override
     public void stopDisplaying() {
         super.stopDisplaying();
-
-        for (Fruit f : fruit) {
-            f.dispose();
+        if (!save) {
+            for (Fruit f : fruit) {
+                f.dispose();
+            }
+            for (GoodrickeCannon cannon : cannons) {
+                cannon.dispose();
+            }
         }
+    }
 
+    public void removeCannon(GoodrickeCannon cannon) {
+        cannons.removeValue(cannon, false);
     }
 
     /**

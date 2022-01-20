@@ -1,30 +1,40 @@
 package io.github.pirateducks.level.college;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import io.github.pirateducks.level.GameObject;
-import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.level.gameObjects.*;
-
-import java.util.Random;
+import io.github.pirateducks.screen.PauseScreen;
 
 
 public class Langwith extends College {
 
     private final OrthographicCamera camera;
-    private final LevelManager manager;
+    private final MainLevel mainLevel;
     private final Array<LangwithCannon> cannons = new Array<>();
-    private Sprite map;
+    public Music sfx_ocean;
+    private boolean save = false;
+    private float playerX, playerY = 0;
 
-    public Langwith(MainLevel mainLevel, OrthographicCamera camera, LevelManager manager) {
+    public Langwith(MainLevel mainLevel, OrthographicCamera camera) {
         super(mainLevel);
-        this.manager = manager;
+        this.mainLevel = mainLevel;
         this.camera = camera;
+
+        setHealth(4);
+
+        // load and loops ocean sounds
+        sfx_ocean = Gdx.audio.newMusic(Gdx.files.internal("Ocean.ogg"));
+        sfx_ocean.setLooping(true);
+        sfx_ocean.setVolume(0.005f);
+        sfx_ocean.play();
     }
 
     /**
@@ -33,7 +43,7 @@ public class Langwith extends College {
     @Override
     public int getMaxHealth() {
         // Each cannon will be worth 100 health
-        return 400;
+        return 4;
     }
 
     /**
@@ -44,7 +54,6 @@ public class Langwith extends College {
      */
     @Override
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
-        map.draw(batch);
         super.draw(batch, camera);
 
         for (GameObject object : cannons) {
@@ -62,16 +71,38 @@ public class Langwith extends College {
         // updating all game objects
         super.update(delta);
 
-        // checking if any cannonballs are hitting any fruit
+        // If no cannons are alive, the college is defeated
+        if (cannons.isEmpty()) {
+            setHealth(0);
+        }
+
+        // Pause game when escape key is pressed
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            save = true;
+            // Save players position for unpause
+            playerX = getPlayer().getX();
+            playerY = getPlayer().getY();
+            this.stopDisplaying();
+            // Load pause screen
+            getLevelManager().getMainClass().setCurrentScreen(new PauseScreen(getLevelManager().getMainClass(),this));
+        }
+
+        // Return to main level if college is defeated
+        if (isDefeated()) {
+            save = false;
+            // Load main level
+            getLevelManager().getMainClass().setCurrentScreen(mainLevel);
+        }
+
+        // Loop through objects and check for collision
         for (GameObject object : getObjectsClone()) {
             if (object instanceof CannonBall) {
-                // checking if the cannonball is colliding with fruit
+                // checking if the players cannonball is colliding with a cannon
                 Rectangle collision = ((CannonBall) object).getCollision();
 
-                // looping through cannons to check collision
                 for (LangwithCannon c : cannons) {
-                    // Check what fired cannonball to stop instant collision with itself
-                    if (collision.overlaps(c.getCollision()) && ((CannonBall) object).getFiredBy() instanceof Player) {
+                    // Check what fired the cannonball to stop instant collision with itself
+                    if (collision.overlaps(c.getCollision())) {
                         // despawning the cannonball and lowering the cannons health
                         c.setHealth(c.getHealth()-1);
                         ((CannonBall) object).collide();
@@ -79,11 +110,11 @@ public class Langwith extends College {
                 }
             }
 
+            // check if a cannonball is colliding with player
             if (object instanceof LangwithCannonball) {
-                // checking if the cannonball is colliding with fruit
+                // Get hit box of cannonball
                 Rectangle collision = ((LangwithCannonball) object).getCollision();
 
-                // Check if LangwithCannonball collided with player
                 if (collision.overlaps(getPlayer().getCollision())) {
                     // despawning the cannonball and lowering the players health
                     getPlayer().setHealth(getPlayer().getHealth()-1);
@@ -91,11 +122,9 @@ public class Langwith extends College {
                 }
             }
         }
-
         for (GameObject object : cannons) {
             object.update(delta);
         }
-
     }
 
     /**
@@ -104,17 +133,19 @@ public class Langwith extends College {
      */
     @Override
     public void stopDisplaying() {
-        map.getTexture().dispose();
-        for (GameObject object : cannons) {
-            object.dispose();
+        // Only destroy cannons if not pausing
+        if (!save) {
+            for (GameObject object : cannons) {
+                object.dispose();
+            }
         }
+        sfx_ocean.dispose();
     }
 
     /**
      * Spawns a cannonball from the cannons
      */
     public void spawnCannonball(float x, float y, float angle) {
-        Random rnd = new Random();
         float size = 4;
         LangwithCannonball c = new LangwithCannonball(x - size / 2, y - size / 2, size, this, camera, angle);
         addObject(c);
@@ -133,23 +164,21 @@ public class Langwith extends College {
     }
 
     /**
-     * called when the level is being setup to setup the default layout of the level
+     * called when the level is being set up to set up the default layout of the level
      *
      * @param camera
      */
     @Override
     protected void setup(OrthographicCamera camera) {
-        // load the map
-        Texture texture = new Texture("Langwith/BulletHellBackground.png");
-        map = new Sprite(texture);
-        // scales the sprite depending on window size multiplied by a constant
-        map.setSize(camera.viewportWidth, camera.viewportHeight);
-
-        // Add 4 cannons to the level, separated by an offset
-        int offset = 0;
-        for (int i = 0; i < 4; i++) {
-            cannons.add(new LangwithCannon(130, 130, 50 + offset, camera.viewportHeight - 105, this));
-            offset += 200;
+        if (!save) {
+            // Add 4 cannons to the level, separated by an offset
+            int offset = 0;
+            for (int i = 0; i < 4; i++) {
+                cannons.add(new LangwithCannon(130, 130, 50 + offset, camera.viewportHeight - 105, this));
+                offset += 200;
+            }
         }
+        getPlayer().setX(playerX);
+        getPlayer().setY(playerY);
     }
 }

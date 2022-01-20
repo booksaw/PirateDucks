@@ -1,14 +1,9 @@
 package io.github.pirateducks.level;
 
 import com.badlogic.gdx.Gdx;
-
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-
 import com.badlogic.gdx.audio.Music;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,7 +31,20 @@ public class MainLevel extends LevelManager {
 
     @Override
     protected void setup(OrthographicCamera camera) {
+
         font = new BitmapFont();
+
+        // Sets the background music
+        music = Gdx.audio.newMusic(Gdx.files.internal("Main_Theme.ogg"));
+        music.setLooping(true);
+        music.setVolume(0.03f);
+        music.play();
+
+        // Sets the ocean sounds
+        sfx_ocean = Gdx.audio.newMusic(Gdx.files.internal("Ocean.ogg"));
+        sfx_ocean.setLooping(true);
+        sfx_ocean.setVolume(0.005f);
+        sfx_ocean.play();
     }
 
     @Override
@@ -71,19 +79,9 @@ public class MainLevel extends LevelManager {
             } else if (playerCollision.overlaps(goodricke)) {
                 getMainClass().setCurrentScreen(new Goodricke(this, getCamera()));
             } else if (playerCollision.overlaps(langwith)) {
-                getMainClass().setCurrentScreen(new Langwith(this, getCamera(), this));
+                getMainClass().setCurrentScreen(new Langwith(this, getCamera()));
             }
         }
-        //Sets the background music
-        music = Gdx.audio.newMusic(Gdx.files.internal("Main_Theme.ogg"));
-        music.setLooping(true);
-        music.setVolume(0.3f);
-        music.play();
-
-        sfx_ocean = Gdx.audio.newMusic(Gdx.files.internal("Ocean.ogg"));
-        sfx_ocean.setLooping(true);
-        sfx_ocean.setVolume(0.2f);
-        sfx_ocean.play();
     }
 
     @Override

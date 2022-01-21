@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>ENG1 - Pirate Ducks</title>
-        <link>https://booksaw.github.io/DuckPirates/</link>>
+        <link>https://booksaw.github.io/PirateDucks/</link>>
         <description>Website for Pirate Ducks for Engineering 1 Module at the University of York</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>

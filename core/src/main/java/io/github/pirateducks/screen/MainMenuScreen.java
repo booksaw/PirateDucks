@@ -26,8 +26,8 @@ public class MainMenuScreen implements Screen  {
     private Texture startGameButtonTexture;
     private Sprite startGameButtonSprite;
 
-    private Texture settingsButtonTexture;
-    private Sprite settingsButtonSprite;
+    // private Texture settingsButtonTexture;
+    // private Sprite settingsButtonSprite;
 
     private Texture quitButtonTexture;
     private Sprite quitButtonSprite;
@@ -76,11 +76,20 @@ public class MainMenuScreen implements Screen  {
 
             for (int i=0;i<buttons.size;i++){
                 Sprite button = buttons.get(i);
-
                 // As mouse position coordinates start in top left whereas game coordinates start in bottom left
                 // we need to inverse them
-                int x = Gdx.input.getX();
-                int y = Gdx.graphics.getHeight() - Gdx.input.getY();
+                float x = Gdx.input.getX();
+                float y = Gdx.graphics.getHeight() - Gdx.input.getY();
+
+
+                // Resizes the mouse position
+                // JAMES FIX
+                /*
+                x = x * (???.getWidth() / mainClass.getCamera().viewportWidth);
+                y = y * (???.getHeight() / mainClass.getCamera().viewportHeight);
+
+                 */
+
 
                 // Check if mouse position is inside button when clicked
                 float buttonX = button.getX();
@@ -133,6 +142,7 @@ public class MainMenuScreen implements Screen  {
         buttons.add(startGameButtonSprite);
 
         // Settings Button
+        /*
         settingsButtonTexture = new Texture("mainMenuScreen/settings.png");
         settingsButtonSprite = new Sprite(settingsButtonTexture);
         scaleRatio = buttonScaleRatio(settingsButtonSprite, camera);
@@ -142,9 +152,9 @@ public class MainMenuScreen implements Screen  {
 
         settingsButtonSprite.setPosition(camera.viewportWidth/2 - settingsButtonSprite.getWidth()/2,(camera.viewportHeight/2-settingsButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(settingsButtonSprite);
+        */
 
         // Quit button
-
         quitButtonTexture = new Texture("mainMenuScreen/quit.png");
         quitButtonSprite = new Sprite(quitButtonTexture);
         scaleRatio = buttonScaleRatio(quitButtonSprite, camera);
@@ -168,7 +178,7 @@ public class MainMenuScreen implements Screen  {
     public void stopDisplaying(){
         gameLogoTexture.dispose();
         startGameButtonTexture.dispose();
-        settingsButtonTexture.dispose();
+        // settingsButtonTexture.dispose();
         quitButtonTexture.dispose();
         backgroundTexture.dispose();
     }

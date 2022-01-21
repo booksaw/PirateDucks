@@ -75,4 +75,8 @@ public class PirateDucks extends ApplicationAdapter {
 	 * Used to get which screen is currently being displayed
 	 */
 	public Screen getCurrentScreen() { return currentScreen; }
+
+	public OrthographicCamera getCamera() {
+		return camera;
+	}
 }

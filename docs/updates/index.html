@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<style>
+    html {
+        height: 100vh;
+    }
+    body {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: 1fr auto;
+    }
+    .footer {
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+</style>
+<html lang="en-us"><head>
+
+    <meta charset="utf-8">
+    <title>Engineering 1 Project Website</title>
+
+    <!-- responsive meta -->
+
+    <meta name="description" property="og:description" content="The website for team 26 for the Engineering 1 project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="image" property="og:image" content="/">
+    <meta name="author" content="Marc Perales Salomo">
+    <meta name="generator" content="Hugo 0.74.3" />
+
+    <!-- plugins -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/css/uikit.min.css ">
+
+    <!-- Main Style -->
+
+    <link rel="stylesheet" href="css/style.min.css" integrity="" media="screen">
+    <link rel="stylesheet" href="css/syntax.min.css" integrity="" media="screen">
+
+    <link rel="alternate" type="application/rss+xml" href="https://booksaw.github.io/DuckPirates/about/index.xml" title="ENG1 - Duck Pirates" />
+<script src="https://cdn.jsdelivr.net/npm/mailgo@0.9.14/dist/mailgo.min.js" defer></script>
+
+    <!-- Favicon -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+</head>
+<body class="updates">
+    <div class="wrapper"><div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; bottom: #transparent-sticky-navbar">
+        <nav class="uk-navbar-container uk-margin" uk-navbar="mode: click;" style="padding-right: 3rem">
+            <ul class="uk-navbar-nav uk-visible@s">
+                <li><a style="font-size: 18px; text-transform: none" href="/DuckPirates/"> Home</a></li>
+                <li><a style="font-size: 18px; text-transform:none" href="/DuckPirates/about">About</a></li>
+                <li class="uk-active"><a style="font-size: 18px; text-transform: none" href="/DuckPirates/updates">Weekly Updates</a></li>
+                <li><a style="font-size: 18px; text-transform: none" href="/DuckPirates/method_selection">UML Updates</a></li>
+
+            </ul>
+            <a class="uk-navbar-toggle uk-hidden@s" uk-toggle="target: #sidenav" uk-navbar-toggle-icon href="#"></a>
+        </nav>
+    </div>
+
+    <div id="sidenav" uk-offcanvas="overlay: true">
+        <div class="uk-offcanvas-bar uk-flex uk-flex-column">
+            <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
+                <li><a style="font-size: 18px" href="/DuckPirates/"> Home </a></li>
+                <li><a style="font-size: 18px" href="/DuckPirates/about">About</a></li>
+                <li class="uk-active"><a style="font-size: 18px" href="/DuckPirates/updates">Weekly Updates</a></li>
+                <li><a style="font-size: 18px" href="/DuckPirates/method_selection">UML Updates</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Hexagon Stylesheet -->
+    
+    <link rel="stylesheet" type="text/css" href="css/hexagon.min.css">
+
+    <!-- Updates -->
+
+    <link rel="stylesheet" href="css/method.min.css">
+
+    <section class="uk-margin-large-bottom">
+        <h1 class=" uk-text-center" style="border-spacing: 2px;">Weekly Updates</h1>
+    </section>
+
+    <section class="uk-margin-large-bottom">
+        <div class="uk-container uk-flex-center">
+            <div class="uk-flex-center uk-grid">
+                <div class="uk-width-expand@m">
+
+                    <!-- Development Updates -->
+                    <h3 class="uk-button-text">Autumn Week 9:</h3>
+                    <p>During Autumn week 9 we decided a team name and started designing DuckPirates and we though of came up with some questions to ask during our customer meeting. Alice started with a player design, and Marc started with the website</p>
+
+                    <h3 class="uk-button-text">Autumn Week 10:</h3>
+                    <p>During Autumn week 10 Alice completed the introduction to the requirements. Charlie formatted and improved the requirements table. Dan Created a UML diagram to display the project stages and started with risk assessment. James dove into the Java game libraries and narrowed it down to LibGdx and Liteengine. Marc continued with the website development and did some fixes.</p>
+                    <p>Later on in the week in another team meeting we confirmed the game library as a group and decided LibGdx. We also decided the editor and went with Intellij IDEA. We also started to discuss the College combat and map design.</p>
+
+                    <h3 class="uk-button-text">Christmas Week 1:</h3>
+                    <p>During the first week of the Christmas holiday period, we implemented the LibGdx dependencies to our project gradle. Alice made the asset for the player. Charlie setup map loading and displaying. James setup testing for LibGdx. Marc started with player movement which was finished and optimized by James during this week, and Robert designed and created the map.</p>
+
+                    <h3 class="uk-button-text">Christmas Week 2:</h3>
+                    <p>During the second week of the Christmas holiday perioid, Charlie made the game over menu and pause menu. Dan made the winning screen menu, main menu. Alice and Marc started with the Method selection and planning, and Robert finished the map.</p>
+
+                    <h3 class="uk-button-text">Christmas Weeek 3:</h3>
+                    <p>During the third week of the Christmas holidays, we organized the project directory. Alice continued with the method selection planning. Charlie started with the combat mechanism. Dan made all the menu's responsive. Marc and James designed and implemented player health. James also worked on loading map graphics and added collisions for the map interaction.</p>
+                    
+                    <h3 class="uk-button-text">Christmas Weeek 4:</h3>
+                    <p>During Christmas week 4, we split up into 3 teams consisting of two people and discussed the College combat in further detail.</p>
+
+                    <h3 class="uk-button-text">Christmas Week 5:</h3>
+                    <p>Christmas week 5 we all took break from the project to spend time with our families.</p>
+
+                    <h3 class="uk-button-text">Christmas Week 6:</h3>
+                    <p>During Christmas week 6, all 3 groups started designing and developing each College. We also discussed testing and how our project stages were coming along.</p>
+                    
+                    <h3 class="uk-button-text">Spring Week 1:</h3>
+                    <p>During Week 1 no progress was made on the project as we all had assessments.</p>
+
+                    <h3 class="uk-button-text">Spring Week 2:</h3>
+                    <p>During Sring week 2, Alice and Charlie continued with Langwith College, Dan continued with the puzzle game for Constantine College. James started with the interactions between player and the College. Marc started with music and sfx implementation as well as made tests to verify that all files exist. Rob and James completed the design and implementation of Goodricke College.</p>
+
+                    <h3 class="uk-button-text">Spring Week 3:</h3>
+                    <p>During Spring week 3, Alice completed the Architecture deliverable. Charlie focused on fixing shooting bug with the cannon. Dan finished Constantine College. James fixed some resizing issues and continued with testing. Marc continued with the website development and completed the method selection planning with Alice. Rob implemented a point system to the game.</p>
+
+                    <!-- Add the remaining weeks -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JS Plugins -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/js/uikit-icons.min.js"></script>
+
+</body>
+
+<link rel="stylesheet" type="text/css" href="css/index.min.css">
+<footer id="footer" style="margin-top: auto;flex: 0 0 50px;width: 100%;bottom: 0;border-top:1px solid #eaeaea;height: 4rem;z-index: -1;">
+    <div class="footer-copyright uk-text-center uk-container">
+        <hr style="height:10px; visibility:hidden;" />
+        <img loading="lazy" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="height: 1.2em; width: 1.2em;" alt="Creative Commons">
+        <img loading="lazy" src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="height: 1.2em; width: 1.2em;" alt="CC-BY"> Group 26 (Engineering 1 module group at The University of York)
+        <hr style="height:10px; visibility:hidden;" />
+    </div>
+</footer>
+
+</html>

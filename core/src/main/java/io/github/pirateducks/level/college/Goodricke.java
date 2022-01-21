@@ -8,13 +8,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import java.util.Random;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.level.gameObjects.CannonBall;
 import io.github.pirateducks.level.gameObjects.Fruit;
 import io.github.pirateducks.level.gameObjects.GoodrickeCannon;
 import io.github.pirateducks.screen.PauseScreen;
+
+import java.util.Random;
 
 public class Goodricke extends College { // Projectiles
     private final OrthographicCamera camera;
@@ -177,6 +178,7 @@ public class Goodricke extends College { // Projectiles
     @Override
     public void stopDisplaying() {
         super.stopDisplaying();
+        sfx_ocean.dispose();
         if (!save) {
             for (Fruit f : fruit) {
                 f.dispose();

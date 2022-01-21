@@ -1,17 +1,5 @@
-# Pirate Ducks
+# DuckPirates Website Branch
 
+## This branch includes all files for the Website.
 
-
-## 2D pirate game developed in java
-
-
-
-**Game development project for Engineering 1 module**
-
-## Project by students at the University of York:
-- [booksaw](https://github.com/booksaw)
-- [Robert](https://github.com/r0b-ert)
-- [Dan](https://github.com/dan-wade42)
-- [Charlie](https://github.com/CharlieCrosley)
-- [Marc](https://github.com/Anon0x19)
-- [Alice](https://github.com/sagedied)
+### Note for future self: Remove the readme file so it doesn't override the one in the main branch when merging the branches in the future

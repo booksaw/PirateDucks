@@ -74,7 +74,7 @@ public class MyGdxGameTest extends BlockJUnit4ClassRunner implements Application
 
     /**
      * @param method refers to the test
-     * @param notifier refers to whether it's passes the tests or not
+     * @param notifier refers to whether it passes the tests or not
      */
     @Override
     protected void runChild(FrameworkMethod method, RunNotifier notifier) {

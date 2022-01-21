@@ -6,7 +6,7 @@
         <description>Website for Pirate Ducks for Engineering 1 Module at the University of York</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <atom:link href="https://booksaw.github.io/DuckPirates/method_selection/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://booksaw.github.io/DuckPirates/updates/index.xml" rel="self" type="application/rss+xml" />
     </channel>
 
 </rss>

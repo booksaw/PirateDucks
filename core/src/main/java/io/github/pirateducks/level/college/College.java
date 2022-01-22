@@ -42,6 +42,7 @@ public abstract class College extends LevelManager implements Health {
      * Called when the college is defeated
      */
     private void setDefeated() {
+        getMainClass().points += 1000;
         defeated = true;
     }
 

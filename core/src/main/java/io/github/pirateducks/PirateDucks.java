@@ -38,6 +38,7 @@ public class PirateDucks extends ApplicationAdapter {
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private Viewport viewport;
+    public int points = 0;
 
     @Override
     public void create() {

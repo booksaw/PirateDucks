@@ -45,6 +45,7 @@ public class ConstantineMemoryGame extends College {
 
     private boolean inGame = false;
     private boolean gameFinished = false;
+    private boolean save = false;
 
     private final Array<Sprite> buttons = new Array<>();
 
@@ -136,15 +137,16 @@ public class ConstantineMemoryGame extends College {
     @Override
     public void stopDisplaying() {
 
-        backgroundTexture.dispose();
-        startGameTexture.dispose();
-        closeTexture.dispose();
+        if (!save) {
+            backgroundTexture.dispose();
+            startGameTexture.dispose();
+            closeTexture.dispose();
 
-        for (int x = 0; x<8;x++){
-            cardTextures.get(x).dispose();
+            for (int x = 0; x<8;x++){
+                cardTextures.get(x).dispose();
+            }
         }
-
-        super.stopDisplaying();
+        //super.stopDisplaying();
     }
 
     @Override
@@ -280,6 +282,7 @@ public class ConstantineMemoryGame extends College {
         super.update(delta);
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) && inGame == false){
+            save = true;
             this.stopDisplaying();
             getLevelManager().getMainClass().setCurrentScreen(new PauseScreen(getLevelManager().getMainClass(),this));
         }
@@ -327,6 +330,4 @@ public class ConstantineMemoryGame extends College {
             }
         }
     }
-
-
 }

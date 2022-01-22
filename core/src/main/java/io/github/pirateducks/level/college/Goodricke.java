@@ -96,9 +96,11 @@ public class Goodricke extends College { // Projectiles
         // Pause game when escape key is pressed
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             save = true;
+            // Save players position for unpause
             playerX = getPlayer().getX();
             playerY = getPlayer().getY();
             this.stopDisplaying();
+            // Load pause screen
             getLevelManager().getMainClass().setCurrentScreen(new PauseScreen(getLevelManager().getMainClass(),this));
         }
 
@@ -177,8 +179,7 @@ public class Goodricke extends College { // Projectiles
 
     @Override
     public void stopDisplaying() {
-        super.stopDisplaying();
-        sfx_ocean.dispose();
+        // Disposes objects if not unpausing
         if (!save) {
             for (Fruit f : fruit) {
                 f.dispose();
@@ -187,6 +188,7 @@ public class Goodricke extends College { // Projectiles
                 cannon.dispose();
             }
         }
+        sfx_ocean.dispose();
     }
 
     public void removeCannon(GoodrickeCannon cannon) {

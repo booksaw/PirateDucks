@@ -13,7 +13,7 @@ import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
 
 
-public class MainMenuScreen implements Screen  {
+public class MainMenuScreen implements Screen {
 
     private final Array<Sprite> buttons = new Array<>();
 
@@ -32,33 +32,29 @@ public class MainMenuScreen implements Screen  {
     private Texture quitButtonTexture;
     private Sprite quitButtonSprite;
 
-    private PirateDucks mainClass;
+    private final PirateDucks mainClass;
 
-    public MainMenuScreen(PirateDucks mainClass){
+    public MainMenuScreen(PirateDucks mainClass) {
         this.mainClass = mainClass;
     }
 
     /**
      * Called to draw the screen
+     *
      * @param batch
      */
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
 
+        ScreenUtils.clear(0, 0, 0.2f, 1);
         // set background as blurred map
-        backgroundTexture = new Texture("map_blurred.png");
-        backgroundSprite = new Sprite(backgroundTexture);
-        backgroundSprite.setSize(camera.viewportWidth, camera.viewportHeight);
-        backgroundSprite.setPosition(0, 0);
+        backgroundSprite.draw(batch);
 
-        if (backgroundSprite != null){
-            backgroundSprite.draw(batch);
-        }
-        if (gameLogoSprite != null){
+        if (gameLogoSprite != null) {
             gameLogoSprite.draw(batch);
         }
 
-        for (Sprite button : buttons){
-            if (button != null){
+        for (Sprite button : buttons) {
+            if (button != null) {
                 button.draw(batch);
             }
         }
@@ -66,15 +62,16 @@ public class MainMenuScreen implements Screen  {
 
     /**
      * Called to update the screen
+     *
      * @param delta The delta time since the last update
      */
-    public void update(float delta){
+    public void update(float delta) {
 
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             // We need to ensure multiple buttons are not pressed at once
             boolean buttonPressed = false;
 
-            for (int i=0;i<buttons.size;i++){
+            for (int i = 0; i < buttons.size; i++) {
                 Sprite button = buttons.get(i);
                 // As mouse position coordinates start in top left whereas game coordinates start in bottom left
                 // we need to inverse them
@@ -97,15 +94,15 @@ public class MainMenuScreen implements Screen  {
                 float buttonW = button.getWidth();
                 float buttonH = button.getHeight();
 
-                if (x >= buttonX && x<= (buttonX + buttonW) && y >= buttonY && y <= (buttonY + buttonH)){
-                    if (i == 0){
+                if (x >= buttonX && x <= (buttonX + buttonW) && y >= buttonY && y <= (buttonY + buttonH)) {
+                    if (i == 0) {
                         buttonPressed = true;
                         mainClass.setCurrentScreen(new MainLevel(mainClass));
                         this.stopDisplaying();
 
-                    } else if (i==1) {
+                    } else if (i == 1) {
                         buttonPressed = true;
-                    } else if (i == 2){
+                    } else if (i == 2) {
                         Gdx.app.exit();
                     }
                 }
@@ -116,17 +113,26 @@ public class MainMenuScreen implements Screen  {
     /**
      * Called when this screen becomes the active screen
      */
-    public void startDisplaying(OrthographicCamera camera){
+    public void startDisplaying(OrthographicCamera camera) {
         // Create game logo sprite
         gameLogoTexture = new Texture("logo.png");
         gameLogoSprite = new Sprite(gameLogoTexture);
 
+        backgroundTexture = new Texture("map_blurred.png");
+        backgroundSprite = new Sprite(backgroundTexture);
+        // scales the sprite depending on window size multiplied by a constant
+        float scaleRatio = (gameLogoTexture.getWidth() / camera.viewportWidth) * 1.2f;
+        backgroundSprite.setSize(camera.viewportWidth, camera.viewportHeight);
+        // Centers the sprite
+        backgroundSprite.setPosition(0, 0);
+
+
         // Scale logo depending on window size
-        float scaleRatio = (gameLogoSprite .getWidth() / camera.viewportWidth) * 1.2f;
-        gameLogoSprite.setSize(gameLogoSprite.getWidth() / scaleRatio, gameLogoSprite.getHeight()/scaleRatio);
+        scaleRatio = (gameLogoSprite.getWidth() / camera.viewportWidth) * 1.2f;
+        gameLogoSprite.setSize(gameLogoSprite.getWidth() / scaleRatio, gameLogoSprite.getHeight() / scaleRatio);
 
         //Centre the logo
-        gameLogoSprite.setPosition(camera.viewportWidth/2 - gameLogoSprite.getWidth()/2,(camera.viewportHeight/2 - gameLogoSprite.getHeight()/2) * 2.2f);
+        gameLogoSprite.setPosition(camera.viewportWidth / 2 - gameLogoSprite.getWidth() / 2, (camera.viewportHeight / 2 - gameLogoSprite.getHeight() / 2) * 2.2f);
 
         //Buttons
 
@@ -134,11 +140,11 @@ public class MainMenuScreen implements Screen  {
         startGameButtonTexture = new Texture("mainMenuScreen/start.png");
         startGameButtonSprite = new Sprite(startGameButtonTexture);
         scaleRatio = buttonScaleRatio(startGameButtonSprite, camera);
-        startGameButtonSprite.setSize(startGameButtonSprite.getWidth()/scaleRatio,startGameButtonSprite.getHeight()/scaleRatio);
+        startGameButtonSprite.setSize(startGameButtonSprite.getWidth() / scaleRatio, startGameButtonSprite.getHeight() / scaleRatio);
 
         int offset = 0;
 
-        startGameButtonSprite.setPosition(camera.viewportWidth/2 - startGameButtonSprite.getWidth()/2,(camera.viewportHeight/2-startGameButtonSprite.getHeight()/2) + (offset/scaleRatio));
+        startGameButtonSprite.setPosition(camera.viewportWidth / 2 - startGameButtonSprite.getWidth() / 2, (camera.viewportHeight / 2 - startGameButtonSprite.getHeight() / 2) + (offset / scaleRatio));
         buttons.add(startGameButtonSprite);
 
         // Settings Button
@@ -158,15 +164,15 @@ public class MainMenuScreen implements Screen  {
         quitButtonTexture = new Texture("mainMenuScreen/quit.png");
         quitButtonSprite = new Sprite(quitButtonTexture);
         scaleRatio = buttonScaleRatio(quitButtonSprite, camera);
-        quitButtonSprite.setSize(quitButtonSprite.getWidth()/scaleRatio,quitButtonSprite.getHeight()/scaleRatio);
+        quitButtonSprite.setSize(quitButtonSprite.getWidth() / scaleRatio, quitButtonSprite.getHeight() / scaleRatio);
 
         offset -= 20;
-        quitButtonSprite.setPosition(camera.viewportWidth/2 - quitButtonSprite.getWidth()/2,(camera.viewportHeight/2-quitButtonSprite.getHeight()/2) + (offset/scaleRatio));
+        quitButtonSprite.setPosition(camera.viewportWidth / 2 - quitButtonSprite.getWidth() / 2, (camera.viewportHeight / 2 - quitButtonSprite.getHeight() / 2) + (offset / scaleRatio));
         buttons.add(quitButtonSprite);
     }
 
-    private float buttonScaleRatio(Sprite button, OrthographicCamera camera){
-        float scaleRatio = (button.getWidth()/camera.viewportWidth) * 3.5f;
+    private float buttonScaleRatio(Sprite button, OrthographicCamera camera) {
+        float scaleRatio = (button.getWidth() / camera.viewportWidth) * 3.5f;
         return scaleRatio;
     }
 
@@ -175,7 +181,7 @@ public class MainMenuScreen implements Screen  {
      * Called when this screen is no longer the active screen
      * Use this method to dispose of everything
      */
-    public void stopDisplaying(){
+    public void stopDisplaying() {
         gameLogoTexture.dispose();
         startGameButtonTexture.dispose();
         // settingsButtonTexture.dispose();

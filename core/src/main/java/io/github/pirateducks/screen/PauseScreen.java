@@ -43,6 +43,8 @@ public class PauseScreen implements Screen  {
      */
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
         // set background as blurred map
+        ScreenUtils.clear(0, 0, 0.2f, 1);
+
         backgroundTexture = new Texture("map_blurred.png");
         backgroundSprite = new Sprite(backgroundTexture);
         backgroundSprite.setSize(camera.viewportWidth, camera.viewportHeight);

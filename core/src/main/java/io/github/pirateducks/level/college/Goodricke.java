@@ -29,18 +29,6 @@ public class Goodricke extends College { // Projectiles
     private boolean save = false;
     public Music sfx_ocean;
 
-    /**
-     * Goodricke
-     * Be able to set a new background (maybe sand): Yes
-     * Be able to have multiple fruit at once: Not sure
-     * Be able to aim fruit to player: Yes
-     * Be able to shoot at the fruit: No
-     * Be able to calculate time since fired: No
-     * Be able to count the time since game started: No
-     * Be able to count how many fruit are left to fire: Yes
-     * Be able to adjust player health: No
-     */
-
     public Goodricke(MainLevel level, OrthographicCamera camera) {
         super(level);
 

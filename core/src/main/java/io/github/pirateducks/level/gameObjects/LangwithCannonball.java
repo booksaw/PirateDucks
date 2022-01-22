@@ -45,9 +45,9 @@ public class LangwithCannonball extends GameObject {
         texture = new Texture(Gdx.files.internal("CannonBall.png"));
 
         // scales the sprite depending on window size multiplied by a constant
-        float scaleRatio = ((float) texture.getWidth() / (float) Gdx.graphics.getWidth()) * 135f;
+        float scaleRatio = ((float) texture.getWidth() / (float) camera.viewportWidth) * 135f;
         // increases the sprite based on the multiplier 'size' (default=1)
-        SetSize((texture.getWidth() / scaleRatio) * size, (texture.getHeight() / scaleRatio) * size);
+        setSize((texture.getWidth() / scaleRatio) * size, (texture.getHeight() / scaleRatio) * size);
 
         this.x = x;
         this.y = y;

@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import io.github.pirateducks.level.GameObjectHealth;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
@@ -100,15 +102,15 @@ public class Player extends GameObjectHealth {
                     !(manager.getMainClass().getCurrentScreen() instanceof MainLevel)) {
                 // Cannonballs can only be fired once every 2 seconds
                 if (timeFired > 1) {
-                    // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
-                    // inverse them before use
-                    int mouseX = Gdx.input.getX();
-                    int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-                    // Center of boat sprite
+                    // Gets mouse position and convert screen coordinates to world space
+                    Vector3 mousePos = camera.unproject(new Vector3().set(Gdx.input.getX(),Gdx.input.getY(),0));
+                    System.out.println(mousePos.x + "," + mousePos.y);
+                    // Center of player sprite
                     float playerCenterX = x + width / 2;
                     float playerCenterY = y + height / 2;
-                    // Fire a cannonball from boat center to mouse position
-                    manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY, manager));
+                    Vector2 direction = new Vector2(mousePos.x - playerCenterX, mousePos.y - playerCenterY).nor();
+                    manager.addObject(new CannonBall(playerCenterX, playerCenterY, manager, direction));
+
                     timeFired = 0;
                     Sound cannon = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
                     long id = cannon.play();

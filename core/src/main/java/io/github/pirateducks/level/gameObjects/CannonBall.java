@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.LevelManager;
 
@@ -16,27 +17,29 @@ public class CannonBall extends GameObject {
     private double angle;
     private final LevelManager manager;
     private final OrthographicCamera camera;
+    private final Vector2 direction;
 
-    public CannonBall(float sourceX, float sourceY, double targetX, double targetY, LevelManager manager) {
+    public CannonBall(float sourceX, float sourceY, LevelManager manager, Vector2 direction) {
         super(100, 100);
 
         this.camera = manager.getCamera();
         this.manager = manager;
 
         // loading the texture
-        texture = new Texture("CannonBall.png");
-        sprite = new Sprite(texture);
+        this.texture = new Texture("CannonBall.png");
+        this.sprite = new Sprite(texture);
 
         // scales the sprite depending on window size multiplied by a constant
         float scaleRatio = ((float) texture.getWidth() / (float) Gdx.graphics.getWidth()) * 50f;
         SetSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
-        sprite.setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
+        this.sprite.setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
 
-        x = sourceX;
-        y = sourceY;
+        this.x = sourceX;
+        this.y = sourceY;
 
         // We use a triangle to calculate the new trajectory
-        angle = Math.atan2(targetY - y, targetX - x);
+        //this.angle = Math.atan2(targetY - y, targetX - x);
+        this.direction = direction;
     }
 
     @Override
@@ -49,8 +52,10 @@ public class CannonBall extends GameObject {
     @Override
     public void update(float delta) {
         float velocity = 200 * delta;
-        x += Math.cos(angle) * velocity;
-        y += Math.sin(angle) * velocity;
+        //x += Math.cos(angle) * velocity;
+        //y += Math.sin(angle) * velocity;
+        x += direction.x * velocity;
+        y += direction.y * velocity;
 
         // limiting x
         if (x <= -width / 2 || x >= camera.viewportWidth - width / 2) {

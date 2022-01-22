@@ -25,7 +25,7 @@ public abstract class GameObject {
      * @param width The new width of the object
      * @param height The new height of the object
      */
-    public void SetSize(float width, float height) {
+    public void setSize(float width, float height) {
         this.width = width;
         this.height = height;
     }

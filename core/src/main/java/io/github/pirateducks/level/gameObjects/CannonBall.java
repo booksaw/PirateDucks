@@ -28,8 +28,8 @@ public class CannonBall extends GameObject {
         sprite = new Sprite(texture);
 
         // scales the sprite depending on window size multiplied by a constant
-        float scaleRatio = ((float) texture.getWidth() / (float) Gdx.graphics.getWidth()) * 50f;
-        SetSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
+        float scaleRatio = ((float) texture.getWidth() / (float) manager.getCamera().viewportWidth) * 50f;
+        setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
         sprite.setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
 
         x = sourceX;

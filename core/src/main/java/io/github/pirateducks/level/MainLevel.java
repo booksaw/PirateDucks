@@ -63,9 +63,9 @@ public class MainLevel extends LevelManager {
 
     }
 
-    private final Rectangle constantine = new Rectangle(25, 40, 200, 250);
+    private final Rectangle langwith = new Rectangle(25, 40, 200, 250);
     private final Rectangle goodricke = new Rectangle(470, 35, 160, 150);
-    private final Rectangle langwith = new Rectangle(310, 240, 250, 170);
+    private final Rectangle constantine = new Rectangle(310, 240, 250, 170);
 
     @Override
     public void update(float delta) {

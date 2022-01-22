@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
@@ -75,17 +76,7 @@ public class MainMenuScreen implements Screen {
                 Sprite button = buttons.get(i);
                 // As mouse position coordinates start in top left whereas game coordinates start in bottom left
                 // we need to inverse them
-                float x = Gdx.input.getX();
-                float y = Gdx.graphics.getHeight() - Gdx.input.getY();
-
-
-                // Resizes the mouse position
-                // JAMES FIX
-                /*
-                x = x * (???.getWidth() / mainClass.getCamera().viewportWidth);
-                y = y * (???.getHeight() / mainClass.getCamera().viewportHeight);
-
-                 */
+                Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(mainClass.getCamera());
 
 
                 // Check if mouse position is inside button when clicked
@@ -94,7 +85,7 @@ public class MainMenuScreen implements Screen {
                 float buttonW = button.getWidth();
                 float buttonH = button.getHeight();
 
-                if (x >= buttonX && x <= (buttonX + buttonW) && y >= buttonY && y <= (buttonY + buttonH)) {
+                if (scaledMouse.x >= buttonX && scaledMouse.x <= (buttonX + buttonW) && scaledMouse.y >= buttonY && scaledMouse.y <= (buttonY + buttonH)) {
                     if (i == 0) {
                         buttonPressed = true;
                         mainClass.setCurrentScreen(new MainLevel(mainClass));

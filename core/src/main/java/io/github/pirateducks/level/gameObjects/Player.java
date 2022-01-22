@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.GameObjectHealth;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
@@ -102,13 +104,13 @@ public class Player extends GameObjectHealth {
                 if (timeFired > 1) {
                     // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
                     // inverse them before use
-                    int mouseX = Gdx.input.getX();
-                    int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+                    Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(camera);
+
                     // Center of boat sprite
                     float playerCenterX = x + width / 2;
                     float playerCenterY = y + height / 2;
                     // Fire a cannonball from boat center to mouse position
-                    manager.addObject(new CannonBall(playerCenterX, playerCenterY, mouseX, mouseY, manager));
+                    manager.addObject(new CannonBall(playerCenterX, playerCenterY, scaledMouse.x, scaledMouse.y, manager));
                     timeFired = 0;
                     Sound cannon = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
                     long id = cannon.play();
@@ -154,7 +156,7 @@ public class Player extends GameObjectHealth {
     public void setHealth(int health) {
         this.health = health;
         if (health <= 0) {
-            manager.getMainClass().setCurrentScreen(new GameOverScreen());
+            manager.getMainClass().setCurrentScreen(new GameOverScreen(camera));
         }
     }
 

@@ -6,14 +6,22 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.pirateducks.PirateDucks;
 
 
 public class VictoryScreen implements Screen {
 
     private final Array<Sprite> buttons = new Array<>();
     private Sprite gameOverSprite;
+    private final OrthographicCamera camera;
+
+
+    public VictoryScreen(OrthographicCamera camera) {
+        this.camera = camera;
+    }
 
     /**
      * Called to draw the screen
@@ -50,13 +58,12 @@ public class VictoryScreen implements Screen {
             for (int i = 0; i < buttons.size; i++) {
                 Sprite button = buttons.get(i);
 
-                // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
-                // inverse them before use
-                int x = Gdx.graphics.getWidth() - Gdx.input.getX();
-                int y = Gdx.graphics.getHeight() - Gdx.input.getY();
+                // getting the locaiton of the mouse in game coords
+                Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(camera);
+
                 // Check if mouse position is inside button when clicked
-                if (x >= button.getX() && x <= button.getX() + button.getWidth() &&
-                        y >= button.getY() && y <= button.getY() + button.getHeight())
+                if (scaledMouse.x >= button.getX() && scaledMouse.x <= button.getX() + button.getWidth() &&
+                        scaledMouse.y >= button.getY() && scaledMouse.y <= button.getY() + button.getHeight())
                 {
                     if (i == 0) {
                         System.out.println("Menu Button Pressed");

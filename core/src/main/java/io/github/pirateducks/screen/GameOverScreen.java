@@ -6,14 +6,21 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.pirateducks.PirateDucks;
 
 
 public class GameOverScreen implements Screen {
 
     private final Array<Sprite> buttons = new Array<>();
     private Sprite gameOverSprite;
+    private final OrthographicCamera camera;
+
+    public GameOverScreen(OrthographicCamera camera) {
+        this.camera = camera;
+    }
 
     /**
      * Called to draw the screen
@@ -42,8 +49,7 @@ public class GameOverScreen implements Screen {
     @Override
     public void update(float delta) {
         // If user left-clicks the screen
-        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
-        {
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             // Stops multiple buttons being pressed in the loop
             boolean buttonPressed = false;
             // Loop through all buttons and see if one was clicked
@@ -52,17 +58,15 @@ public class GameOverScreen implements Screen {
 
                 // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
                 // inverse them before use
-                int x = Gdx.graphics.getWidth() - Gdx.input.getX();
-                int y = Gdx.graphics.getHeight() - Gdx.input.getY();
+                Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(camera);
+
                 // Check if mouse position is inside button when clicked
-                if (x >= button.getX() && x <= button.getX() + button.getWidth() &&
-                        y >= button.getY() && y <= button.getY() + button.getHeight())
-                {
+                if (scaledMouse.x >= button.getX() && scaledMouse.x <= button.getX() + button.getWidth() &&
+                        scaledMouse.y >= button.getY() && scaledMouse.y <= button.getY() + button.getHeight()) {
                     if (i == 0) {
                         System.out.println("Menu Button Pressed");
                         buttonPressed = true;
-                    }
-                    else if (i == 1 && !buttonPressed) {
+                    } else if (i == 1 && !buttonPressed) {
                         // Exit the application
                         Gdx.app.exit();
                         System.exit(0);
@@ -86,7 +90,7 @@ public class GameOverScreen implements Screen {
         gameOverSprite.setSize(gameOverSprite.getWidth() / scaleRatio, gameOverSprite.getHeight() / scaleRatio);
 
         // Centers the Game Over sprite
-        gameOverSprite.setPosition(camera.viewportWidth/2 - gameOverSprite.getWidth()/2, (camera.viewportHeight/2 - gameOverSprite.getHeight()/2) * 2.2f);
+        gameOverSprite.setPosition(camera.viewportWidth / 2 - gameOverSprite.getWidth() / 2, (camera.viewportHeight / 2 - gameOverSprite.getHeight() / 2) * 2.2f);
 
         addButtons(camera);
     }
@@ -97,11 +101,11 @@ public class GameOverScreen implements Screen {
         // Create sprite from texture
         Sprite button = new Sprite(texture);
         // scales the sprite based on window size multiplied by a constant since textures will be different size images
-        float scaleRatio = (button.getWidth() / Gdx.graphics.getWidth()) * 3.5f;
+        float scaleRatio = (button.getWidth() / camera.viewportWidth) * 3.5f;
         button.setSize(button.getWidth() / scaleRatio, button.getHeight() / scaleRatio);
         // Position the buttons with their x centered and under each other using an offset that's scaled with the window size
         int offset = -20;
-        button.setPosition(camera.viewportWidth/2 - button.getWidth()/2, (camera.viewportHeight/2 - button.getHeight()/2) + (offset / scaleRatio));
+        button.setPosition(camera.viewportWidth / 2 - button.getWidth() / 2, (camera.viewportHeight / 2 - button.getHeight() / 2) + (offset / scaleRatio));
         buttons.add(button);
 
         // Add a quit button
@@ -110,7 +114,7 @@ public class GameOverScreen implements Screen {
         scaleRatio = (button.getWidth() / camera.viewportWidth) * 9f;
         offset -= 60;
         button.setSize(button.getWidth() / scaleRatio, button.getHeight() / scaleRatio);
-        button.setPosition(camera.viewportWidth/2 - button.getWidth()/2, (camera.viewportHeight/2 - button.getHeight()/2) + (offset / scaleRatio));
+        button.setPosition(camera.viewportWidth / 2 - button.getWidth() / 2, (camera.viewportHeight / 2 - button.getHeight() / 2) + (offset / scaleRatio));
         buttons.add(button);
     }
 

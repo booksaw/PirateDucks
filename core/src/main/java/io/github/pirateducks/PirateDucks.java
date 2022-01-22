@@ -4,79 +4,97 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.pirateducks.screen.*;
 
 public class PirateDucks extends ApplicationAdapter {
 
-	private Screen currentScreen;
+    /**
+     * Used to scale a location on the screen to a location within game coordinates
+     *
+     * @param point  The point on the screen
+     * @param camera The camera that is in charge of scaling
+     * @return The point translated into in-game coordinates
+     */
+    public static Vector2 getScaledLocation(Vector2 point, OrthographicCamera camera) {
+        return new Vector2(point.x * (camera.viewportWidth / Gdx.graphics.getWidth()), point.y * (camera.viewportHeight / Gdx.graphics.getHeight()));
+    }
 
 	/**
-	 * Used to test junit functionality is working as intended
-	 * TODO REMOVE THIS WHEN JUNIT TESTS ARE WRITTEN
+	 * Used to get the in game coordinates of the mouse
+	 * @param camera The camera that is in charge of scaling
+	 * @return The location of the mouse pointer in in-game coordinates
 	 */
-	public static boolean getTrue() {
-		return true;
+	public static Vector2 getScaledMouseLocation(OrthographicCamera camera){
+		int mouseX = Gdx.input.getX();
+		int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+		return getScaledLocation(new Vector2(mouseX, mouseY), camera);
 	}
 
-	private SpriteBatch batch;
-	private OrthographicCamera camera;
-	private Viewport viewport;
+    private Screen currentScreen;
 
-	@Override
-	public void create () {
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false,848, 480);
-		camera.update();
-		viewport = new FitViewport(848, 480);
-		batch = new SpriteBatch();
+    private SpriteBatch batch;
+    private OrthographicCamera camera;
+    private Viewport viewport;
 
-		// Start game on main menu
-		setCurrentScreen(new MainMenuScreen(this));
-	}
+    @Override
+    public void create() {
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 848, 480);
+        camera.update();
+        viewport = new FitViewport(848, 480);
+        batch = new SpriteBatch();
 
-	@Override
-	public void render () {
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		currentScreen.draw(batch, camera);
-		batch.end();
+        // Start game on main menu
+        setCurrentScreen(new MainMenuScreen(this));
+    }
 
-		currentScreen.update(Gdx.graphics.getDeltaTime());
-	}
+    @Override
+    public void render() {
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        currentScreen.draw(batch, camera);
+        batch.end();
 
-	@Override
-	public void dispose () {
-		batch.dispose();
-		// telling the current screen to dispose of resources
-		currentScreen.stopDisplaying();
-	}
+        currentScreen.update(Gdx.graphics.getDeltaTime());
+    }
 
-	@Override
-	public void resize(int width, int height) {
-		viewport.update(width, height);
-	}
+    @Override
+    public void dispose() {
+        batch.dispose();
+        // telling the current screen to dispose of resources
+        currentScreen.stopDisplaying();
+    }
 
-	/**
-	 * Used to change which screen is currently being displayed
-	 * @param screen The screen to display
-	 */
-	public void setCurrentScreen(Screen screen) {
-		if(currentScreen != null) {
-			currentScreen.stopDisplaying();
-		}
-		currentScreen = screen;
-		currentScreen.startDisplaying(camera);
-	}
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height);
+    }
 
-	/**
-	 * Used to get which screen is currently being displayed
-	 */
-	public Screen getCurrentScreen() { return currentScreen; }
+    /**
+     * Used to change which screen is currently being displayed
+     *
+     * @param screen The screen to display
+     */
+    public void setCurrentScreen(Screen screen) {
+        if (currentScreen != null) {
+            currentScreen.stopDisplaying();
+        }
+        currentScreen = screen;
+        currentScreen.startDisplaying(camera);
+    }
 
-	public OrthographicCamera getCamera() {
-		return camera;
-	}
+    /**
+     * Used to get which screen is currently being displayed
+     */
+    public Screen getCurrentScreen() {
+        return currentScreen;
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
 }

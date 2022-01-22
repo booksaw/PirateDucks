@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.GameObjectHealth;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
@@ -102,14 +103,26 @@ public class Player extends GameObjectHealth {
                     !(manager.getMainClass().getCurrentScreen() instanceof MainLevel)) {
                 // Cannonballs can only be fired once every 2 seconds
                 if (timeFired > 1) {
-                    // Gets mouse position and convert screen coordinates to world space
+
+                    /* // Gets mouse position and convert screen coordinates to world space
                     Vector3 mousePos = camera.unproject(new Vector3().set(Gdx.input.getX(),Gdx.input.getY(),0));
                     System.out.println(mousePos.x + "," + mousePos.y);
                     // Center of player sprite
                     float playerCenterX = x + width / 2;
                     float playerCenterY = y + height / 2;
                     Vector2 direction = new Vector2(mousePos.x - playerCenterX, mousePos.y - playerCenterY).nor();
-                    manager.addObject(new CannonBall(playerCenterX, playerCenterY, manager, direction));
+                    manager.addObject(new CannonBall(playerCenterX, playerCenterY, manager, direction)); */
+
+
+                    // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
+                    // inverse them before use
+                    Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(camera);
+
+                    // Center of boat sprite
+                    float playerCenterX = x + width / 2;
+                    float playerCenterY = y + height / 2;
+                    // Fire a cannonball from boat center to mouse position
+                    manager.addObject(new CannonBall(playerCenterX, playerCenterY, scaledMouse.x, scaledMouse.y, manager));
 
                     timeFired = 0;
                     Sound cannon = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
@@ -156,7 +169,7 @@ public class Player extends GameObjectHealth {
     public void setHealth(int health) {
         this.health = health;
         if (health <= 0) {
-            manager.getMainClass().setCurrentScreen(new GameOverScreen());
+            manager.getMainClass().setCurrentScreen(new GameOverScreen(camera));
         }
     }
 

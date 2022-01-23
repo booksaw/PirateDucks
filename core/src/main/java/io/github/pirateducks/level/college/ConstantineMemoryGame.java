@@ -267,12 +267,16 @@ public class ConstantineMemoryGame extends College {
             JOptionPane.showMessageDialog(frame,"Correct! You have defeated Constantine College!");
             win = true;
             winSound.dispose();
+
             // Code to process correct input here
 
         } else {
             // https://mixkit.co/free-sound-effects/lose/
             Sound loseSound = Gdx.audio.newSound(Gdx.files.internal("memoryGame/lose.wav"));
             loseSound.play();
+
+            getPlayer().setHealth(getPlayer().getHealth() - 1);
+
             String resultMsg = "Incorrect!";
             if (digits.isEmpty()){
                 resultMsg = "Incorrect! You didn't enter anything. The correct answer was " + correctDigits + "! Lose a heart";

@@ -27,8 +27,6 @@ public class MainMenuScreen implements Screen {
     private Texture startGameButtonTexture;
     private Sprite startGameButtonSprite;
 
-    // private Texture settingsButtonTexture;
-    // private Sprite settingsButtonSprite;
 
     private Texture quitButtonTexture;
     private Sprite quitButtonSprite;
@@ -74,8 +72,8 @@ public class MainMenuScreen implements Screen {
 
             for (int i = 0; i < buttons.size; i++) {
                 Sprite button = buttons.get(i);
-                // As mouse position coordinates start in top left whereas game coordinates start in bottom left
-                // we need to inverse them
+
+                // Get scaled mouse position
                 Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(mainClass.getCamera());
 
 

@@ -3,6 +3,8 @@ package io.github.pirateducks.level.college;
 import io.github.pirateducks.level.Health;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
+import io.github.pirateducks.screen.CollegeDefeatedScreen;
+import io.github.pirateducks.screen.GameOverScreen;
 import io.github.pirateducks.screen.Screen;
 
 /**
@@ -33,6 +35,7 @@ public abstract class College extends LevelManager implements Health {
         this.health = health;
         if (health <= 0) {
             setDefeated();
+            getMainClass().setCurrentScreen(new CollegeDefeatedScreen());
         }
     }
 

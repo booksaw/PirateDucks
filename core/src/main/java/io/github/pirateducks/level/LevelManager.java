@@ -155,6 +155,8 @@ public abstract class LevelManager implements Screen {
         Pixmap pixmap = texture.getTextureData().consumePixmap();
 
         Color color = new Color(pixmap.getPixel((int) x, (int) y));
+        pixmap.dispose();
+
         return color;
     }
 

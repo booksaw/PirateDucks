@@ -22,9 +22,6 @@ public class PauseScreen implements Screen  {
     private Texture continueButtonTexture;
     private Sprite continueButtonSprite;
 
-    private Texture settingsButtonTexture;
-    private Sprite settingsButtonSprite;
-
     private Texture quitButtonTexture;
     private Sprite quitButtonSprite;
 
@@ -73,8 +70,6 @@ public class PauseScreen implements Screen  {
      */
     public void update(float delta){
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-            // We need to ensure multiple buttons are not pressed at once
-            boolean buttonPressed = false;
 
             for (int i=0;i<buttons.size;i++){
                 Sprite button = buttons.get(i);
@@ -90,17 +85,12 @@ public class PauseScreen implements Screen  {
 
                 if (scaledMouse.x >= buttonX && scaledMouse.x <= (buttonX + buttonW) && scaledMouse.y >= buttonY && scaledMouse.y <= (buttonY + buttonH)){
                     if (i == 0){
-                        System.out.println("Continue button pressed");
-                        buttonPressed = true;
-                        //MyGdxGame.setCurrentScreen(new LevelManager());
+
                         mainClass.setCurrentScreen(prevScreen);
                         this.stopDisplaying();
 
-                    } else if (i==1) {
-                        System.out.println("Settings button pressed");
-                        buttonPressed = true;
-                    } else if (i == 2){
-                        System.out.println("Quit button pressed");
+
+                    } else if (i == 1){
                         Gdx.app.exit();
                     }
                 }
@@ -142,16 +132,6 @@ public class PauseScreen implements Screen  {
         continueButtonSprite.setPosition(camera.viewportWidth/2 - continueButtonSprite.getWidth()/2,(camera.viewportHeight/2-continueButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(continueButtonSprite);
 
-        // Settings Button
-        settingsButtonTexture = new Texture("pauseScreen/settings.png");
-        settingsButtonSprite = new Sprite(settingsButtonTexture);
-        scaleRatio = buttonScaleRatio(settingsButtonSprite, camera);
-        settingsButtonSprite.setSize(settingsButtonSprite.getWidth()/scaleRatio,settingsButtonSprite.getHeight()/scaleRatio);
-
-        offset -= 20;
-
-        settingsButtonSprite.setPosition(camera.viewportWidth/2 - settingsButtonSprite.getWidth()/2,(camera.viewportHeight/2-settingsButtonSprite.getHeight()/2) + (offset/scaleRatio));
-        buttons.add(settingsButtonSprite);
 
         // Quit button
 
@@ -177,7 +157,6 @@ public class PauseScreen implements Screen  {
      */
     public void stopDisplaying(){
         continueButtonTexture.dispose();
-        settingsButtonTexture.dispose();
         quitButtonTexture.dispose();
     }
 

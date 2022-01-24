@@ -2,23 +2,24 @@ package io.github.pirateducks.level.college;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.math.Vector2;
+
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.screen.PauseScreen;
 import io.github.pirateducks.screen.Screen;
 
 import javax.swing.*;
-import java.util.Arrays;
+
 import java.util.Random;
 import java.util.concurrent.*;
 
@@ -36,6 +37,7 @@ public class ConstantineMemoryGame extends College {
     private Sprite closeSprite;
     private Texture countdownTexture;
     private Sprite countdownSprite;
+    private Music backgroundMusic;
 
 
     private Array<Texture> cardTextures = new Array<>();
@@ -122,13 +124,17 @@ public class ConstantineMemoryGame extends College {
         buttons.add(closeSprite);
         closeSprite.setAlpha(0);
 
-        //Stage stage = new Stage();
-       //Skin skin = new Skin(Gdx.files.internal("memoryGame/skin.json"));
-        //TextField input = new TextField("Enter the digits here",skin);
-        //input.setWidth(100f);
-        //input.setHeight(100f);
-        //input.setPosition(camera.viewportWidth/2 - input.getWidth()/2,camera.viewportHeight/2 - input.getHeight()/2);
-        //stage.addActor(input);
+
+        //Beach by MusicbyAden & Jurgance | https://soundcloud.com/musicbyaden
+        //https://soundcloud.com/jurgance
+        //Music promoted by https://www.free-stock-music.com
+        //Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)
+        //https://creativecommons.org/licenses/by-nd/4.0/
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("memoryGame/beach.mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.15f);
+        backgroundMusic.play();
+
 
 
     }
@@ -141,12 +147,12 @@ public class ConstantineMemoryGame extends College {
             backgroundTexture.dispose();
             startGameTexture.dispose();
             closeTexture.dispose();
+            backgroundMusic.dispose();
 
             for (int x = 0; x<8;x++){
                 cardTextures.get(x).dispose();
             }
         }
-        //super.stopDisplaying();
     }
 
     @Override
@@ -193,7 +199,6 @@ public class ConstantineMemoryGame extends College {
         int numSeconds = countdownLength;
         @Override
         public void run(){
-            System.out.println(numSeconds);
             numSeconds -= 1;
             String filepath = "memoryGame/countdown-" + numSeconds + ".png";
             countdownTexture = new Texture(filepath);
@@ -202,7 +207,15 @@ public class ConstantineMemoryGame extends College {
             countdownSprite.setSize(countdownSprite.getWidth()/scaleRatio,countdownSprite.getHeight()/scaleRatio);
             countdownSprite.setPosition(camera.viewportWidth/2 - countdownSprite.getWidth()/2,(camera.viewportHeight/2 - countdownSprite.getHeight()/2 - 100));
 
+            if (numSeconds < 4 && numSeconds != 0){
+                // https://mixkit.co/free-sound-effects/beep/ "System beep buzzer fail"
+                Sound bleep = Gdx.audio.newSound(Gdx.files.internal("memoryGame/timer.wav"));
+                bleep.play();
+            }
             if (numSeconds == 0){
+                //https://www.freesfx.co.uk/sfx/air-horn "Air Horn Blast"
+                Sound horn = Gdx.audio.newSound(Gdx.files.internal("memoryGame/horn.mp3"));
+                horn.play();
                 hideCards();
                 countdown.cancel();
                 numSeconds = countdownLength;
@@ -224,7 +237,6 @@ public class ConstantineMemoryGame extends College {
 
     private void hideCards(){
         for (int x =0;x<8;x++){
-            System.out.println(x);
             String filepath = "memoryGame/question-mark.png";
             cardTextures.set(x,new Texture(filepath));
             cardSprites.get(x).setTexture(cardTextures.get(x));
@@ -243,36 +255,56 @@ public class ConstantineMemoryGame extends College {
 
         JFrame frame = new JFrame();
 
-        System.out.println("now asking");
-        //String digits = "";
-
         String digits = JOptionPane.showInputDialog("Enter the digits you have memorised:");
 
         Boolean win = false;
 
         if (digits != null && digits.equals(correctDigits)){
-            JOptionPane.showMessageDialog(frame,"Correct");
+            // https://mixkit.co/free-sound-effects/win/
+            Sound winSound = Gdx.audio.newSound(Gdx.files.internal("memoryGame/win.wav"));
+            winSound.play();
+
+            JOptionPane.showMessageDialog(frame,"Correct! You have defeated Constantine College!");
             win = true;
+            winSound.dispose();
+
             // Code to process correct input here
+
         } else {
-            JOptionPane.showMessageDialog(frame,"Incorrect");
+            // https://mixkit.co/free-sound-effects/lose/
+            Sound loseSound = Gdx.audio.newSound(Gdx.files.internal("memoryGame/lose.wav"));
+            loseSound.play();
+
+            getPlayer().setHealth(getPlayer().getHealth() - 1);
+
+            String resultMsg = "Incorrect!";
+            if (digits.isEmpty()){
+                resultMsg = "Incorrect! You didn't enter anything. The correct answer was " + correctDigits + "! Lose a heart";
+            } else {
+                resultMsg = "Incorrect! You entered " + digits + " but should have got " + correctDigits + "! Lose a heart";
+            }
+            JOptionPane.showMessageDialog(frame,resultMsg);
             win = false;
+            loseSound.dispose();
+
             // Code to process incorrect input here
         }
+
 
         inGame = false;
         // Show close button
         closeSprite.setAlpha(1);
 
+        // Show cards again
+        for (int x =0;x<8;x++){
+            String filepath = "memoryGame/card-" + digitsToMemorise[x] + ".png";
+            cardTextures.set(x,new Texture(filepath));
+            cardSprites.get(x).setTexture(cardTextures.get(x));
+        }
+
         return win;
 
-        // Show cards again
-        //for (int x =0;x<8;x++){
-            //System.out.println(x);
-            //String filepath = "memoryGame/card-" + digitsToMemorise[x] + ".png";
-            //cardTextures.set(x,new Texture(filepath));
-            //cardSprites.get(x).setTexture(cardTextures.get(x));
-        //}
+
 
     }
 
@@ -293,13 +325,15 @@ public class ConstantineMemoryGame extends College {
                     int mouseX = Gdx.graphics.getWidth() - Gdx.input.getX();
                     int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
+                    Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(getMainClass().getCamera());
+
                     float buttonX = buttons.get(i).getX();
                     float buttonY = buttons.get(i).getY();
                     float buttonW = buttons.get(i).getWidth();
                     float buttonH = buttons.get(i).getHeight();
 
                     // Start game button clicked, so start the game
-                    if (mouseX >= buttonX && mouseX <= (buttonX + buttonW) && mouseY >= buttonY && mouseY <= (buttonY + buttonH) && inGame == false) {
+                    if (scaledMouse.x >= buttonX && scaledMouse.x <= (buttonX + buttonW) && scaledMouse.y >= buttonY && scaledMouse.y <= (buttonY + buttonH) && inGame == false) {
 
                         if (gameFinished) {
                             // Close button pressed
@@ -307,6 +341,9 @@ public class ConstantineMemoryGame extends College {
                             getLevelManager().getMainClass().setCurrentScreen(prevScreen);
                         } else {
                             //Start game button pressed
+
+                            Sound start = Gdx.audio.newSound(Gdx.files.internal("memoryGame/go.wav"));
+                            start.play();
 
                             // Hide start game button whilst game is running
                             startGameSprite.setAlpha(0);
@@ -324,7 +361,6 @@ public class ConstantineMemoryGame extends College {
 
                             }
                             Timer.schedule(countdown, 1f, 1f);
-                            System.out.println(Arrays.toString(digitsToMemorise));
                         }
                     }
             }

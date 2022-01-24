@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.GameObjectHealth;
 import io.github.pirateducks.level.LevelManager;
@@ -102,8 +103,7 @@ public class Player extends GameObjectHealth {
                     !(manager.getMainClass().getCurrentScreen() instanceof MainLevel)) {
                 // Cannonballs can only be fired once every 2 seconds
                 if (timeFired > 1) {
-                    // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
-                    // inverse them before use
+                    // Gets mouse position and convert screen coordinates to world space
                     Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(camera);
 
                     // Center of boat sprite
@@ -111,10 +111,11 @@ public class Player extends GameObjectHealth {
                     float playerCenterY = y + height / 2;
                     // Fire a cannonball from boat center to mouse position
                     manager.addObject(new CannonBall(playerCenterX, playerCenterY, scaledMouse.x, scaledMouse.y, manager));
+
                     timeFired = 0;
                     Sound cannon = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
                     long id = cannon.play();
-                    cannon.setVolume(id, 0.06f);
+                    cannon.setVolume(id, 0.2f);
                 }
             }
         }

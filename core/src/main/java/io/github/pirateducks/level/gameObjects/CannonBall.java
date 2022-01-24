@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.LevelManager;
 
@@ -17,26 +18,26 @@ public class CannonBall extends GameObject {
     private final LevelManager manager;
     private final OrthographicCamera camera;
 
-    public CannonBall(float sourceX, float sourceY, double targetX, double targetY, LevelManager manager) {
+    public CannonBall(float sourceX, float sourceY, float targetX, float targetY, LevelManager manager) {
         super(100, 100);
 
         this.camera = manager.getCamera();
         this.manager = manager;
 
         // loading the texture
-        texture = new Texture("CannonBall.png");
-        sprite = new Sprite(texture);
+        this.texture = new Texture("CannonBall.png");
+        this.sprite = new Sprite(texture);
 
         // scales the sprite depending on window size multiplied by a constant
         float scaleRatio = ((float) texture.getWidth() / (float) manager.getCamera().viewportWidth) * 50f;
         setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
         sprite.setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
 
-        x = sourceX;
-        y = sourceY;
+        this.x = sourceX - (width / 2);
+        this.y = sourceY - (height / 2);
 
         // We use a triangle to calculate the new trajectory
-        angle = Math.atan2(targetY - y, targetX - x);
+        this.angle = Math.atan2(targetY - y, targetX - x);
     }
 
     @Override

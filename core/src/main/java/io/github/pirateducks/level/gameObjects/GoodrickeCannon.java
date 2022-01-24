@@ -35,6 +35,10 @@ public class GoodrickeCannon extends Cannon {
     @Override
     public void update(float delta) {
         super.update(delta);
+        // if the cannon is about to be disposed but has not been so sound can play, skip update
+        if(disposeTimer >= 0){
+            return;
+        }
         angle += rotationSpeed;
         untilNextShot -= delta;
         Random rnd = new Random();

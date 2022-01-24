@@ -1,5 +1,7 @@
 package io.github.pirateducks.level.gameObjects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,6 +22,8 @@ public abstract class Cannon extends GameObjectHealth {
     protected float angle = 0;
     private final LevelManager manager;
 
+    private Sound explode;
+
     public Cannon(float width, float height, float x, float y, LevelManager manager) {
 
         super(width, height);
@@ -32,6 +36,8 @@ public abstract class Cannon extends GameObjectHealth {
         sprite = new Sprite(texture);
         sprite.setSize(width, height);
         healthIndicator = new HealthIndicator(this, x + 30, y + 85);
+
+        explode = Gdx.audio.newSound(Gdx.files.internal("explode.mp3"));
     }
 
     public void setAngle(float angle) {
@@ -49,10 +55,20 @@ public abstract class Cannon extends GameObjectHealth {
      */
     @Override
     public void render(SpriteBatch batch) {
+        // if the cannon has only not been disposed as the explosion sound is playing, do not render it
+        if(disposeTimer >= 0){
+            return;
+        }
+
         batch.draw(texture, x, y, width/2, height/2, width, height, 1, 1, angle, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
         healthIndicator.render(batch);
 
     }
+
+    /**
+     * timer until the cannon should be disposed
+     */
+    protected int disposeTimer = -1;
 
     /**
      * this method is called to update the positional information of the GameObject
@@ -61,7 +77,16 @@ public abstract class Cannon extends GameObjectHealth {
      */
     @Override
     public void update(float delta) {
+
         healthIndicator.update(delta);
+        if(disposeTimer > 0){
+            disposeTimer--;
+            return;
+        } else if(disposeTimer == 0){
+            dispose();
+            return;
+        }
+
     }
 
     public Sprite getSprite() {return sprite;}
@@ -83,7 +108,8 @@ public abstract class Cannon extends GameObjectHealth {
     public void setHealth(int health) {
         this.health = health;
         if (health <= 0) {
-            dispose();
+            explode.play(0.3f);
+            disposeTimer = 100;
         }
     }
 
@@ -112,6 +138,7 @@ public abstract class Cannon extends GameObjectHealth {
      */
     @Override
     public void dispose() {
+        explode.dispose();
         texture.dispose();
     }
 

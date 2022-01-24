@@ -3,6 +3,7 @@ package io.github.pirateducks.level.college;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,6 +29,9 @@ public class Goodricke extends College { // Projectiles
     private float playerY = 0;
     private boolean save = false;
     public Music sfx_ocean;
+    public Music gameMusic;
+    public Sound explode;
+    public Sound damage;
 
     public Goodricke(MainLevel level, OrthographicCamera camera) {
         super(level);
@@ -38,6 +42,27 @@ public class Goodricke extends College { // Projectiles
         sfx_ocean.setLooping(true);
         sfx_ocean.setVolume(0.005f);
         sfx_ocean.play();
+
+        /*
+         * Music: https://www.bensound.com
+         * Name: Epic | Link https://www.bensound.com/royalty-free-music/track/epic
+         * Licence: You are free to use this music in your multimedia project (online videos(YouTube,...), websites, animations, etc.)
+         * as long as you credit Bensound.com, For example: "Music: www.bensound.com" or "Royalty Free Music from Bensound"
+         */
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("goodricke/bensound-epic.mp3"));
+        gameMusic.setLooping(true);
+        gameMusic.setVolume(0.15f);
+        gameMusic.play();
+
+        /*
+         * Name: Squish Footstep Watery Grass 3
+         * Source: https://www.dreamstime.com/stock-music-sound-effect/squish.html
+         * Licence: Royalty free
+         */
+        explode = Gdx.audio.newSound(Gdx.files.internal("goodricke/fruit-destroy.mp3"));
+
+//        damage = Gdx.audio.newSound(Gdx.files.internal("goodricke/damage.mp3"));
+
     }
 
     @Override
@@ -110,6 +135,7 @@ public class Goodricke extends College { // Projectiles
                         // despawning the cannonball and the fruit
                         f.explode();
                         ((CannonBall) object).collide();
+                        explode.play(0.5f);
                         continue; // cannot both collide with fruit and cannon in the same collision
                     }
                 }
@@ -177,6 +203,7 @@ public class Goodricke extends College { // Projectiles
             }
         }
         sfx_ocean.dispose();
+        gameMusic.dispose();
     }
 
     public void removeCannon(GoodrickeCannon cannon) {

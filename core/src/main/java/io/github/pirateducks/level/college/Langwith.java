@@ -102,7 +102,7 @@ public class Langwith extends College {
 
                 for (LangwithCannon c : cannons) {
                     // Check what fired the cannonball to stop instant collision with itself
-                    if (collision.overlaps(c.getCollision())) {
+                    if (collision.overlaps(c.getCollision()) && c.getHealth() != 0) {
                         // despawning the cannonball and lowering the cannons health
                         c.setHealth(c.getHealth()-1);
                         ((CannonBall) object).collide();

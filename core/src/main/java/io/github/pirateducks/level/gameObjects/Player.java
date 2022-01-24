@@ -103,19 +103,7 @@ public class Player extends GameObjectHealth {
                     !(manager.getMainClass().getCurrentScreen() instanceof MainLevel)) {
                 // Cannonballs can only be fired once every 2 seconds
                 if (timeFired > 1) {
-
-                    /* // Gets mouse position and convert screen coordinates to world space
-                    Vector3 mousePos = camera.unproject(new Vector3().set(Gdx.input.getX(),Gdx.input.getY(),0));
-                    System.out.println(mousePos.x + "," + mousePos.y);
-                    // Center of player sprite
-                    float playerCenterX = x + width / 2;
-                    float playerCenterY = y + height / 2;
-                    Vector2 direction = new Vector2(mousePos.x - playerCenterX, mousePos.y - playerCenterY).nor();
-                    manager.addObject(new CannonBall(playerCenterX, playerCenterY, manager, direction)); */
-
-
-                    // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
-                    // inverse them before use
+                    // Gets mouse position and convert screen coordinates to world space
                     Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(camera);
 
                     // Center of boat sprite
@@ -127,7 +115,7 @@ public class Player extends GameObjectHealth {
                     timeFired = 0;
                     Sound cannon = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
                     long id = cannon.play();
-                    cannon.setVolume(id, 0.06f);
+                    cannon.setVolume(id, 0.2f);
                 }
             }
         }

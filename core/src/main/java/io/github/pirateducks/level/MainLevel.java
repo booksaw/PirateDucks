@@ -37,7 +37,7 @@ public class MainLevel extends LevelManager {
         // Sets the background music
         music = Gdx.audio.newMusic(Gdx.files.internal("Main_Theme.ogg"));
         music.setLooping(true);
-        music.setVolume(0.03f);
+        music.setVolume(0.15f);
         music.play();
 
         // Sets the ocean sounds

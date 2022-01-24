@@ -59,7 +59,7 @@ public class LangwithCannon extends Cannon {
         shotsFired++;
         langwith.spawnCannonball(x + width / 2, y, getAngle());
         long id = cannonFireSound.play();
-        cannonFireSound.setVolume(id, 0.01f);
+        cannonFireSound.setVolume(id, 0.15f);
     }
 
     /**

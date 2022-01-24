@@ -17,9 +17,8 @@ public class CannonBall extends GameObject {
     private double angle;
     private final LevelManager manager;
     private final OrthographicCamera camera;
-    private final Vector2 direction;
 
-    public CannonBall(float sourceX, float sourceY, LevelManager manager, Vector2 direction) {
+    public CannonBall(float sourceX, float sourceY, float targetX, float targetY, LevelManager manager) {
         super(100, 100);
 
         this.camera = manager.getCamera();
@@ -30,22 +29,15 @@ public class CannonBall extends GameObject {
         this.sprite = new Sprite(texture);
 
         // scales the sprite depending on window size multiplied by a constant
-
-        /* float scaleRatio = ((float) texture.getWidth() / (float) Gdx.graphics.getWidth()) * 50f;
-        SetSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
-        this.sprite.setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio); */
-
         float scaleRatio = ((float) texture.getWidth() / (float) manager.getCamera().viewportWidth) * 50f;
         setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
         sprite.setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
 
-
-        this.x = sourceX;
-        this.y = sourceY;
+        this.x = sourceX - (width / 2);
+        this.y = sourceY - (height / 2);
 
         // We use a triangle to calculate the new trajectory
-        //this.angle = Math.atan2(targetY - y, targetX - x);
-        this.direction = direction;
+        this.angle = Math.atan2(targetY - y, targetX - x);
     }
 
     @Override
@@ -58,10 +50,8 @@ public class CannonBall extends GameObject {
     @Override
     public void update(float delta) {
         float velocity = 200 * delta;
-        //x += Math.cos(angle) * velocity;
-        //y += Math.sin(angle) * velocity;
-        x += direction.x * velocity;
-        y += direction.y * velocity;
+        x += Math.cos(angle) * velocity;
+        y += Math.sin(angle) * velocity;
 
         // limiting x
         if (x <= -width / 2 || x >= camera.viewportWidth - width / 2) {

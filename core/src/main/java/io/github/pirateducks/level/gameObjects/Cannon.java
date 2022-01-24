@@ -108,8 +108,10 @@ public abstract class Cannon extends GameObjectHealth {
     public void setHealth(int health) {
         this.health = health;
         if (health <= 0) {
-            explode.play(0.3f);
+            explode.play(0.4f);
             disposeTimer = 100;
+        } else{
+            explode.play(0.2f);
         }
     }
 

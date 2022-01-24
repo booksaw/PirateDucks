@@ -31,7 +31,6 @@ public class Goodricke extends College { // Projectiles
     public Music sfx_ocean;
     public Music gameMusic;
     public Sound explode;
-    public Sound damage;
 
     public Goodricke(MainLevel level, OrthographicCamera camera) {
         super(level);
@@ -60,8 +59,6 @@ public class Goodricke extends College { // Projectiles
          * Licence: Royalty free
          */
         explode = Gdx.audio.newSound(Gdx.files.internal("goodricke/fruit-destroy.mp3"));
-
-//        damage = Gdx.audio.newSound(Gdx.files.internal("goodricke/damage.mp3"));
 
     }
 
@@ -159,6 +156,8 @@ public class Goodricke extends College { // Projectiles
                 f.explode();
                 // damaging the player
                 getPlayer().setHealth(getPlayer().getHealth() - 2);
+
+                explode.play(0.5f);
             }
         }
     }

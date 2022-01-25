@@ -6,13 +6,24 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.pirateducks.PirateDucks;
+import io.github.pirateducks.level.MainLevel;
 
 public class CollegeDefeatedScreen implements Screen {
 
     private final Array<Sprite> buttons = new Array<>();
     private Sprite gameOverSprite;
+
+    private final OrthographicCamera camera;
+    private final MainLevel mainLevel;
+
+    public CollegeDefeatedScreen(MainLevel mainLevel, OrthographicCamera camera){
+        this.camera = camera;
+        this.mainLevel = mainLevel;
+    }
 
     /**
      * Called to draw the screen
@@ -46,20 +57,15 @@ public class CollegeDefeatedScreen implements Screen {
 
                 // Mouse position coordinates start in top left, whereas game coordinates start in bottom left
                 // inverse them before use
-                int x = Gdx.graphics.getWidth() - Gdx.input.getX();
-                int y = Gdx.graphics.getHeight() - Gdx.input.getY();
+                Vector2 scaledInput = PirateDucks.getScaledMouseLocation(camera);
+
                 // Check if mouse position is inside button when clicked
-                if (x >= button.getX() && x <= button.getX() + button.getWidth() &&
-                        y >= button.getY() && y <= button.getY() + button.getHeight())
+                if (scaledInput.x >= button.getX() && scaledInput.x <= button.getX() + button.getWidth() &&
+                        scaledInput.y >= button.getY() && scaledInput.y <= button.getY() + button.getHeight())
                 {
                     if (i == 0) {
-                        System.out.println("Menu Button Pressed");
+                        mainLevel.getMainClass().setCurrentScreen(mainLevel);
                         buttonPressed = true;
-                    }
-                    else if (i == 1 && !buttonPressed) {
-                        // Exit the application
-                        Gdx.app.exit();
-                        System.exit(0);
                     }
                 }
             }
@@ -71,7 +77,7 @@ public class CollegeDefeatedScreen implements Screen {
      */
     @Override
     public void startDisplaying(OrthographicCamera camera) {
-        
+
         // Creates a sprite with the Game over title texture
         Texture texture = new Texture("CollegeDefeatedScreen.png");
         gameOverSprite = new Sprite(texture);
@@ -92,21 +98,13 @@ public class CollegeDefeatedScreen implements Screen {
         // Create sprite from texture
         Sprite button = new Sprite(texture);
         // scales the sprite based on window size multiplied by a constant since textures will be different size images
-        float scaleRatio = (button.getWidth() / Gdx.graphics.getWidth()) * 3.5f;
+        float scaleRatio = (button.getWidth() / camera.viewportWidth) * 3.5f;
         button.setSize(button.getWidth() / scaleRatio, button.getHeight() / scaleRatio);
         // Position the buttons with their x centered and under each other using an offset that's scaled with the window size
         int offset = -20;
         button.setPosition(camera.viewportWidth/2 - button.getWidth()/2, (camera.viewportHeight/2 - button.getHeight()/2) + (offset / scaleRatio));
         buttons.add(button);
 
-        // Add a quit button
-        texture = new Texture("gameOverScreen/buttons/GameOverQuitButton.png");
-        button = new Sprite(texture);
-        scaleRatio = (button.getWidth() / camera.viewportWidth) * 9f;
-        offset -= 60;
-        button.setSize(button.getWidth() / scaleRatio, button.getHeight() / scaleRatio);
-        button.setPosition(camera.viewportWidth/2 - button.getWidth()/2, (camera.viewportHeight/2 - button.getHeight()/2) + (offset / scaleRatio));
-        buttons.add(button);
     }
 
     /**

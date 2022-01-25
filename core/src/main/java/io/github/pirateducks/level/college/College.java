@@ -46,7 +46,7 @@ public abstract class College extends LevelManager implements Health {
     private void setDefeated() {
         getMainClass().points += 1000;
         defeated = true;
-        getMainClass().setCurrentScreen(new CollegeDefeatedScreen());
+        getMainClass().setCurrentScreen(new CollegeDefeatedScreen(mainLevel, getCamera()));
     }
 
     /**

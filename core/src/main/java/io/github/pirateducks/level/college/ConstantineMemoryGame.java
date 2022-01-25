@@ -46,6 +46,7 @@ public class ConstantineMemoryGame extends College {
     private int[] digitsToMemorise;
 
     private boolean inGame = false;
+    private boolean gameFinished = false;
     private boolean save = false;
 
     private final Array<Sprite> buttons = new Array<>();
@@ -73,6 +74,7 @@ public class ConstantineMemoryGame extends College {
     @Override
     public void setup(OrthographicCamera camera) {
         inGame = false;
+        gameFinished = false;
 
         // Display game header
         headerTexture = new Texture("memoryGame/header.png");
@@ -218,7 +220,8 @@ public class ConstantineMemoryGame extends College {
                 countdown.cancel();
                 numSeconds = countdownLength;
                 inGame = false;
-                setHealth(0);
+                gameFinished = true;
+
 
                 // Delay asking user for digits, as we need to make sure cards are hidden first.
                 ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -265,8 +268,6 @@ public class ConstantineMemoryGame extends College {
             JOptionPane.showMessageDialog(frame, "Correct! You have defeated Constantine College!");
             win = true;
             winSound.dispose();
-
-            // Code to process correct input here
 
         } else {
             // https://mixkit.co/free-sound-effects/lose/
@@ -319,8 +320,6 @@ public class ConstantineMemoryGame extends College {
         // Check if buttons clicked
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             for (int i = 0; i < buttons.size; i++) {
-                int mouseX = Gdx.graphics.getWidth() - Gdx.input.getX();
-                int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
                 Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(getMainClass().getCamera());
 
@@ -332,29 +331,31 @@ public class ConstantineMemoryGame extends College {
                 // Start game button clicked, so start the game
                 if (scaledMouse.x >= buttonX && scaledMouse.x <= (buttonX + buttonW) && scaledMouse.y >= buttonY && scaledMouse.y <= (buttonY + buttonH) && inGame == false) {
 
+                    if (gameFinished) {
+                        setHealth(0);
+                    } else {
+                        //Start game button pressed
 
-                    //Start game button pressed
+                        Sound start = Gdx.audio.newSound(Gdx.files.internal("memoryGame/go.wav"));
+                        start.play();
 
-                    Sound start = Gdx.audio.newSound(Gdx.files.internal("memoryGame/go.wav"));
-                    start.play();
+                        // Hide start game button whilst game is running
+                        startGameSprite.setAlpha(0);
 
-                    // Hide start game button whilst game is running
-                    startGameSprite.setAlpha(0);
+                        inGame = true;
+                        digitsToMemorise = new int[8];
+                        Random rand = new Random();
+                        for (int x = 0; x < 8; x++) {
+                            // Min value 0, max value 9
+                            digitsToMemorise[x] = rand.nextInt(10);
 
-                    inGame = true;
-                    digitsToMemorise = new int[8];
-                    Random rand = new Random();
-                    for (int x = 0; x < 8; x++) {
-                        // Min value 0, max value 9
-                        digitsToMemorise[x] = rand.nextInt(10);
+                            String filepath = "memoryGame/card-" + digitsToMemorise[x] + ".png";
+                            cardTextures.set(x, new Texture(filepath));
+                            cardSprites.get(x).setTexture(cardTextures.get(x));
 
-                        String filepath = "memoryGame/card-" + digitsToMemorise[x] + ".png";
-                        cardTextures.set(x, new Texture(filepath));
-                        cardSprites.get(x).setTexture(cardTextures.get(x));
-
+                        }
+                        Timer.schedule(countdown, 1f, 1f);
                     }
-                    Timer.schedule(countdown, 1f, 1f);
-
                 }
             }
         }

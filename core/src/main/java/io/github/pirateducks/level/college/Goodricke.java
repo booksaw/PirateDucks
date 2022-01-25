@@ -117,7 +117,6 @@ public class Goodricke extends College { // Projectiles
         // Return to main level if college is defeated
         if (isDefeated()) {
             save = false;
-            getLevelManager().getMainClass().setCurrentScreen(getLevelManager());
         }
 
         // checking if any cannonballs are hitting any fruit or cannons

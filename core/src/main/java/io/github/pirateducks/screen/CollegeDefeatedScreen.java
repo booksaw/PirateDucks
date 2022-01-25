@@ -71,6 +71,7 @@ public class CollegeDefeatedScreen implements Screen {
      */
     @Override
     public void startDisplaying(OrthographicCamera camera) {
+        
         // Creates a sprite with the Game over title texture
         Texture texture = new Texture("CollegeDefeatedScreen.png");
         gameOverSprite = new Sprite(texture);

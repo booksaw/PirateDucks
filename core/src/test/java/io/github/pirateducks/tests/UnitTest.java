@@ -77,10 +77,6 @@ public class UnitTest {
         assertTrue("This will pass if it has the GameOverQuitButton loaded (gameOverScreen)", Gdx.files.internal("../core/assets/gameOverScreen/buttons/GameOverQuitButton.png").exists());
         assertTrue("This will pass if it has the GameOver loaded (gameOverScreen)", Gdx.files.internal("../core/assets/gameOverScreen/GameOver.png").exists());
     }
-
-    @Test
-    public void testGetTrue() {
-        assertTrue(PirateDucks.getTrue());
-    }
+    
 
 }

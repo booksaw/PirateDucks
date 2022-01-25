@@ -16,9 +16,15 @@ import static org.mockito.Mockito.when;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * This class is used to target the class PirateDucks with tests
+ */
 @RunWith(MyGdxGameTest.class)
 public class PirateDucksTest {
 
+    /**
+     * Setting up before running this test class
+     */
     @BeforeClass
     public static void init() {
         // Use Mockito to mock the OpenGL methods since we are running headlessly
@@ -31,6 +37,9 @@ public class PirateDucksTest {
         when(Gdx.graphics.getHeight()).thenReturn(500);
     }
 
+    /**
+     * Used to test if the PirateDucks.getScaledLocaiton provides correct results
+     */
     @Test
     public void testScaling() {
 

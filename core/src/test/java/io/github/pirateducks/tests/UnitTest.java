@@ -1,10 +1,14 @@
 package io.github.pirateducks.tests;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import io.github.pirateducks.MyGdxGameTest;
 import io.github.pirateducks.PirateDucks;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import javax.sound.midi.SysexMessage;
 
 import static org.junit.Assert.assertTrue;
 
@@ -13,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 public class UnitTest {
 
     /**
-     * @Throws AssertionError and raises what Asset isn't loaded
+     * Used to check if all required resources exist in the correct locations
      */
     @Test
     public void AssetsExists() {
@@ -76,11 +80,6 @@ public class UnitTest {
         assertTrue("This will pass if it has the GameOverMenuButton loaded (gameOverScreen)", Gdx.files.internal("../core/assets/gameOverScreen/buttons/GameOverMenuButton.png").exists());
         assertTrue("This will pass if it has the GameOverQuitButton loaded (gameOverScreen)", Gdx.files.internal("../core/assets/gameOverScreen/buttons/GameOverQuitButton.png").exists());
         assertTrue("This will pass if it has the GameOver loaded (gameOverScreen)", Gdx.files.internal("../core/assets/gameOverScreen/GameOver.png").exists());
-    }
-
-    @Test
-    public void testGetTrue() {
-        assertTrue(PirateDucks.getTrue());
     }
 
 }

@@ -17,6 +17,7 @@ public class MainLevel extends LevelManager {
 
     public Music music;
     public Music sfx_ocean;
+    public boolean constantineDefeated = false, langwithDefeated = false, goodrikeDefeated = false;
 
     public MainLevel(PirateDucks mainClass) {
         super(mainClass);
@@ -53,11 +54,11 @@ public class MainLevel extends LevelManager {
 
         Rectangle playerCollision = getPlayer().getCollision();
 
-        if (playerCollision.overlaps(constantine)) {
+        if (playerCollision.overlaps(constantine) && !constantineDefeated) {
             font.draw(batch, "Press \"E\" to fight Constantine College", 250, camera.viewportHeight - 10);
-        } else if (playerCollision.overlaps(goodricke)) {
+        } else if (playerCollision.overlaps(goodricke) && !goodrikeDefeated) {
             font.draw(batch, "Press \"E\" to fight Goodricke College", 250, camera.viewportHeight - 10);
-        } else if (playerCollision.overlaps(langwith)) {
+        } else if (playerCollision.overlaps(langwith) && !langwithDefeated) {
             font.draw(batch, "Press \"E\" to fight Langwith College", 250, camera.viewportHeight - 10);
         }
 
@@ -74,11 +75,11 @@ public class MainLevel extends LevelManager {
         Rectangle playerCollision = getPlayer().getCollision();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-            if (playerCollision.overlaps(constantine)) {
+            if (playerCollision.overlaps(constantine) && !constantineDefeated) {
                 getMainClass().setCurrentScreen(new ConstantineMemoryGame(this, getCamera(), this));
-            } else if (playerCollision.overlaps(goodricke)) {
+            } else if (playerCollision.overlaps(goodricke) && !goodrikeDefeated) {
                 getMainClass().setCurrentScreen(new Goodricke(this, getCamera()));
-            } else if (playerCollision.overlaps(langwith)) {
+            } else if (playerCollision.overlaps(langwith) && !langwithDefeated) {
                 getMainClass().setCurrentScreen(new Langwith(this, getCamera()));
             }
         }
@@ -88,5 +89,29 @@ public class MainLevel extends LevelManager {
     public void stopDisplaying() {
         music.dispose();
         sfx_ocean.dispose();
+    }
+
+    public void setConstantineDefeated(boolean constantineDefeated) {
+        this.constantineDefeated = constantineDefeated;
+    }
+
+    public boolean isConstantineDefeated() {
+        return constantineDefeated;
+    }
+
+    public void setGoodrikeDefeated(boolean goodrikeDefeated) {
+        this.goodrikeDefeated = goodrikeDefeated;
+    }
+
+    public boolean isGoodrikeDefeated() {
+        return goodrikeDefeated;
+    }
+
+    public void setLangwithDefeated(boolean langwithDefeated) {
+        this.langwithDefeated = langwithDefeated;
+    }
+
+    public boolean isLangwithDefeated() {
+        return langwithDefeated;
     }
 }

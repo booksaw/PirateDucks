@@ -47,6 +47,14 @@ public abstract class College extends LevelManager implements Health {
         getMainClass().points += 1000;
         defeated = true;
         getMainClass().setCurrentScreen(new CollegeDefeatedScreen(mainLevel, getCamera()));
+
+        if(this instanceof Goodricke){
+            getLevelManager().setGoodrikeDefeated(true);
+        } else if(this instanceof ConstantineMemoryGame){
+            getLevelManager().setConstantineDefeated(true);
+        } else if(this instanceof Langwith){
+            getLevelManager().setLangwithDefeated(true);
+        }
     }
 
     /**

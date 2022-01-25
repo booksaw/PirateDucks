@@ -94,8 +94,6 @@ public class Langwith extends College {
         // Return to main level if college is defeated
         if (isDefeated()) {
             save = false;
-            // Load main level
-            getLevelManager().getMainClass().setCurrentScreen(mainLevel);
         }
 
         // Loop through objects and check for collision

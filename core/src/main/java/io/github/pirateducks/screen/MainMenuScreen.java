@@ -90,8 +90,6 @@ public class MainMenuScreen implements Screen {
                         this.stopDisplaying();
 
                     } else if (i == 1) {
-                        buttonPressed = true;
-                    } else if (i == 2) {
                         Gdx.app.exit();
                     }
                 }

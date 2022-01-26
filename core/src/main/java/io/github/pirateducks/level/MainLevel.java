@@ -14,6 +14,7 @@ import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.college.ConstantineMemoryGame;
 import io.github.pirateducks.level.college.Goodricke;
 import io.github.pirateducks.level.college.Langwith;
+import io.github.pirateducks.screen.GameCompleteScreen;
 
 public class MainLevel extends LevelManager {
 
@@ -99,6 +100,7 @@ public class MainLevel extends LevelManager {
                 getMainClass().setCurrentScreen(new Langwith(this, getCamera()));
             }
         }
+
         // Check if left mouse button is clicked
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             // Scale mouse position
@@ -123,6 +125,10 @@ public class MainLevel extends LevelManager {
                     musicVolume = true;
                 }
             }
+        }
+
+        if (goodrikeDefeated && constantineDefeated && langwithDefeated){
+            getMainClass().setCurrentScreen(new GameCompleteScreen(getMainClass(),getCamera()));
         }
     }
 

@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.college.ConstantineMemoryGame;
 import io.github.pirateducks.level.college.Goodricke;
@@ -20,7 +18,7 @@ public class MainLevel extends LevelManager {
 
     public Music music;
     public Music sfx_ocean;
-    public boolean constantineDefeated = false, langwithDefeated = false, goodrikeDefeated = false;
+    public boolean constantineDefeated = false, langwithDefeated = false, goodrickeDefeated = false;
 
     public MainLevel(PirateDucks mainClass) {
         super(mainClass);
@@ -63,7 +61,7 @@ public class MainLevel extends LevelManager {
 
         if (playerCollision.overlaps(constantine) && !constantineDefeated) {
             font.draw(batch, "Press \"E\" to fight Constantine College", 250, camera.viewportHeight - 10);
-        } else if (playerCollision.overlaps(goodricke) && !goodrikeDefeated) {
+        } else if (playerCollision.overlaps(goodricke) && !goodrickeDefeated) {
             font.draw(batch, "Press \"E\" to fight Goodricke College", 250, camera.viewportHeight - 10);
         } else if (playerCollision.overlaps(langwith) && !langwithDefeated) {
             font.draw(batch, "Press \"E\" to fight Langwith College", 250, camera.viewportHeight - 10);
@@ -84,40 +82,14 @@ public class MainLevel extends LevelManager {
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             if (playerCollision.overlaps(constantine) && !constantineDefeated) {
                 getMainClass().setCurrentScreen(new ConstantineMemoryGame(this, getCamera(), this));
-            } else if (playerCollision.overlaps(goodricke) && !goodrikeDefeated) {
+            } else if (playerCollision.overlaps(goodricke) && !goodrickeDefeated) {
                 getMainClass().setCurrentScreen(new Goodricke(this, getCamera()));
             } else if (playerCollision.overlaps(langwith) && !langwithDefeated) {
                 getMainClass().setCurrentScreen(new Langwith(this, getCamera()));
             }
         }
 
-        // Check if left mouse button is clicked
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            // Scale mouse position
-            Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(getCamera());
-
-            // Set button as mute button
-            Sprite button = muteButtonSprite;
-
-            // Find button positions
-            float buttonX = button.getX();
-            float buttonY = button.getY();
-            float buttonW = button.getWidth();
-            float buttonH = button.getHeight();
-
-            // Check if mouse is within the button positions
-            if (scaledMouse.x >= buttonX && scaledMouse.x <= (buttonX + buttonW) && scaledMouse.y >= buttonY && scaledMouse.y <= (buttonY + buttonH)) {
-                if (musicVolume) {
-                    music.setVolume(0);
-                    musicVolume = false;
-                } else {
-                    music.setVolume(0.15f);
-                    musicVolume = true;
-                }
-            }
-        }
-
-        if (goodrikeDefeated && constantineDefeated && langwithDefeated){
+        if (goodrickeDefeated && constantineDefeated && langwithDefeated){
           getMainClass().setCurrentScreen(new GameCompleteScreen(getMainClass(),getCamera()));
         }
     }
@@ -136,12 +108,12 @@ public class MainLevel extends LevelManager {
         return constantineDefeated;
     }
 
-    public void setGoodrikeDefeated(boolean goodrikeDefeated) {
-        this.goodrikeDefeated = goodrikeDefeated;
+    public void setGoodrickeDefeated(boolean goodrickeDefeated) {
+        this.goodrickeDefeated = goodrickeDefeated;
     }
 
-    public boolean isGoodrikeDefeated() {
-        return goodrikeDefeated;
+    public boolean isGoodrickeDefeated() {
+        return goodrickeDefeated;
     }
 
     public void setLangwithDefeated(boolean langwithDefeated) {

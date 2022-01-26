@@ -101,10 +101,6 @@ public class MainLevel extends LevelManager {
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.T)){
-            getMainClass().setCurrentScreen(new GameCompleteScreen(getMainClass(),getCamera()));
-        }
-
         // Check if left mouse button is clicked
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             // Scale mouse position

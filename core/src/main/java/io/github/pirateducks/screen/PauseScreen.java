@@ -91,7 +91,7 @@ public class PauseScreen implements Screen  {
 
 
                     } else if (i == 1){
-                        Gdx.app.exit();
+                        mainClass.setCurrentScreen(new MainMenuScreen(mainClass));
                     }
                 }
             }

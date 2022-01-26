@@ -6,10 +6,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
+import io.github.pirateducks.level.LevelManager;
+import io.github.pirateducks.level.MainLevel;
 
 
 public class PauseScreen implements Screen  {
@@ -30,6 +33,10 @@ public class PauseScreen implements Screen  {
 
     private Texture backgroundTexture;
     private Sprite backgroundSprite;
+
+    private Texture muteButtonTextureOn;
+    private Texture muteButtonTextureOff;
+    private Sprite muteButtonSprite;
 
     public PauseScreen(PirateDucks mainClass, Screen prevScreen){
         this.mainClass = mainClass;
@@ -92,6 +99,18 @@ public class PauseScreen implements Screen  {
 
                     } else if (i == 1){
                         Gdx.app.exit();
+                    } else if (i == 2){
+                        if (mainClass.musicOn) {
+                            //music.setVolume(0);
+                            mainClass.musicOn = false;
+                            System.out.println("Music Off");
+                            muteButtonSprite.setTexture(muteButtonTextureOff);
+                        } else {
+                            //music.setVolume(0.15f);
+                            mainClass.musicOn = true;
+                            System.out.println("Music On");
+                            muteButtonSprite.setTexture(muteButtonTextureOn);
+                        }
                     }
                 }
             }
@@ -143,6 +162,22 @@ public class PauseScreen implements Screen  {
         offset -= 20;
         quitButtonSprite.setPosition(camera.viewportWidth/2 - quitButtonSprite.getWidth()/2,(camera.viewportHeight/2-quitButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(quitButtonSprite);
+
+        // Mute music button
+        // Creates two textures, one for music on, one for music off
+        muteButtonTextureOn = new Texture("pauseScreen/music-on.png");
+        muteButtonTextureOff = new Texture("pauseScreen/music-off.png");
+
+        // Sets texture based on whether the music is on/off
+        if (mainClass.musicOn){
+            muteButtonSprite = new Sprite(muteButtonTextureOn);
+        } else {
+            muteButtonSprite = new Sprite(muteButtonTextureOff);
+        }
+
+        muteButtonSprite.setSize((muteButtonSprite.getWidth() / scaleRatio) / 5, (muteButtonSprite.getHeight() / scaleRatio) / 5);
+        muteButtonSprite.setPosition(camera.viewportWidth / 2 - muteButtonSprite.getWidth() / 2 + 400, (camera.viewportHeight / 2 - muteButtonSprite.getHeight() / 2) * 2.2f - 45);
+        buttons.add(muteButtonSprite);
     }
 
     private float buttonScaleRatio(Sprite button, OrthographicCamera camera){
@@ -158,6 +193,8 @@ public class PauseScreen implements Screen  {
     public void stopDisplaying(){
         continueButtonTexture.dispose();
         quitButtonTexture.dispose();
+        muteButtonTextureOn.dispose();
+        muteButtonTextureOff.dispose();
     }
 
 }

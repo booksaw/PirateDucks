@@ -22,11 +22,6 @@ public class MainLevel extends LevelManager {
     public Music sfx_ocean;
     public boolean constantineDefeated = false, langwithDefeated = false, goodrikeDefeated = false;
 
-    private Texture muteButtonTexture;
-    private Sprite muteButtonSprite;
-    private float scaleRatio;
-    private Boolean musicVolume = true;
-
     public MainLevel(PirateDucks mainClass) {
         super(mainClass);
     }
@@ -46,7 +41,11 @@ public class MainLevel extends LevelManager {
         // Sets the background music
         music = Gdx.audio.newMusic(Gdx.files.internal("Main_Theme.ogg"));
         music.setLooping(true);
-        music.setVolume(0.15f);
+        if (getMainClass().musicOn) {
+            music.setVolume(0.15f);
+        } else {
+            music.setVolume(0);
+        }
         music.play();
 
         // Sets the ocean sounds
@@ -54,14 +53,6 @@ public class MainLevel extends LevelManager {
         sfx_ocean.setLooping(true);
         sfx_ocean.setVolume(0.005f);
         sfx_ocean.play();
-
-        // Mute button
-        muteButtonTexture = new Texture("music-on.png");
-        muteButtonSprite = new Sprite(muteButtonTexture);
-
-        scaleRatio = buttonScaleRatio(muteButtonSprite, camera);
-        muteButtonSprite.setSize((muteButtonSprite.getWidth() / scaleRatio) / 5, (muteButtonSprite.getHeight() / scaleRatio) / 5);
-        muteButtonSprite.setPosition(camera.viewportWidth / 2 - muteButtonSprite.getWidth() / 2 + 400, (camera.viewportHeight / 2 - muteButtonSprite.getHeight() / 2) * 2.2f - 45);
     }
 
     @Override
@@ -78,7 +69,6 @@ public class MainLevel extends LevelManager {
             font.draw(batch, "Press \"E\" to fight Langwith College", 250, camera.viewportHeight - 10);
         }
 
-        muteButtonSprite.draw(batch);
     }
 
     private final Rectangle langwith = new Rectangle(25, 40, 200, 250);
@@ -128,7 +118,7 @@ public class MainLevel extends LevelManager {
         }
 
         if (goodrikeDefeated && constantineDefeated && langwithDefeated){
-            getMainClass().setCurrentScreen(new GameCompleteScreen(getMainClass(),getCamera()));
+          getMainClass().setCurrentScreen(new GameCompleteScreen(getMainClass(),getCamera()));
         }
     }
 
@@ -136,7 +126,6 @@ public class MainLevel extends LevelManager {
     public void stopDisplaying() {
         music.dispose();
         sfx_ocean.dispose();
-        muteButtonTexture.dispose();
     }
 
     public void setConstantineDefeated(boolean constantineDefeated) {
@@ -163,8 +152,4 @@ public class MainLevel extends LevelManager {
         return langwithDefeated;
     }
 
-    private float buttonScaleRatio(Sprite button, OrthographicCamera camera) {
-        float scaleRatio = (button.getWidth() / camera.viewportWidth) * 3.5f;
-        return scaleRatio;
-    }
 }

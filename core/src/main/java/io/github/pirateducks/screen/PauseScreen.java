@@ -98,7 +98,7 @@ public class PauseScreen implements Screen  {
 
 
                     } else if (i == 1){
-                        Gdx.app.exit();
+                        mainClass.setCurrentScreen(new MainMenuScreen(mainClass));
                     } else if (i == 2){
                         if (mainClass.musicOn) {
                             //music.setVolume(0);
@@ -111,6 +111,7 @@ public class PauseScreen implements Screen  {
                             System.out.println("Music On");
                             muteButtonSprite.setTexture(muteButtonTextureOn);
                         }
+
                     }
                 }
             }

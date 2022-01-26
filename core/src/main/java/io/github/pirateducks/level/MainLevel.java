@@ -14,6 +14,7 @@ import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.college.ConstantineMemoryGame;
 import io.github.pirateducks.level.college.Goodricke;
 import io.github.pirateducks.level.college.Langwith;
+import io.github.pirateducks.screen.GameCompleteScreen;
 
 public class MainLevel extends LevelManager {
 
@@ -88,6 +89,36 @@ public class MainLevel extends LevelManager {
             } else if (playerCollision.overlaps(langwith) && !langwithDefeated) {
                 getMainClass().setCurrentScreen(new Langwith(this, getCamera()));
             }
+        }
+
+        // Check if left mouse button is clicked
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            // Scale mouse position
+            Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(getCamera());
+
+            // Set button as mute button
+            Sprite button = muteButtonSprite;
+
+            // Find button positions
+            float buttonX = button.getX();
+            float buttonY = button.getY();
+            float buttonW = button.getWidth();
+            float buttonH = button.getHeight();
+
+            // Check if mouse is within the button positions
+            if (scaledMouse.x >= buttonX && scaledMouse.x <= (buttonX + buttonW) && scaledMouse.y >= buttonY && scaledMouse.y <= (buttonY + buttonH)) {
+                if (musicVolume) {
+                    music.setVolume(0);
+                    musicVolume = false;
+                } else {
+                    music.setVolume(0.15f);
+                    musicVolume = true;
+                }
+            }
+        }
+
+        if (goodrikeDefeated && constantineDefeated && langwithDefeated){
+          getMainClass().setCurrentScreen(new GameCompleteScreen(getMainClass(),getCamera()));
         }
     }
 

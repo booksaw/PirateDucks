@@ -4,8 +4,6 @@ import io.github.pirateducks.level.Health;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.screen.CollegeDefeatedScreen;
-import io.github.pirateducks.screen.GameOverScreen;
-import io.github.pirateducks.screen.Screen;
 
 /**
  * Used to store all the methods required between all colleges
@@ -49,7 +47,7 @@ public abstract class College extends LevelManager implements Health {
         getMainClass().setCurrentScreen(new CollegeDefeatedScreen(mainLevel, getCamera()));
 
         if(this instanceof Goodricke){
-            getLevelManager().setGoodrikeDefeated(true);
+            getLevelManager().setGoodrickeDefeated(true);
         } else if(this instanceof ConstantineMemoryGame){
             getLevelManager().setConstantineDefeated(true);
         } else if(this instanceof Langwith){

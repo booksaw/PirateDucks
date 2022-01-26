@@ -76,7 +76,6 @@ public class MainMenuScreen implements Screen {
                 // Get scaled mouse position
                 Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(mainClass.getCamera());
 
-
                 // Check if mouse position is inside button when clicked
                 float buttonX = button.getX();
                 float buttonY = button.getY();
@@ -134,19 +133,6 @@ public class MainMenuScreen implements Screen {
         startGameButtonSprite.setPosition(camera.viewportWidth / 2 - startGameButtonSprite.getWidth() / 2, (camera.viewportHeight / 2 - startGameButtonSprite.getHeight() / 2) + (offset / scaleRatio));
         buttons.add(startGameButtonSprite);
 
-        // Settings Button
-        /*
-        settingsButtonTexture = new Texture("mainMenuScreen/settings.png");
-        settingsButtonSprite = new Sprite(settingsButtonTexture);
-        scaleRatio = buttonScaleRatio(settingsButtonSprite, camera);
-        settingsButtonSprite.setSize(settingsButtonSprite.getWidth()/scaleRatio,settingsButtonSprite.getHeight()/scaleRatio);
-
-        offset -= 20;
-
-        settingsButtonSprite.setPosition(camera.viewportWidth/2 - settingsButtonSprite.getWidth()/2,(camera.viewportHeight/2-settingsButtonSprite.getHeight()/2) + (offset/scaleRatio));
-        buttons.add(settingsButtonSprite);
-        */
-
         // Quit button
         quitButtonTexture = new Texture("mainMenuScreen/quit.png");
         quitButtonSprite = new Sprite(quitButtonTexture);
@@ -171,7 +157,6 @@ public class MainMenuScreen implements Screen {
     public void stopDisplaying() {
         gameLogoTexture.dispose();
         startGameButtonTexture.dispose();
-        // settingsButtonTexture.dispose();
         quitButtonTexture.dispose();
         backgroundTexture.dispose();
     }

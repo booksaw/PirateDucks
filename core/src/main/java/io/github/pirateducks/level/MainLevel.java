@@ -13,6 +13,7 @@ import io.github.pirateducks.level.college.ConstantineMemoryGame;
 import io.github.pirateducks.level.college.Goodricke;
 import io.github.pirateducks.level.college.Langwith;
 import io.github.pirateducks.screen.GameCompleteScreen;
+import io.github.pirateducks.screen.PauseScreen;
 
 public class MainLevel extends LevelManager {
 
@@ -91,6 +92,12 @@ public class MainLevel extends LevelManager {
 
         if (goodrickeDefeated && constantineDefeated && langwithDefeated){
           getMainClass().setCurrentScreen(new GameCompleteScreen(getMainClass(),getCamera()));
+        }
+        // Pause game when escape key is pressed
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            this.stopDisplaying();
+            // Load pause screen
+            getMainClass().setCurrentScreen(new PauseScreen(getMainClass(),this));
         }
     }
 

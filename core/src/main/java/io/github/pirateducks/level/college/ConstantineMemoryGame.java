@@ -67,8 +67,14 @@ public class ConstantineMemoryGame extends College {
          */
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("memoryGame/beach.mp3"));
         backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(0.15f);
+
+        // Set music volume
         backgroundMusic.play();
+        if (getMainClass().musicOn) {
+            backgroundMusic.setVolume(0.15f);
+        } else {
+            backgroundMusic.setVolume(0);
+        }
     }
 
     @Override

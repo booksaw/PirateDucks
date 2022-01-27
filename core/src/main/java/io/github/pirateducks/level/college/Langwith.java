@@ -35,8 +35,14 @@ public class Langwith extends College {
         // load and loops ocean sounds
         sfx_ocean = Gdx.audio.newMusic(Gdx.files.internal("Ocean.ogg"));
         sfx_ocean.setLooping(true);
-        sfx_ocean.setVolume(0.15f);
+
+        // Set music volume
         sfx_ocean.play();
+        if (getMainClass().musicOn) {
+            sfx_ocean.setVolume(0.15f);
+        } else {
+            sfx_ocean.setVolume(0);
+        }
 
         explode = Gdx.audio.newSound(Gdx.files.internal("explode.mp3"));
     }

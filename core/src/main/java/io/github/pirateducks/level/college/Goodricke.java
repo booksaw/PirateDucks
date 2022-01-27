@@ -50,9 +50,14 @@ public class Goodricke extends College { // Projectiles
          */
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("goodricke/bensound-epic.mp3"));
         gameMusic.setLooping(true);
-        gameMusic.setVolume(0.15f);
-        gameMusic.play();
 
+        // Set music volume
+        gameMusic.play();
+        if (getMainClass().musicOn) {
+            gameMusic.setVolume(0.15f);
+        } else {
+            gameMusic.setVolume(0);
+        }
         /*
          * Name: Squish Footstep Watery Grass 3
          * Source: https://www.dreamstime.com/stock-music-sound-effect/squish.html
@@ -191,7 +196,6 @@ public class Goodricke extends College { // Projectiles
         // Change music volume
         gameMusic.play();
         if (getMainClass().musicOn) {
-            //gameMusic.setVolume(0.005f);
             gameMusic.setVolume(0.15f);
         } else {
             gameMusic.setVolume(0);

@@ -58,6 +58,17 @@ public class ConstantineMemoryGame extends College {
         this.camera = camera;
         this.prevScreen = prevScreen;
 
+        /*
+         * Beach by MusicbyAden & Jurgance | https://soundcloud.com/musicbyaden
+         * https://soundcloud.com/jurgance
+         * Music promoted by https://www.free-stock-music.com
+         * Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)
+         * https://creativecommons.org/licenses/by-nd/4.0/
+         */
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("memoryGame/beach.mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.15f);
+        backgroundMusic.play();
     }
 
     @Override
@@ -124,18 +135,13 @@ public class ConstantineMemoryGame extends College {
         buttons.add(closeSprite);
         closeSprite.setAlpha(0);
 
-
-        //Beach by MusicbyAden & Jurgance | https://soundcloud.com/musicbyaden
-        //https://soundcloud.com/jurgance
-        //Music promoted by https://www.free-stock-music.com
-        //Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)
-        //https://creativecommons.org/licenses/by-nd/4.0/
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("memoryGame/beach.mp3"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(0.15f);
+        // Change music volume
         backgroundMusic.play();
-
-
+        if (getMainClass().musicOn) {
+            backgroundMusic.setVolume(0.15f);
+        } else {
+            backgroundMusic.setVolume(0);
+        }
     }
 
 
@@ -152,6 +158,7 @@ public class ConstantineMemoryGame extends College {
                 cardTextures.get(x).dispose();
             }
         }
+        backgroundMusic.setVolume(0);
     }
 
     @Override

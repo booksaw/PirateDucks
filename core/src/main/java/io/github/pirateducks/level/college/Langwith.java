@@ -35,7 +35,7 @@ public class Langwith extends College {
         // load and loops ocean sounds
         sfx_ocean = Gdx.audio.newMusic(Gdx.files.internal("Ocean.ogg"));
         sfx_ocean.setLooping(true);
-        sfx_ocean.setVolume(0.005f);
+        sfx_ocean.setVolume(0.15f);
         sfx_ocean.play();
 
         explode = Gdx.audio.newSound(Gdx.files.internal("explode.mp3"));
@@ -141,8 +141,9 @@ public class Langwith extends College {
             for (GameObject object : cannons) {
                 object.dispose();
             }
+            sfx_ocean.dispose();
         }
-        sfx_ocean.dispose();
+        sfx_ocean.setVolume(0);
     }
 
     /**
@@ -183,5 +184,14 @@ public class Langwith extends College {
         }
         getPlayer().setX(playerX);
         getPlayer().setY(playerY);
+
+        // Change music volume
+        sfx_ocean.play();
+        if (getMainClass().musicOn) {
+            sfx_ocean.setVolume(0.15f);
+        } else {
+            sfx_ocean.setVolume(0);
+        }
     }
+
 }

@@ -101,20 +101,21 @@ public class PauseScreen implements Screen  {
                         mainClass.setCurrentScreen(new MainMenuScreen(mainClass));
                     } else if (i == 2){
                         if (mainClass.musicOn) {
-                            //music.setVolume(0);
                             mainClass.musicOn = false;
-                            System.out.println("Music Off");
                             muteButtonSprite.setTexture(muteButtonTextureOff);
                         } else {
-                            //music.setVolume(0.15f);
                             mainClass.musicOn = true;
-                            System.out.println("Music On");
                             muteButtonSprite.setTexture(muteButtonTextureOn);
                         }
 
                     }
                 }
             }
+        }
+        // Return to game when escape key is pressed
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            mainClass.setCurrentScreen(prevScreen);
+            this.stopDisplaying();
         }
     }
 
@@ -179,6 +180,7 @@ public class PauseScreen implements Screen  {
         muteButtonSprite.setSize((muteButtonSprite.getWidth() / scaleRatio) / 5, (muteButtonSprite.getHeight() / scaleRatio) / 5);
         muteButtonSprite.setPosition(camera.viewportWidth / 2 - muteButtonSprite.getWidth() / 2 + 400, (camera.viewportHeight / 2 - muteButtonSprite.getHeight() / 2) * 2.2f - 45);
         buttons.add(muteButtonSprite);
+
     }
 
     private float buttonScaleRatio(Sprite button, OrthographicCamera camera){

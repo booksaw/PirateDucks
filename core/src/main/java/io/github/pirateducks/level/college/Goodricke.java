@@ -187,17 +187,14 @@ public class Goodricke extends College { // Projectiles
         // Keep players position when unpausing
         getPlayer().setX(playerX);
         getPlayer().setY(playerY);
-        gameMusic.play();
-        //gameMusic.setVolume(0.15f);
 
         // Change music volume
+        gameMusic.play();
         if (getMainClass().musicOn) {
             //gameMusic.setVolume(0.005f);
             gameMusic.setVolume(0.15f);
-            System.out.println("On");
         } else {
             gameMusic.setVolume(0);
-            System.out.println("Off");
         }
     }
 
@@ -211,9 +208,10 @@ public class Goodricke extends College { // Projectiles
             for (GoodrickeCannon cannon : cannons) {
                 cannon.dispose();
             }
+            gameMusic.dispose();
         }
+        gameMusic.setVolume(0);
         sfx_ocean.dispose();
-        gameMusic.dispose();
     }
 
     public void removeCannon(GoodrickeCannon cannon) {

@@ -134,7 +134,8 @@ public abstract class LevelManager implements Screen {
     public boolean isOnLand(float x, float y) {
         Color color = getColorOfMap(x, y);
         // this needs improving
-        return !(color.r > 0.2) || !(color.r < 0.3) || !(color.g >= 0.7) || !(color.g <= 0.8) || !(color.b > 0.8) || !(color.b < 0.9);
+        return false;
+//        return !(color.r > 0.2) || !(color.r < 0.3) || !(color.g >= 0.7) || !(color.g <= 0.8) || !(color.b > 0.8) || !(color.b < 0.9);
     }
 
     public Color getColorOfMap(float x, float y) {
@@ -177,5 +178,9 @@ public abstract class LevelManager implements Screen {
 
     public Array<GameObject> getObjectsClone() {
         return new Array<GameObject>(objects);
+    }
+
+    public Sprite getMap() {
+        return map;
     }
 }

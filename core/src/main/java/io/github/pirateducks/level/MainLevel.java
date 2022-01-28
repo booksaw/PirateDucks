@@ -52,11 +52,18 @@ public class MainLevel extends LevelManager {
         sfx_ocean.setLooping(true);
         sfx_ocean.setVolume(0.005f);
         sfx_ocean.play();
+
+        getPlayer().setX(400);
+        getPlayer().setY(200);
+
+        getMap().setSize(camera.viewportWidth * 2, camera.viewportHeight * 2);
     }
 
     @Override
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
         super.draw(batch, camera);
+
+//        getMap().draw(batch);
 
         Rectangle playerCollision = getPlayer().getCollision();
 
@@ -90,14 +97,32 @@ public class MainLevel extends LevelManager {
             }
         }
 
-        if (goodrickeDefeated && constantineDefeated && langwithDefeated){
-          getMainClass().setCurrentScreen(new GameCompleteScreen(getMainClass(),getCamera()));
+        if (goodrickeDefeated && constantineDefeated && langwithDefeated) {
+            getMainClass().setCurrentScreen(new GameCompleteScreen(getMainClass(), getCamera()));
         }
         // Pause game when escape key is pressed
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             this.stopDisplaying();
             // Load pause screen
-            getMainClass().setCurrentScreen(new PauseScreen(getMainClass(),this));
+            getMainClass().setCurrentScreen(new PauseScreen(getMainClass(), this));
+        }
+
+        final float XLIMIT = 120;
+        // updating the camera location
+        float diffX = getPlayer().x - getCamera().position.x;
+        if (diffX < -XLIMIT) {
+            getCamera().position.x = getPlayer().x + XLIMIT;
+        } else if (diffX > XLIMIT) {
+            getCamera().position.x = getPlayer().x - XLIMIT;
+        }
+
+        final float YLIMIT = 80;
+
+        float diffY = getPlayer().y - getCamera().position.y;
+        if (diffY < -YLIMIT) {
+            getCamera().position.y = getPlayer().y + YLIMIT;
+        } else if (diffY > YLIMIT) {
+            getCamera().position.y = getPlayer().y - YLIMIT;
         }
     }
 

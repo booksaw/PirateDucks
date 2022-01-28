@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 
 import io.github.pirateducks.PirateDucks;
@@ -169,7 +170,7 @@ public class ConstantineMemoryGame extends College {
 
     @Override
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
-
+        ScreenUtils.clear(0, 0, 0.2f, 1);
         // set background as blurred map
         backgroundTexture = new Texture("map_blurred.png");
         backgroundSprite = new Sprite(backgroundTexture);

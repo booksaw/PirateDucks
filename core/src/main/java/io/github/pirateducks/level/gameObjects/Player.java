@@ -40,6 +40,7 @@ public class Player extends GameObjectHealth {
     public void render(SpriteBatch batch) {
         sprite.setX(x);
         sprite.setY(y);
+        sprite.setSize(width, height);
         sprite.draw(batch);
 //      batch.draw(texture, x, y, width / 2, height / 2, width, height, 1, 1, rotation, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
     }
@@ -180,7 +181,7 @@ public class Player extends GameObjectHealth {
     }
 
     public Rectangle getCollision() {
-        return new Rectangle(x, y, width, height);
+        return sprite.getBoundingRectangle();
     }
 
     public Sprite getSprite() {

@@ -111,18 +111,39 @@ public class MainLevel extends LevelManager {
         // updating the camera location
         float diffX = getPlayer().x - getCamera().position.x;
         if (diffX < -XLIMIT) {
-            getCamera().position.x = getPlayer().x + XLIMIT;
+            float calc = getPlayer().x + XLIMIT;
+            if (calc < getCamera().viewportWidth / 2) {
+                getCamera().position.x = getCamera().viewportWidth / 2;
+            } else {
+                getCamera().position.x = calc;
+            }
         } else if (diffX > XLIMIT) {
-            getCamera().position.x = getPlayer().x - XLIMIT;
+
+            float calc = getPlayer().x - XLIMIT;
+            if (calc > getMap().getWidth() - getCamera().viewportWidth / 2) {
+                getCamera().position.x = getMap().getWidth() - getCamera().viewportWidth / 2;
+            } else {
+                getCamera().position.x = calc;
+            }
         }
 
         final float YLIMIT = 80;
 
         float diffY = getPlayer().y - getCamera().position.y;
         if (diffY < -YLIMIT) {
-            getCamera().position.y = getPlayer().y + YLIMIT;
+            float calc = getPlayer().y + YLIMIT;
+            if (calc < getCamera().viewportHeight / 2) {
+                getCamera().position.y = getCamera().viewportHeight / 2;
+            } else {
+                getCamera().position.y = calc;
+            }
         } else if (diffY > YLIMIT) {
-            getCamera().position.y = getPlayer().y - YLIMIT;
+            float calc = getPlayer().y - YLIMIT;
+            if (calc > getMap().getHeight() - getCamera().viewportHeight / 2) {
+                getCamera().position.y = getMap().getHeight() - getCamera().viewportHeight / 2;
+            } else {
+                getCamera().position.y = calc;
+            }
         }
     }
 

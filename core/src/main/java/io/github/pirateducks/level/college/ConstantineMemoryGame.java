@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 
 import io.github.pirateducks.PirateDucks;
@@ -169,7 +170,7 @@ public class ConstantineMemoryGame extends College {
 
     @Override
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
-
+        ScreenUtils.clear(0, 0, 0.2f, 1);
         // set background as blurred map
         backgroundTexture = new Texture("map_blurred.png");
         backgroundSprite = new Sprite(backgroundTexture);
@@ -257,6 +258,7 @@ public class ConstantineMemoryGame extends College {
         }
     }
 
+    boolean win = false;
 
     private boolean checkDigits() {
 
@@ -267,11 +269,16 @@ public class ConstantineMemoryGame extends College {
         }
         String correctDigits = builder.toString();
 
+        // creating a never displayed jframe so we get more control over jOptionPanes
         JFrame frame = new JFrame();
+        // ensuring all jOptionPanes stay on the top layer
+        frame.setAlwaysOnTop(true);
+        // centering the jframe
+        frame.setLocationRelativeTo(null);
 
-        String digits = JOptionPane.showInputDialog("Enter the digits you have memorised:");
+        String digits = JOptionPane.showInputDialog(frame, "Enter the digits you have memorised:");
 
-        Boolean win = false;
+        win = false;
 
         if (digits != null && digits.equals(correctDigits)) {
             // https://mixkit.co/free-sound-effects/win/
@@ -324,6 +331,10 @@ public class ConstantineMemoryGame extends College {
         // updating all game objects
         super.update(delta);
 
+        if (gameFinished && win) {
+            setHealth(0);
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) && inGame == false) {
             save = true;
             this.stopDisplaying();
@@ -344,7 +355,7 @@ public class ConstantineMemoryGame extends College {
                 // Start game button clicked, so start the game
                 if (scaledMouse.x >= buttonX && scaledMouse.x <= (buttonX + buttonW) && scaledMouse.y >= buttonY && scaledMouse.y <= (buttonY + buttonH) && inGame == false) {
 
-                    if (gameFinished) {
+                    if (gameFinished && win) {
                         setHealth(0);
                     } else {
                         //Start game button pressed

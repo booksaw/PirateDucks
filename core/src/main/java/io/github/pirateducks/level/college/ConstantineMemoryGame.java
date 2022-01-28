@@ -49,15 +49,19 @@ public class ConstantineMemoryGame extends College {
     private boolean inGame = false;
     private boolean gameFinished = false;
     private boolean save = false;
+    private boolean win = false;
 
     private final Array<Sprite> buttons = new Array<>();
 
     private final Screen prevScreen;
 
+    private final MainLevel mainLevel;
+
     public ConstantineMemoryGame(MainLevel level, OrthographicCamera camera, Screen prevScreen) {
         super(level);
         this.camera = camera;
         this.prevScreen = prevScreen;
+        this.mainLevel = level;
 
         /*
          * Beach by MusicbyAden & Jurgance | https://soundcloud.com/musicbyaden
@@ -85,7 +89,6 @@ public class ConstantineMemoryGame extends College {
 
     @Override
     protected Texture getMapTexture() {
-        // Constantine map not yet created
         return new Texture("map_blurred.png");
     }
 
@@ -236,7 +239,6 @@ public class ConstantineMemoryGame extends College {
                 inGame = false;
                 gameFinished = true;
 
-
                 // Delay asking user for digits, as we need to make sure cards are hidden first.
                 ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
                 Callable<Boolean> task = new Callable<Boolean>() {
@@ -258,7 +260,6 @@ public class ConstantineMemoryGame extends College {
         }
     }
 
-    boolean win = false;
 
     private boolean checkDigits() {
 
@@ -294,7 +295,7 @@ public class ConstantineMemoryGame extends College {
             Sound loseSound = Gdx.audio.newSound(Gdx.files.internal("memoryGame/lose.wav"));
             loseSound.play();
 
-            getPlayer().setHealth(getPlayer().getHealth() - 1);
+            mainLevel.getPlayer().setHealth(getPlayer().getHealth() - 2);
 
             String resultMsg = "Incorrect!";
             if (digits.isEmpty()) {
@@ -305,8 +306,6 @@ public class ConstantineMemoryGame extends College {
             JOptionPane.showMessageDialog(frame, resultMsg);
             win = false;
             loseSound.dispose();
-
-            // Code to process incorrect input here
         }
 
 
@@ -356,8 +355,9 @@ public class ConstantineMemoryGame extends College {
                 if (scaledMouse.x >= buttonX && scaledMouse.x <= (buttonX + buttonW) && scaledMouse.y >= buttonY && scaledMouse.y <= (buttonY + buttonH) && inGame == false) {
 
                     if (gameFinished && win) {
+                        System.out.println("here");
                         setHealth(0);
-                    } else {
+                    } else if (i ==0 && !gameFinished) {
                         //Start game button pressed
 
                         Sound start = Gdx.audio.newSound(Gdx.files.internal("memoryGame/go.wav"));
@@ -365,6 +365,7 @@ public class ConstantineMemoryGame extends College {
 
                         // Hide start game button whilst game is running
                         startGameSprite.setAlpha(0);
+                        //closeSprite.setAlpha(0);
 
                         inGame = true;
                         digitsToMemorise = new int[8];
@@ -379,6 +380,9 @@ public class ConstantineMemoryGame extends College {
 
                         }
                         Timer.schedule(countdown, 1f, 1f);
+                    } else if (i== 1){
+                        this.stopDisplaying();
+                        getLevelManager().getMainClass().setCurrentScreen(mainLevel);
                     }
                 }
             }

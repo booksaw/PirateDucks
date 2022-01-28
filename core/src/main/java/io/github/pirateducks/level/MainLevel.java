@@ -53,8 +53,8 @@ public class MainLevel extends LevelManager {
         sfx_ocean.setVolume(0.005f);
         sfx_ocean.play();
 
-        getPlayer().setX(400);
-        getPlayer().setY(200);
+        getPlayer().setX(800);
+        getPlayer().setY(400);
 
         getMap().setSize(camera.viewportWidth * 2, camera.viewportHeight * 2);
     }

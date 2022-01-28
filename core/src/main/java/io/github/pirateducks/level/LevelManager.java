@@ -133,17 +133,16 @@ public abstract class LevelManager implements Screen {
 
     public boolean isOnLand(float x, float y) {
         Color color = getColorOfMap(x, y);
-        // this needs improving
-        return false;
-//        return !(color.r > 0.2) || !(color.r < 0.3) || !(color.g >= 0.7) || !(color.g <= 0.8) || !(color.b > 0.8) || !(color.b < 0.9);
+
+        return !(color.r > 0.2) || !(color.r < 0.3) || !(color.g >= 0.7) || !(color.g <= 0.8) || !(color.b > 0.8) || !(color.b < 0.9);
     }
 
     public Color getColorOfMap(float x, float y) {
         Texture texture = map.getTexture();
         x -= map.getX();
         y -= map.getY();
-        // inverting y as pixmap goes frop top left not bottom left
-        y = camera.viewportHeight - y;
+        // inverting y as pixmap goes from top left not bottom left
+        y = map.getHeight() - y;
 
         // scaling to the image size as it is not its real size
         x = x * (texture.getWidth() / map.getWidth());

@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -27,10 +28,12 @@ public class Goodricke extends College { // Projectiles
     private final float sizeMultiplier = (float) 1;
     private float playerX = 0; // Default player co-ordinates
     private float playerY = 0;
-    private boolean save = false;
+    private boolean save, tutorialCompleted = false;
     public Music sfx_ocean;
     public Music gameMusic;
     public Sound explode;
+    private Texture tutorialTexture;
+    private Sprite tutorial;
 
     public Goodricke(MainLevel level, OrthographicCamera camera) {
         super(level);
@@ -65,6 +68,8 @@ public class Goodricke extends College { // Projectiles
          */
         explode = Gdx.audio.newSound(Gdx.files.internal("goodricke/fruit-destroy.mp3"));
 
+        tutorialTexture = new Texture("goodricke/goodrickeTutorial.png");
+        tutorial = new Sprite(tutorialTexture);
     }
 
     @Override
@@ -89,12 +94,42 @@ public class Goodricke extends College { // Projectiles
         for (Fruit f : fruit) {
             f.render(batch);
         }
+
+        // Show tutorial if player just loaded the college
+        if (!tutorialCompleted) {
+            tutorial.draw(batch);
+        }
     }
 
     @Override
     public void update(float delta) {
         // updating all game objects
         super.update(delta);
+
+        // Pause game when escape key is pressed
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            save = true;
+            // Save players position for unpause
+            playerX = getPlayer().getX();
+            playerY = getPlayer().getY();
+            this.stopDisplaying();
+            // Load pause screen
+            getLevelManager().getMainClass().setCurrentScreen(new PauseScreen(getLevelManager().getMainClass(),this));
+        }
+
+        // Space bar removes controls tutorial from screen
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            tutorialCompleted = true;
+            tutorialTexture.dispose();
+        }
+
+        if (!tutorialCompleted) {
+            // Center controls tutorial in center of screen
+            tutorial.setPosition(getCamera().position.x - (tutorial.getWidth() / 2), getCamera().position.y - (tutorial.getHeight() / 2));
+            // scales the sprite depending on window size divided by a constant
+            tutorial.setSize(getCamera().viewportWidth / 1.7f, getCamera().viewportHeight / 1.7f);
+            return;
+        }
 
         for(GoodrickeCannon cannon : cannons) {
             cannon.update(delta);
@@ -106,17 +141,6 @@ public class Goodricke extends College { // Projectiles
         if (cannons.isEmpty()) {
             // all cannons are dead, the college has been defeated setting its health to 0
             setHealth(0);
-        }
-
-        // Pause game when escape key is pressed
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-            save = true;
-            // Save players position for unpause
-            playerX = getPlayer().getX();
-            playerY = getPlayer().getY();
-            this.stopDisplaying();
-            // Load pause screen
-            getLevelManager().getMainClass().setCurrentScreen(new PauseScreen(getLevelManager().getMainClass(),this));
         }
 
         // Return to main level if college is defeated

@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -20,10 +21,13 @@ public class Langwith extends College {
     private final OrthographicCamera camera;
     private final MainLevel mainLevel;
     private final Array<LangwithCannon> cannons = new Array<>();
-    private boolean save = false;
+    private boolean save, tutorialCompleted = false;
     private float playerX, playerY = 0;
     public Music sfx_ocean;
     private Sound explode;
+    public Music gameMusic;
+    private Texture tutorialTexture;
+    private Sprite tutorial;
 
     public Langwith(MainLevel mainLevel, OrthographicCamera camera) {
         super(mainLevel);
@@ -44,7 +48,27 @@ public class Langwith extends College {
             sfx_ocean.setVolume(0);
         }
 
+        /*
+         * Music: https://www.bensound.com
+         * Name: Epic | Link https://www.bensound.com/royalty-free-music/track/epic
+         * Licence: You are free to use this music in your multimedia project (online videos(YouTube,...), websites, animations, etc.)
+         * as long as you credit Bensound.com, For example: "Music: www.bensound.com" or "Royalty Free Music from Bensound"
+         */
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("goodricke/bensound-epic.mp3"));
+        gameMusic.setLooping(true);
+
+        // Set music volume
+        gameMusic.play();
+        if (getMainClass().musicOn) {
+            gameMusic.setVolume(0.15f);
+        } else {
+            gameMusic.setVolume(0);
+        }
+
         explode = Gdx.audio.newSound(Gdx.files.internal("explode.mp3"));
+
+        tutorialTexture = new Texture("langwith/langwithTutorial.png");
+        tutorial = new Sprite(tutorialTexture);
     }
 
     /**
@@ -69,6 +93,11 @@ public class Langwith extends College {
         for (GameObject object : cannons) {
             object.render(batch);
         }
+
+        // Show tutorial if player just loaded the college
+        if (!tutorialCompleted) {
+            tutorial.draw(batch);
+        }
     }
 
     /**
@@ -81,11 +110,6 @@ public class Langwith extends College {
         // updating all game objects
         super.update(delta);
 
-        // If no cannons are alive, the college is defeated
-        if (cannons.isEmpty()) {
-            setHealth(0);
-        }
-
         // Pause game when escape key is pressed
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             save = true;
@@ -95,6 +119,25 @@ public class Langwith extends College {
             this.stopDisplaying();
             // Load pause screen
             getLevelManager().getMainClass().setCurrentScreen(new PauseScreen(getLevelManager().getMainClass(),this));
+        }
+
+        // Space bar removes controls tutorial from screen
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            tutorialCompleted = true;
+            tutorialTexture.dispose();
+        }
+
+        if (!tutorialCompleted) {
+            // Center controls tutorial in center of screen
+            tutorial.setPosition(getCamera().position.x - (tutorial.getWidth() / 2), getCamera().position.y - (tutorial.getHeight() / 2));
+            // scales the sprite depending on window size divided by a constant
+            tutorial.setSize(getCamera().viewportWidth / 1.7f, getCamera().viewportHeight / 1.7f);
+            return;
+        }
+
+        // If no cannons are alive, the college is defeated
+        if (cannons.isEmpty()) {
+            setHealth(0);
         }
 
         // Return to main level if college is defeated
@@ -148,7 +191,9 @@ public class Langwith extends College {
                 object.dispose();
             }
             sfx_ocean.dispose();
+            gameMusic.dispose();
         }
+        gameMusic.setVolume(0);
         sfx_ocean.setVolume(0);
     }
 
@@ -197,6 +242,14 @@ public class Langwith extends College {
             sfx_ocean.setVolume(0.15f);
         } else {
             sfx_ocean.setVolume(0);
+        }
+
+        // Change music volume
+        gameMusic.play();
+        if (getMainClass().musicOn) {
+            gameMusic.setVolume(0.15f);
+        } else {
+            gameMusic.setVolume(0);
         }
     }
 

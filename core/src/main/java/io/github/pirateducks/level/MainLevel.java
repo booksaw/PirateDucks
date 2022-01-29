@@ -3,10 +3,10 @@ package io.github.pirateducks.level;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Path;
@@ -25,9 +25,16 @@ public class MainLevel extends LevelManager {
     public Music music;
     public Music sfx_ocean;
     public boolean constantineDefeated = false, langwithDefeated = false, goodrickeDefeated = false;
+    private boolean tutorialCompleted = false;
+    private Texture tutorialTexture;
+    private Sprite tutorial;
 
     public MainLevel(PirateDucks mainClass) {
+
         super(mainClass);
+
+        tutorialTexture = new Texture("controls.png");
+        tutorial = new Sprite(tutorialTexture);
     }
 
     @Override
@@ -92,6 +99,10 @@ public class MainLevel extends LevelManager {
             font.draw(batch, "Press \"E\" to fight Langwith College", camera.position.x - 100,  camera.position.y + 200);
         }
 
+        // Show game controls if player just loaded new game
+        if (!tutorialCompleted) {
+            tutorial.draw(batch);
+        }
 
         // code used to display a coordinated area on the screen, this was used to modify the hitboxes of locations on the map
         // leaving it here in case the map gets modified in the future
@@ -113,9 +124,17 @@ public class MainLevel extends LevelManager {
     @Override
     public void update(float delta) {
         super.update(delta);
-        // checking constantine
+
+        // gets players hit box
         Rectangle playerCollision = getPlayer().getCollision();
 
+        // Space bar removes controls tutorial from screen
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            tutorialCompleted = true;
+            tutorialTexture.dispose();
+        }
+
+        // Press E to fight a college when player is next to a college island
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             if (playerCollision.overlaps(constantine) && !constantineDefeated) {
                 getMainClass().setCurrentScreen(new ConstantineMemoryGame(this, getCamera(), this));
@@ -129,6 +148,7 @@ public class MainLevel extends LevelManager {
             }
         }
 
+        // Game complete if all colleges defeated
         if (goodrickeDefeated && constantineDefeated && langwithDefeated) {
             getMainClass().setCurrentScreen(new GameCompleteScreen(getMainClass(), getCamera()));
             return;
@@ -178,6 +198,13 @@ public class MainLevel extends LevelManager {
             } else {
                 getCamera().position.y = calc;
             }
+        }
+
+        // Center controls tutorial in center of screen
+        if (!tutorialCompleted) {
+            tutorial.setPosition(getCamera().position.x - (tutorial.getWidth() / 2), getCamera().position.y - (tutorial.getHeight() / 2));
+            // scales the sprite depending on window size divided by a constant
+            tutorial.setSize(getCamera().viewportWidth / 1.7f, getCamera().viewportHeight / 1.7f);
         }
     }
 

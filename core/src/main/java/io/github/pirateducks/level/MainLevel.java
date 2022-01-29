@@ -9,11 +9,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.college.ConstantineMemoryGame;
 import io.github.pirateducks.level.college.Goodricke;
 import io.github.pirateducks.level.college.Langwith;
+import io.github.pirateducks.level.gameObjects.Boat;
+import io.github.pirateducks.pathfinding.PathFinder;
 import io.github.pirateducks.screen.GameCompleteScreen;
 import io.github.pirateducks.screen.PauseScreen;
 
@@ -33,6 +36,8 @@ public class MainLevel extends LevelManager {
     }
 
     BitmapFont font;
+
+    private PathFinder pathFinder;
 
     @Override
     protected void setup(OrthographicCamera camera) {
@@ -58,7 +63,17 @@ public class MainLevel extends LevelManager {
         getPlayer().setX(800);
         getPlayer().setY(400);
 
+
         getMap().setSize(camera.viewportWidth * 2, camera.viewportHeight * 2);
+
+        pathFinder = new PathFinder(this, 10);
+
+        // generating AI boats
+        for(int i = 0; i < 5; i++) {
+            addObject(new Boat(45, 55, this));
+        }
+
+
     }
 
     @Override
@@ -196,4 +211,7 @@ public class MainLevel extends LevelManager {
         return langwithDefeated;
     }
 
+    public PathFinder getPathFinder() {
+        return pathFinder;
+    }
 }

@@ -105,6 +105,10 @@ public abstract class LevelManager implements Screen {
 
     @Override
     public void stopDisplaying() {
+        if(pixmap != null) {
+            pixmap.dispose();
+        }
+
         map.getTexture().dispose();
         for (GameObject object : objects) {
             object.dispose();
@@ -125,7 +129,7 @@ public abstract class LevelManager implements Screen {
     /**
      * Used to remove a game object from the level
      *
-     * @param object
+     * @param object the object to remove
      */
     public void removeObject(GameObject object) {
         objects.removeValue(object, false);
@@ -136,6 +140,8 @@ public abstract class LevelManager implements Screen {
 
         return !(color.r > 0.2) || !(color.r < 0.3) || !(color.g >= 0.7) || !(color.g <= 0.8) || !(color.b > 0.8) || !(color.b < 0.9);
     }
+
+    Pixmap pixmap;
 
     public Color getColorOfMap(float x, float y) {
         Texture texture = map.getTexture();
@@ -152,10 +158,11 @@ public abstract class LevelManager implements Screen {
             texture.getTextureData().prepare();
         }
 
-        Pixmap pixmap = texture.getTextureData().consumePixmap();
+        if(pixmap == null || pixmap.isDisposed()) {
+            pixmap = texture.getTextureData().consumePixmap();
+        }
 
         Color color = new Color(pixmap.getPixel((int) x, (int) y));
-        pixmap.dispose();
 
         return color;
     }

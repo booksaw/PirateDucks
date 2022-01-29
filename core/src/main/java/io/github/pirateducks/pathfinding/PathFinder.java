@@ -40,8 +40,8 @@ public class PathFinder {
         }
 
         // looping through the map to check collision
-        for (int x = 0; x < manager.getMap().getWidth(); x += gradient) {
-            for (int y = 0; y < manager.getMap().getHeight(); y += gradient) {
+        for (int x = 0; x < manager.getMap().getWidth(); x += gradient / 2) {
+            for (int y = 0; y < manager.getMap().getHeight(); y += gradient / 2) {
                 // if this tile is already invalid, skip the tile
                 if (!tileMap[x / gradient][y / gradient]) {
                     continue;

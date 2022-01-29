@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.college.ConstantineMemoryGame;
@@ -65,11 +66,14 @@ public class MainLevel extends LevelManager {
 
         getMap().setSize(camera.viewportWidth * 2, camera.viewportHeight * 2);
 
-        Boat b = new Boat(45, 55);
-        addObject(b);
-        b.x = 800;
-        b.y = 400;
-        
+        pathFinder = new PathFinder(this, 10);
+
+        // generating AI boats
+        for(int i = 0; i < 5; i++) {
+            addObject(new Boat(45, 55, this));
+        }
+
+
     }
 
     @Override
@@ -207,4 +211,7 @@ public class MainLevel extends LevelManager {
         return langwithDefeated;
     }
 
+    public PathFinder getPathFinder() {
+        return pathFinder;
+    }
 }

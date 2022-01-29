@@ -3,10 +3,12 @@ package io.github.pirateducks.level;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.college.ConstantineMemoryGame;
@@ -52,27 +54,46 @@ public class MainLevel extends LevelManager {
         sfx_ocean.setLooping(true);
         sfx_ocean.setVolume(0.005f);
         sfx_ocean.play();
+
+        getPlayer().setX(800);
+        getPlayer().setY(400);
+
+        getMap().setSize(camera.viewportWidth * 2, camera.viewportHeight * 2);
     }
 
     @Override
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
         super.draw(batch, camera);
 
+//        getMap().draw(batch);
+
         Rectangle playerCollision = getPlayer().getCollision();
 
         if (playerCollision.overlaps(constantine) && !constantineDefeated) {
-            font.draw(batch, "Press \"E\" to fight Constantine College", 250, camera.viewportHeight - 10);
+            font.draw(batch, "Press \"E\" to fight Constantine College", camera.position.x - 100, camera.position.y + 200);
         } else if (playerCollision.overlaps(goodricke) && !goodrickeDefeated) {
-            font.draw(batch, "Press \"E\" to fight Goodricke College", 250, camera.viewportHeight - 10);
+            font.draw(batch, "Press \"E\" to fight Goodricke College", camera.position.x - 100, camera.position.y + 200);
         } else if (playerCollision.overlaps(langwith) && !langwithDefeated) {
-            font.draw(batch, "Press \"E\" to fight Langwith College", 250, camera.viewportHeight - 10);
+            font.draw(batch, "Press \"E\" to fight Langwith College", camera.position.x - 100,  camera.position.y + 200);
         }
+
+
+        // code used to display a coordinated area on the screen, this was used to modify the hitboxes of locations on the map
+        // leaving it here in case the map gets modified in the future
+/*        batch.end();
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.rectLine(650, 580, 1150, 900, 5);
+        shapeRenderer.end();
+        batch.begin();*/
 
     }
 
-    private final Rectangle langwith = new Rectangle(25, 40, 200, 250);
-    private final Rectangle goodricke = new Rectangle(470, 35, 160, 150);
-    private final Rectangle constantine = new Rectangle(310, 240, 250, 170);
+    private final Rectangle langwith = new Rectangle(150, 150, 400, 450);
+    private final Rectangle goodricke = new Rectangle(1140, 150, 260, 270);
+    private final Rectangle constantine = new Rectangle(650, 580, 500, 320);
 
     @Override
     public void update(float delta) {
@@ -83,21 +104,65 @@ public class MainLevel extends LevelManager {
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             if (playerCollision.overlaps(constantine) && !constantineDefeated) {
                 getMainClass().setCurrentScreen(new ConstantineMemoryGame(this, getCamera(), this));
+                return;
             } else if (playerCollision.overlaps(goodricke) && !goodrickeDefeated) {
                 getMainClass().setCurrentScreen(new Goodricke(this, getCamera()));
+                return;
             } else if (playerCollision.overlaps(langwith) && !langwithDefeated) {
                 getMainClass().setCurrentScreen(new Langwith(this, getCamera()));
+                return;
             }
         }
 
-        if (goodrickeDefeated && constantineDefeated && langwithDefeated){
-          getMainClass().setCurrentScreen(new GameCompleteScreen(getMainClass(),getCamera()));
+        if (goodrickeDefeated && constantineDefeated && langwithDefeated) {
+            getMainClass().setCurrentScreen(new GameCompleteScreen(getMainClass(), getCamera()));
+            return;
         }
         // Pause game when escape key is pressed
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             this.stopDisplaying();
             // Load pause screen
-            getMainClass().setCurrentScreen(new PauseScreen(getMainClass(),this));
+            getMainClass().setCurrentScreen(new PauseScreen(getMainClass(), this));
+            return;
+        }
+
+        final float XLIMIT = 120;
+        // updating the camera location
+        float diffX = getPlayer().x - getCamera().position.x;
+        if (diffX < -XLIMIT) {
+            float calc = getPlayer().x + XLIMIT;
+            if (calc < getCamera().viewportWidth / 2) {
+                getCamera().position.x = getCamera().viewportWidth / 2;
+            } else {
+                getCamera().position.x = calc;
+            }
+        } else if (diffX > XLIMIT) {
+
+            float calc = getPlayer().x - XLIMIT;
+            if (calc > getMap().getWidth() - getCamera().viewportWidth / 2) {
+                getCamera().position.x = getMap().getWidth() - getCamera().viewportWidth / 2;
+            } else {
+                getCamera().position.x = calc;
+            }
+        }
+
+        final float YLIMIT = 80;
+
+        float diffY = getPlayer().y - getCamera().position.y;
+        if (diffY < -YLIMIT) {
+            float calc = getPlayer().y + YLIMIT;
+            if (calc < getCamera().viewportHeight / 2) {
+                getCamera().position.y = getCamera().viewportHeight / 2;
+            } else {
+                getCamera().position.y = calc;
+            }
+        } else if (diffY > YLIMIT) {
+            float calc = getPlayer().y - YLIMIT;
+            if (calc > getMap().getHeight() - getCamera().viewportHeight / 2) {
+                getCamera().position.y = getMap().getHeight() - getCamera().viewportHeight / 2;
+            } else {
+                getCamera().position.y = calc;
+            }
         }
     }
 

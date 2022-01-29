@@ -133,7 +133,7 @@ public abstract class LevelManager implements Screen {
 
     public boolean isOnLand(float x, float y) {
         Color color = getColorOfMap(x, y);
-        // this needs improving
+
         return !(color.r > 0.2) || !(color.r < 0.3) || !(color.g >= 0.7) || !(color.g <= 0.8) || !(color.b > 0.8) || !(color.b < 0.9);
     }
 
@@ -141,8 +141,8 @@ public abstract class LevelManager implements Screen {
         Texture texture = map.getTexture();
         x -= map.getX();
         y -= map.getY();
-        // inverting y as pixmap goes frop top left not bottom left
-        y = camera.viewportHeight - y;
+        // inverting y as pixmap goes from top left not bottom left
+        y = map.getHeight() - y;
 
         // scaling to the image size as it is not its real size
         x = x * (texture.getWidth() / map.getWidth());
@@ -177,5 +177,9 @@ public abstract class LevelManager implements Screen {
 
     public Array<GameObject> getObjectsClone() {
         return new Array<GameObject>(objects);
+    }
+
+    public Sprite getMap() {
+        return map;
     }
 }

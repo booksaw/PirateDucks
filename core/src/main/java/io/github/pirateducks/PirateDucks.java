@@ -46,6 +46,7 @@ public class PirateDucks extends ApplicationAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 848, 480);
         camera.update();
+
         viewport = new FitViewport(848, 480);
         batch = new SpriteBatch();
 
@@ -85,6 +86,10 @@ public class PirateDucks extends ApplicationAdapter {
         if (currentScreen != null) {
             currentScreen.stopDisplaying();
         }
+        // resetting the camera position
+        camera.position.x = camera.viewportWidth / 2;
+        camera.position.y = camera.viewportHeight / 2;
+
         currentScreen = screen;
         currentScreen.startDisplaying(camera);
     }

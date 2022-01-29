@@ -5,10 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.GameObjectHealth;
 import io.github.pirateducks.level.LevelManager;
@@ -19,11 +19,10 @@ import io.github.pirateducks.screen.GameOverScreen;
 public class Player extends GameObjectHealth {
     //Body is an object yet to be defined which will be defined as the main Player
 
-    private final Texture texture;
-    private float rotation;
     private final LevelManager manager;
     private final OrthographicCamera camera;
     private float timeFired = 0;
+    private final Sprite sprite;
 
     public Player(LevelManager manager, OrthographicCamera camera) {
         super(45, 55);
@@ -31,15 +30,19 @@ public class Player extends GameObjectHealth {
         this.camera = camera;
         this.manager = manager;
         // loading the texture
-        texture = new Texture(Gdx.files.internal("DuckBoat_TopView.png"));
-        rotation = 0;
+        Texture texture = new Texture(Gdx.files.internal("DuckBoat_TopView.png"));
         maxHealth = 6;
         health = 6;
+        sprite = new Sprite(texture);
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, x, y, width / 2, height / 2, width, height, 1, 1, rotation, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+        sprite.setX(x);
+        sprite.setY(y);
+        sprite.setSize(width, height);
+        sprite.draw(batch);
+//      batch.draw(texture, x, y, width / 2, height / 2, width, height, 1, 1, rotation, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
     }
 
     private final double SPEED = 5;
@@ -65,7 +68,7 @@ public class Player extends GameObjectHealth {
         }
 
         if (vel_x != 0 || vel_y != 0) {
-            rotation = (float) Math.toDegrees(-Math.atan2(vel_x, vel_y));
+            sprite.setRotation((float) Math.toDegrees(-Math.atan2(vel_x, vel_y)));
         }
 
         float newX = x + vel_x, newY = y + vel_y;
@@ -85,15 +88,15 @@ public class Player extends GameObjectHealth {
         // limiting x
         if (x <= -width / 2) {
             x = -width / 2;
-        } else if (x >= camera.viewportWidth - width / 2) {
-            x = camera.viewportWidth - width / 2;
+        } else if (x >= manager.getMap().getWidth() - width / 2) {
+            x = manager.getMap().getWidth() - width / 2;
         }
 
         // limiting y
         if (y <= -height / 2) {
             y = -height / 2;
-        } else if (y >= camera.viewportHeight - height / 2) {
-            y = camera.viewportHeight - height / 2;
+        } else if (y >= manager.getMap().getHeight() - height / 2) {
+            y = manager.getMap().getHeight() - height / 2;
         }
 
         // firing code
@@ -142,7 +145,7 @@ public class Player extends GameObjectHealth {
     }
 
     public void dispose() {
-        texture.dispose();
+        sprite.getTexture().dispose();
     }
 
     private int health;
@@ -177,7 +180,11 @@ public class Player extends GameObjectHealth {
         this.maxHealth = maxHealth;
     }
 
-    public Rectangle getCollision(){
-        return new Rectangle(x, y, width, height);
+    public Rectangle getCollision() {
+        return sprite.getBoundingRectangle();
+    }
+
+    public Sprite getSprite() {
+        return sprite;
     }
 }

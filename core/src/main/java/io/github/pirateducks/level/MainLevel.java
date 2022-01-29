@@ -14,6 +14,8 @@ import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.college.ConstantineMemoryGame;
 import io.github.pirateducks.level.college.Goodricke;
 import io.github.pirateducks.level.college.Langwith;
+import io.github.pirateducks.level.gameObjects.Boat;
+import io.github.pirateducks.pathfinding.PathFinder;
 import io.github.pirateducks.screen.GameCompleteScreen;
 import io.github.pirateducks.screen.PauseScreen;
 
@@ -33,6 +35,8 @@ public class MainLevel extends LevelManager {
     }
 
     BitmapFont font;
+
+    private PathFinder pathFinder;
 
     @Override
     protected void setup(OrthographicCamera camera) {
@@ -58,7 +62,14 @@ public class MainLevel extends LevelManager {
         getPlayer().setX(800);
         getPlayer().setY(400);
 
+
         getMap().setSize(camera.viewportWidth * 2, camera.viewportHeight * 2);
+
+        Boat b = new Boat(45, 55);
+        addObject(b);
+        b.x = 800;
+        b.y = 400;
+        
     }
 
     @Override

@@ -14,6 +14,7 @@ import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.level.gameObjects.CannonBall;
 import io.github.pirateducks.level.gameObjects.Fruit;
+import io.github.pirateducks.level.gameObjects.Coin;
 import io.github.pirateducks.level.gameObjects.GoodrickeCannon;
 import io.github.pirateducks.screen.PauseScreen;
 
@@ -34,6 +35,7 @@ public class Goodricke extends College { // Projectiles
     public Sound explode;
     private Texture tutorialTexture;
     private Sprite tutorial;
+    //private int[][] coin_positions;
 
     public Goodricke(MainLevel level, OrthographicCamera camera) {
         super(level);
@@ -95,6 +97,10 @@ public class Goodricke extends College { // Projectiles
             f.render(batch);
         }
 
+        for (Coin c : getCoins()) {
+            c.render(batch);
+        }
+
         // Show tutorial if player just loaded the college
         if (!tutorialCompleted) {
             tutorial.draw(batch);
@@ -136,6 +142,9 @@ public class Goodricke extends College { // Projectiles
         }
         for (Fruit f : fruit) {
             f.update(delta);
+        }
+        for (Coin c : getCoins()) {
+            c.update(delta);
         }
 
         if (cannons.isEmpty()) {
@@ -188,6 +197,13 @@ public class Goodricke extends College { // Projectiles
                 explode.play(0.5f);
             }
         }
+        // check if the player has hit any coins
+        for (Coin c : getCoinsClone()) {
+            if (c.getCollision().overlaps(collision)) {
+                // Collect the coins
+                c.collect();
+            }
+        }
     }
 
     /**
@@ -212,6 +228,21 @@ public class Goodricke extends College { // Projectiles
             cannons.add(new GoodrickeCannon(130, 130, 200, 300, this, camera));
             cannons.add(new GoodrickeCannon(130, 130, 350, 240, this, camera));
             cannons.add(new GoodrickeCannon(130, 130, 500, 300, this, camera));
+
+            // Array of all the positions of coins
+            //int [][] coin_positions = {{100,200},{150,150},{200,150},{250,150},{300,150},{350,200},{400,150},{450,150},{500,150},{800,150}};
+            // Add coins based on each position
+            /*
+            for (int i = 0; i < coin_positions.length; i++) {
+                getCoins().add(new Coin(coin_positions[i][0], coin_positions[i][1], this));
+            }
+             */
+            for (int x = 50; x < 810; x += 100) {
+                getCoins().add(new Coin(x, 200, this));
+            }
+            for (int x = 100; x < 810; x += 100) {
+                getCoins().add(new Coin(x, 100, this));
+            }
         }
         // Keep players position when unpausing
         getPlayer().setX(playerX);
@@ -259,6 +290,10 @@ public class Goodricke extends College { // Projectiles
      */
     public Array<Fruit> getFruitClone() {
         return new Array<>(fruit);
+    }
+
+    public Array<Coin> getCoinsClone() {
+        return new Array<>(getCoins());
     }
 
     /**

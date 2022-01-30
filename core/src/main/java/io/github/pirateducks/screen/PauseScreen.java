@@ -177,8 +177,8 @@ public class PauseScreen implements Screen  {
             muteButtonSprite = new Sprite(muteButtonTextureOff);
         }
 
-        muteButtonSprite.setSize((muteButtonSprite.getWidth() / scaleRatio) / 5, (muteButtonSprite.getHeight() / scaleRatio) / 5);
-        muteButtonSprite.setPosition(camera.viewportWidth / 2 - muteButtonSprite.getWidth() / 2 + 400, (camera.viewportHeight / 2 - muteButtonSprite.getHeight() / 2) * 2.2f - 45);
+        muteButtonSprite.setSize((muteButtonSprite.getWidth() / scaleRatio) / 3, (muteButtonSprite.getHeight() / scaleRatio) / 3);
+        muteButtonSprite.setPosition(camera.viewportWidth / 2 - muteButtonSprite.getWidth() / 2 + 395, (camera.viewportHeight / 2 - muteButtonSprite.getHeight() / 2) * 2.2f - 45);
         buttons.add(muteButtonSprite);
 
     }

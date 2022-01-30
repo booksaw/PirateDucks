@@ -17,9 +17,11 @@ public class GameOverScreen implements Screen {
     private final Array<Sprite> buttons = new Array<>();
     private Sprite gameOverSprite;
     private final OrthographicCamera camera;
+    private PirateDucks mainClass;
 
-    public GameOverScreen(OrthographicCamera camera) {
+    public GameOverScreen(PirateDucks mainClass, OrthographicCamera camera) {
         this.camera = camera;
+        this.mainClass = mainClass;
     }
 
     /**
@@ -64,7 +66,7 @@ public class GameOverScreen implements Screen {
                 if (scaledMouse.x >= button.getX() && scaledMouse.x <= button.getX() + button.getWidth() &&
                         scaledMouse.y >= button.getY() && scaledMouse.y <= button.getY() + button.getHeight()) {
                     if (i == 0) {
-                        System.out.println("Menu Button Pressed");
+                        mainClass.setCurrentScreen(new MainMenuScreen(mainClass));
                         buttonPressed = true;
                     } else if (i == 1 && !buttonPressed) {
                         // Exit the application

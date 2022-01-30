@@ -160,7 +160,7 @@ public class Player extends GameObjectHealth {
     public void setHealth(int health) {
         this.health = health;
         if (health <= 0) {
-            manager.getMainClass().setCurrentScreen(new GameOverScreen(camera));
+            manager.getMainClass().setCurrentScreen(new GameOverScreen(manager.getMainClass(), camera));
         }
     }
 

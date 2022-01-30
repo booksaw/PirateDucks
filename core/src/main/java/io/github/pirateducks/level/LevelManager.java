@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
+import io.github.pirateducks.level.gameObjects.Coin;
+import io.github.pirateducks.level.gameObjects.Fruit;
 import io.github.pirateducks.level.gameObjects.HealthIndicator;
 import io.github.pirateducks.level.gameObjects.Player;
 import io.github.pirateducks.screen.Screen;
@@ -20,6 +22,7 @@ public abstract class LevelManager implements Screen {
 
     private final PirateDucks mainClass;
     private final Array<GameObject> objects = new Array<>();
+    private final Array<Coin> coins = new Array<>();
     private Player player = null;
     private Sprite map;
     private OrthographicCamera camera;
@@ -188,5 +191,18 @@ public abstract class LevelManager implements Screen {
 
     public Sprite getMap() {
         return map;
+    }
+
+    public Array<Coin> getCoins() {
+        return coins;
+    }
+
+    /**
+     * Used to remove a coin from the level
+     * @param toRemove The coin that should be removed
+     */
+    public void removeCoin(Coin toRemove){
+        coins.removeValue(toRemove, true);
+        removeObject(toRemove);
     }
 }

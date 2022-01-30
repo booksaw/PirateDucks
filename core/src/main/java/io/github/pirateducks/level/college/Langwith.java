@@ -94,6 +94,10 @@ public class Langwith extends College {
             object.render(batch);
         }
 
+        for (Coin c : getCoins()) {
+            c.render(batch);
+        }
+
         // Show tutorial if player just loaded the college
         if (!tutorialCompleted) {
             tutorial.draw(batch);
@@ -177,6 +181,18 @@ public class Langwith extends College {
         for (GameObject object : cannons) {
             object.update(delta);
         }
+
+        for (Coin c : getCoins()) {
+            c.update(delta);
+        }
+        // check if the player has hit any coins
+        Rectangle collision = getPlayer().getCollision();
+        for (Coin c : getCoinsClone()) {
+            if (c.getCollision().overlaps(collision)) {
+                // Collect the coins
+                c.collect();
+            }
+        }
     }
 
     /**
@@ -232,6 +248,8 @@ public class Langwith extends College {
                 cannons.add(new LangwithCannon(130, 130, 50 + offset, camera.viewportHeight - 105, this));
                 offset += 200;
             }
+            // init the coins, no_coins has to be lower than length of possible x and y
+            spawnCoins(20);
         }
         getPlayer().setX(playerX);
         getPlayer().setY(playerY);

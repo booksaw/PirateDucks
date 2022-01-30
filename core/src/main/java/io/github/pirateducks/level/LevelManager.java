@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
@@ -14,6 +15,8 @@ import io.github.pirateducks.level.gameObjects.Fruit;
 import io.github.pirateducks.level.gameObjects.HealthIndicator;
 import io.github.pirateducks.level.gameObjects.Player;
 import io.github.pirateducks.screen.Screen;
+
+import java.util.Random;
 
 /**
  * This class is the manager when the actual game is being displayed
@@ -27,6 +30,10 @@ public abstract class LevelManager implements Screen {
     private Sprite map;
     private OrthographicCamera camera;
     private MainLevel mainLevel;
+    private int[] possible_x;
+    private int[] possible_y;
+    private int i_x;
+    private int i_y;
 
     public LevelManager(PirateDucks mainClass) { this.mainClass = mainClass; }
 
@@ -204,5 +211,49 @@ public abstract class LevelManager implements Screen {
     public void removeCoin(Coin toRemove){
         coins.removeValue(toRemove, true);
         removeObject(toRemove);
+    }
+
+    public Array<Coin> getCoinsClone() {
+        return new Array<>(getCoins());
+    }
+
+    public void spawnCoins(int no_coins) {
+        // Creates an array of all possible x and y positions so that they will always be spaced out
+        possible_x = new int[41];
+        possible_y = new int[41];
+        // Length of possible x and y should be higher than number of coins required
+        if((no_coins > possible_x.length) || (no_coins > possible_y.length)) {
+            throw new IllegalArgumentException("Length of possible x and y should be higher than number of coins required");
+        }
+        for (int i = 0; i < possible_x.length; i++) {
+            possible_x[i] = i * 20;
+        }
+        for (int i = 0; i < possible_y.length; i++) {
+            possible_y[i] = i * 10;
+        }
+        // Add coins, repeats for the number of coins required
+        for (int n = 0; n < no_coins; n++) {
+            // Randomly selects from the possible positions
+            Random rnd_x = new Random();
+            i_x = rnd_x.nextInt(possible_x.length);
+            while (possible_x[i_x] == -1) {
+                rnd_x = new Random();
+                i_x = rnd_x.nextInt(possible_x.length);
+            }
+            // Randomly selects from the possible positions
+            Random rnd_y = new Random();
+            i_y = rnd_y.nextInt(possible_y.length);
+            while (possible_y[i_y] == -1) {
+                rnd_y = new Random();
+                i_y = rnd_y.nextInt(possible_y.length);
+            }
+            // Checks that the coin would be on land and then adds it
+            if (!isOnLand(possible_x[i_x], possible_y[i_y])) {
+                getCoins().add(new Coin(possible_x[i_x], possible_y[i_y], this));
+            }
+            // Replaces the position with -1 so that it cannot be chosen again
+            possible_x[i_x] = -1;
+            possible_y[i_y] = -1;
+        }
     }
 }

@@ -25,16 +25,17 @@ public class MainLevel extends LevelManager {
     public Music music;
     public Music sfx_ocean;
     public boolean constantineDefeated = false, langwithDefeated = false, goodrickeDefeated = false;
-    private boolean tutorialCompleted = false;
-    private Texture tutorialTexture;
-    private Sprite tutorial;
+    private int tutorialStage = 0;
+    private Texture[] tutorialTexture;
+    private Sprite[] tutorials;
 
     public MainLevel(PirateDucks mainClass) {
 
         super(mainClass);
 
-        tutorialTexture = new Texture("controls.png");
-        tutorial = new Sprite(tutorialTexture);
+        // Stores tutorial textures & sprites in arrays
+        tutorialTexture = new Texture[]{new Texture("controls.png"), new Texture("gameTutorial.png")};
+        tutorials = new Sprite[]{new Sprite(tutorialTexture[0]), new Sprite(tutorialTexture[1])};
     }
 
     @Override
@@ -79,8 +80,6 @@ public class MainLevel extends LevelManager {
         for(int i = 0; i < 5; i++) {
             addObject(new Boat(45, 55, this));
         }
-
-
     }
 
     @Override
@@ -99,9 +98,9 @@ public class MainLevel extends LevelManager {
             font.draw(batch, "Press \"E\" to fight Langwith College", camera.position.x - 100,  camera.position.y + 200);
         }
 
-        // Show game controls if player just loaded new game
-        if (!tutorialCompleted) {
-            tutorial.draw(batch);
+        // Shows 1 of 2 possible tutorial screens
+        if (tutorialStage < 2) {
+            tutorials[tutorialStage].draw(batch);
         }
 
         // code used to display a coordinated area on the screen, this was used to modify the hitboxes of locations on the map
@@ -128,10 +127,22 @@ public class MainLevel extends LevelManager {
         // gets players hit box
         Rectangle playerCollision = getPlayer().getCollision();
 
-        // Space bar removes controls tutorial from screen
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            tutorialCompleted = true;
-            tutorialTexture.dispose();
+        // Space bar removes changes tutorial screen
+        if (tutorialStage < 2) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+                tutorialTexture[tutorialStage].dispose();
+                tutorialStage++;
+            }
+        }
+
+        // Center tutorial in center of screen
+        if (tutorialStage < 2) {
+            tutorials[0].setPosition(getCamera().position.x - (tutorials[0].getWidth() / 2), getCamera().position.y - (tutorials[0].getHeight() / 2));
+            // scales the sprite depending on window size divided by a constant
+            tutorials[0].setSize(getCamera().viewportWidth / 1.7f, getCamera().viewportHeight / 1.7f);
+            tutorials[1].setPosition(getCamera().position.x - (tutorials[1].getWidth() / 2), getCamera().position.y - (tutorials[1].getHeight() / 2));
+            // scales the sprite depending on window size divided by a constant
+            tutorials[1].setSize(getCamera().viewportWidth / 1.7f, getCamera().viewportHeight / 1.7f);
         }
 
         // Press E to fight a college when player is next to a college island
@@ -197,13 +208,6 @@ public class MainLevel extends LevelManager {
             } else {
                 getCamera().position.y = calc;
             }
-        }
-
-        // Center controls tutorial in center of screen
-        if (!tutorialCompleted) {
-            tutorial.setPosition(getCamera().position.x - (tutorial.getWidth() / 2), getCamera().position.y - (tutorial.getHeight() / 2));
-            // scales the sprite depending on window size divided by a constant
-            tutorial.setSize(getCamera().viewportWidth / 1.7f, getCamera().viewportHeight / 1.7f);
         }
     }
 

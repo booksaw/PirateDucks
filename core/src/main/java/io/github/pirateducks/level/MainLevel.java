@@ -48,7 +48,7 @@ public class MainLevel extends LevelManager {
 
     @Override
     protected void setup(OrthographicCamera camera) {
-
+        System.out.println("setup is being called");
         font = new BitmapFont();
 
         // Sets the background music
@@ -155,7 +155,6 @@ public class MainLevel extends LevelManager {
         }
         // Pause game when escape key is pressed
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            this.stopDisplaying();
             // Load pause screen
             getMainClass().setCurrentScreen(new PauseScreen(getMainClass(), this));
             return;

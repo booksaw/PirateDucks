@@ -136,7 +136,12 @@ public class PathFinder {
      * @return if the location is traversable
      */
     public boolean isTraversable(float x, float y) {
-        return tileMap[(int) x / gradient][(int) y / gradient];
+        try {
+            return tileMap[(int) x / gradient][(int) y / gradient];
+        } catch(ArrayIndexOutOfBoundsException e){
+            // duck has been attempted to spawn out of the map
+            return false;
+        }
     }
 
     /**
@@ -158,6 +163,13 @@ public class PathFinder {
 
                 float calcX = node.checkpoint.x + (x * gradient);
                 float calcY = node.checkpoint.y + (y * gradient);
+
+                if(calcX >= manager.getMap().getWidth()){
+                    continue;
+                }
+                if(calcY >= manager.getMap().getHeight()){
+                    continue;
+                }
 
                 if (isTraversable(calcX, calcY)) {
                     toReturn.add(new PathNode(new Checkpoint(calcX, calcY, gradient), (float) Math.sqrt(Math.abs(x * gradient) + Math.abs(y * gradient)), node.dest, node));

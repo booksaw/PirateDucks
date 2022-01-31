@@ -137,7 +137,7 @@ public class MainLevel extends LevelManager {
         // Press E to fight a college when player is next to a college island
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             if (playerCollision.overlaps(constantine) && !constantineDefeated) {
-                getMainClass().setCurrentScreen(new ConstantineMemoryGame(this, getCamera(), this));
+                getMainClass().setCurrentScreen(new ConstantineMemoryGame(this, getCamera()));
                 return;
             } else if (playerCollision.overlaps(goodricke) && !goodrickeDefeated) {
                 getMainClass().setCurrentScreen(new Goodricke(this, getCamera()));

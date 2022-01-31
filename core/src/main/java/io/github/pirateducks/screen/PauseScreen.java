@@ -93,9 +93,7 @@ public class PauseScreen implements Screen  {
                 if (scaledMouse.x >= buttonX && scaledMouse.x <= (buttonX + buttonW) && scaledMouse.y >= buttonY && scaledMouse.y <= (buttonY + buttonH)){
                     if (i == 0){
 
-                        mainClass.setCurrentScreen(prevScreen);
-                        this.stopDisplaying();
-
+                        mainClass.setCurrentScreen(prevScreen, false);
 
                     } else if (i == 1){
                         mainClass.setCurrentScreen(new MainMenuScreen(mainClass));
@@ -114,8 +112,7 @@ public class PauseScreen implements Screen  {
         }
         // Return to game when escape key is pressed
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            mainClass.setCurrentScreen(prevScreen);
-            this.stopDisplaying();
+            mainClass.setCurrentScreen(prevScreen, false);
         }
     }
 

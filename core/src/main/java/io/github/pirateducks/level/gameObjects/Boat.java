@@ -44,7 +44,7 @@ public class Boat extends GameObject {
 
         Vector2 destination = generateDestination();
 
-        path = level.getPathFinder().getPath(x + width / 2, y + height / 2, destination.x, destination.y);
+        path = level.getPathFinder().getPath(x + width / 2, y + height / 2, destination.x + width / 2, destination.y + height / 2);
         if (path != null) {
             // removing the start node from the path
             path.remove(0);
@@ -98,7 +98,7 @@ public class Boat extends GameObject {
             int y = rnd.nextInt((int) level.getMap().getHeight());
 
             if(level.getPathFinder().isTraversable(x ,y)){
-                return new Vector2(x, y);
+                return new Vector2(x - width / 2, y - height / 2);
             }
         }
     }

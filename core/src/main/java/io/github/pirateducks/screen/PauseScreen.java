@@ -16,88 +16,96 @@ import io.github.pirateducks.level.MainLevel;
 
 
 public class PauseScreen implements Screen  {
-
+    // Initialise array to store button sprites
     private final Array<Sprite> buttons = new Array<>();
 
+    // Initialise textures and sprites
     private Texture pauseTextTexture;
     private Sprite pauseTextSprite;
-
     private Texture continueButtonTexture;
     private Sprite continueButtonSprite;
-
     private Texture quitButtonTexture;
     private Sprite quitButtonSprite;
-
     private PirateDucks mainClass;
     private Screen prevScreen;
-
     private Texture backgroundTexture;
     private Sprite backgroundSprite;
-
     private Texture muteButtonTextureOn;
     private Texture muteButtonTextureOff;
     private Sprite muteButtonSprite;
 
+    /**
+     * Class constructor, called when this screen becomes active
+     * @param mainClass Holds the main game and player data
+     * @param prevScreen Screen to which to return to if the user wants to continue rather than quit
+     */
     public PauseScreen(PirateDucks mainClass, Screen prevScreen){
         this.mainClass = mainClass;
         this.prevScreen = prevScreen;
     }
+
     /**
-     * Called to draw the screen
-     * @param batch
+     * Called to draw the screen and graphics
+     * @param batch Used to draw sprites
      */
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
         // set background as blurred map
         ScreenUtils.clear(0, 0, 0.2f, 1);
-
         backgroundTexture = new Texture("map_blurred.png");
         backgroundSprite = new Sprite(backgroundTexture);
         backgroundSprite.setSize(camera.viewportWidth, camera.viewportHeight);
         backgroundSprite.setPosition(0, 0);
 
-        if (backgroundSprite != null){
+        if (backgroundSprite != null && pauseTextSprite != null){
             backgroundSprite.draw(batch);
-        }
-
-
-        if (pauseTextSprite != null){
             pauseTextSprite.draw(batch);
+        } else {
+            throw new Error("Error drawing graphics, please restart game");
         }
+
 
         for (Sprite button : buttons){
             if (button != null){
                 button.draw(batch);
+            } else {
+                throw new Error("Error drawing graphics, please restart game");
             }
         }
     }
 
     /**
-     * Called to update the screen
+     * Called to update the screen and check for key presses
      * @param delta The delta time since the last update
      */
     public void update(float delta){
+        // Check if user has left-clicked
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
 
+            // User has left-clicked, so check each button to see if it has been clicked
             for (int i=0;i<buttons.size;i++){
                 Sprite button = buttons.get(i);
 
                 // getting the location of the mouse
                 Vector2 scaledMouse = PirateDucks.getScaledMouseLocation(mainClass.getCamera());
 
-                // Check if mouse position is inside button when clicked
+                // Get button position information
                 float buttonX = button.getX();
                 float buttonY = button.getY();
                 float buttonW = button.getWidth();
                 float buttonH = button.getHeight();
 
+                // Check if mouse within button boundary
+
                 if (scaledMouse.x >= buttonX && scaledMouse.x <= (buttonX + buttonW) && scaledMouse.y >= buttonY && scaledMouse.y <= (buttonY + buttonH)){
                     if (i == 0){
-
+                        // User has pressed continue, return to previous screen
                         mainClass.setCurrentScreen(prevScreen, false);
 
                     } else if (i == 1){
+                        // User has pressed quit, so return to main menu
                         mainClass.setCurrentScreen(new MainMenuScreen(mainClass));
                     } else if (i == 2){
+                        // User has pressed the music button, so switch music on or off.
                         if (mainClass.musicOn) {
                             mainClass.musicOn = false;
                             muteButtonSprite.setTexture(muteButtonTextureOff);
@@ -117,19 +125,11 @@ public class PauseScreen implements Screen  {
     }
 
     /**
-     * Called when this screen becomes the active screen
+     * Called when this screen becomes the active screen to generate graphics
      */
     public void startDisplaying(OrthographicCamera camera){
-        // Create game logo sprite
-//        gameLogoTexture = new Texture("logo.png");
-//        gameLogoSprite = new Sprite(gameLogoTexture);
-//        // Scale logo depending on window size
-//        float scaleRatio = (gameLogoSprite .getWidth() / camera.viewportWidth) * 1.5f;
-//        gameLogoSprite.setSize(gameLogoSprite.getWidth() / scaleRatio, gameLogoSprite.getHeight()/scaleRatio);
-//
-//        //Centre the logo
-//        gameLogoSprite.setPosition(camera.viewportWidth/2 - gameLogoSprite.getWidth()/2,(camera.viewportHeight/2 - gameLogoSprite.getHeight()/2) * 2.5f);
 
+        // Generate and scale header text
         pauseTextTexture = new Texture("pauseScreen/pausedText.png");
         pauseTextSprite = new Sprite(pauseTextTexture);
 
@@ -139,26 +139,25 @@ public class PauseScreen implements Screen  {
 
         //Buttons
 
-        // Start Game Button
+        // Generate and scale continue button
         continueButtonTexture = new Texture("pauseScreen/continue.png");
         continueButtonSprite = new Sprite(continueButtonTexture);
         scaleRatio = buttonScaleRatio(continueButtonSprite, camera);
         continueButtonSprite.setSize(continueButtonSprite.getWidth()/scaleRatio,continueButtonSprite.getHeight()/scaleRatio);
 
-        int offset = -10;
+        int offset = -10; // Used to put but buttons below one another
 
         continueButtonSprite.setPosition(camera.viewportWidth/2 - continueButtonSprite.getWidth()/2,(camera.viewportHeight/2-continueButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(continueButtonSprite);
 
 
-        // Quit button
-
+        // Generate and scale quit button
         quitButtonTexture = new Texture("pauseScreen/quit.png");
         quitButtonSprite = new Sprite(quitButtonTexture);
         scaleRatio = buttonScaleRatio(quitButtonSprite, camera);
         quitButtonSprite.setSize(quitButtonSprite.getWidth()/scaleRatio,quitButtonSprite.getHeight()/scaleRatio);
 
-        offset -= 20;
+        offset -= 20; // Put quit button below continue button
         quitButtonSprite.setPosition(camera.viewportWidth/2 - quitButtonSprite.getWidth()/2,(camera.viewportHeight/2-quitButtonSprite.getHeight()/2) + (offset/scaleRatio));
         buttons.add(quitButtonSprite);
 
@@ -180,6 +179,12 @@ public class PauseScreen implements Screen  {
 
     }
 
+    /**
+     * Used to calculate the scale ratio of a button
+     * @param button The button to calculate the scale ratio of
+     * @param camera Manages the screen, used to get screen size information
+     * @return float of scale ratio
+     */
     private float buttonScaleRatio(Sprite button, OrthographicCamera camera){
         float scaleRatio = (button.getWidth()/camera.viewportWidth) * 3.5f;
         return scaleRatio;

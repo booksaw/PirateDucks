@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Timer;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.screen.PauseScreen;
+
 import javax.swing.*;
 import java.util.Random;
 import java.util.concurrent.*;
@@ -368,7 +369,7 @@ public class ConstantineMemoryGame extends College{
             Sound loseSound = Gdx.audio.newSound(Gdx.files.internal("memoryGame/lose.wav"));
             loseSound.play();
 
-            mainLevel.getPlayer().setHealth(getPlayer().getHealth() - 2);
+            mainLevel.getPlayer().setHealth(mainLevel.getPlayer().getHealth() - 2);
 
             String resultMsg;
             if (digits.isEmpty()) {

@@ -12,7 +12,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.MainLevel;
-import io.github.pirateducks.level.gameObjects.*;
+import io.github.pirateducks.level.gameObjects.CannonBall;
+import io.github.pirateducks.level.gameObjects.Coin;
+import io.github.pirateducks.level.gameObjects.LangwithCannon;
+import io.github.pirateducks.level.gameObjects.LangwithCannonball;
 import io.github.pirateducks.screen.PauseScreen;
 
 /**

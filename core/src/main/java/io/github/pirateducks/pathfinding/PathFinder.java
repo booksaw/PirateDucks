@@ -1,9 +1,7 @@
 package io.github.pirateducks.pathfinding;
 
-import com.badlogic.gdx.graphics.Texture;
 import io.github.pirateducks.level.LevelManager;
 
-import java.sql.Array;
 import java.util.*;
 
 /**

@@ -4,8 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.college.Langwith;
+
 import java.util.Random;
 
+/**
+ * This class is the cannon used in the Langwith college fight
+ */
 public class LangwithCannon extends Cannon {
 
     private final Langwith langwith;
@@ -13,15 +17,21 @@ public class LangwithCannon extends Cannon {
     private int shotsFired = 0;
     private double rotationSpeed = 0.5;
     private boolean startFiring = false;
-    private Sound cannonFireSound = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
+    private final Sound cannonFireSound = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
 
-    public LangwithCannon(float width, float height, float x, float y, LevelManager manager) {
-        super(width, height, x, y, manager);
+    /**
+     * Creates a cannon for the langwith college fight with the following parameters
+     *
+     * @param width   The width of the cannon
+     * @param height  The height of the cannon
+     * @param x       the x coord of the cannon
+     * @param y       the y coord of the cannon
+     * @param manager The Levelmanager that controls the cannon
+     */
+    public LangwithCannon(float width, float height, float x, float y, Langwith langwith) {
+        super(width, height, x, y, langwith);
 
-        if(!(manager instanceof  Langwith)){
-            throw new IllegalArgumentException("The level manager must be an instance of Langwith");
-        }
-        this.langwith = (Langwith) manager;
+        this.langwith = langwith;
     }
 
     int untilNextShot = 50;
@@ -31,7 +41,7 @@ public class LangwithCannon extends Cannon {
         super.update(delta);
 
         // if the cannon is about to be disposed but has not been so sound can play, skip update
-        if(disposeTimer >= 0){
+        if (disposeTimer >= 0) {
             return;
         }
 
@@ -40,12 +50,10 @@ public class LangwithCannon extends Cannon {
             angle += rotationSpeed;
             if (phase == 1) {
                 shootPattern(delta);
-            }
-            else {
+            } else {
                 shootRandomly(delta);
             }
-        }
-        else {
+        } else {
             // Rotate cannons to -45 at the start
             angle -= rotationSpeed;
             if (angle == -45) {
@@ -55,6 +63,11 @@ public class LangwithCannon extends Cannon {
         untilNextShot -= delta;
     }
 
+    /**
+     * Used to shoot a cannonball from the cannon
+     *
+     * @param delta The deta for the update period
+     */
     private void shootCannonball(float delta) {
         shotsFired++;
         langwith.spawnCannonball(x + width / 2, y, getAngle());
@@ -67,19 +80,17 @@ public class LangwithCannon extends Cannon {
      */
     private void shootPattern(float delta) {
         if ((untilNextShot <= 0)) {
-            if (angle >= 50 || angle <= -50 ) {
-                rotationSpeed = - rotationSpeed;
+            if (angle >= 50 || angle <= -50) {
+                rotationSpeed = -rotationSpeed;
             }
             if (shotsFired == 0) {
                 angle = -45f;
                 rotationSpeed = Math.abs(rotationSpeed);
                 shootCannonball(delta);
-            }
-            else if (shotsFired == 5) {
+            } else if (shotsFired == 5) {
                 phase = 2;
                 shotsFired = 0;
-            }
-            else {
+            } else {
                 shootCannonball(delta);
             }
             untilNextShot = 70;
@@ -93,7 +104,7 @@ public class LangwithCannon extends Cannon {
         if (untilNextShot <= 0) {
             Random rnd = new Random();
             if (angle >= 40 || angle <= -40 || rnd.nextDouble() < 0.5) {
-                rotationSpeed = - rotationSpeed;
+                rotationSpeed = -rotationSpeed;
             }
             shootCannonball(delta);
             if (shotsFired == 5) {

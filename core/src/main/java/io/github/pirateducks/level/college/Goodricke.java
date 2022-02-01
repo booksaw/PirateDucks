@@ -41,6 +41,7 @@ public class Goodricke extends College { // Projectiles
     private Sprite tutorial;
     private int temp_gold = 0; // Local Gold, Resets each time Goodricke is run
 
+
     /**
      * Class constructor, called to start the Goodricke college Game
      * @param level MainLevel class which holds the main game and player data
@@ -155,8 +156,6 @@ public class Goodricke extends College { // Projectiles
         // Return to main level if college is defeated
         if (isDefeated()) {
             save = false;
-            // Add collected local gold to total gold
-            getMainClass().addGold(temp_gold);
         }
 
         for(GoodrickeCannon cannon : cannons) {
@@ -188,7 +187,7 @@ public class Goodricke extends College { // Projectiles
                     if(cannon.getHealth() > 0 && collision.overlaps(cannon.getCollision())){
                         cannon.setHealth(cannon.getHealth() - 2);
                         ((CannonBall)object).collide();
-                        temp_gold += 100;
+                        getMainClass().addGold(100);
                         continue;
                         // no need to check other cannons
                     }
@@ -217,7 +216,7 @@ public class Goodricke extends College { // Projectiles
                 // Collect the coins
                 c.collect();
                 // Add 10 points to the count for each coin collected multiplied by size
-                temp_gold += (c.getSize() * 10);
+                getMainClass().addGold(c.getSize() * 10);
             }
         }
     }

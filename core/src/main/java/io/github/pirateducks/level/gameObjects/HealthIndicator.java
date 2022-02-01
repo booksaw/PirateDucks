@@ -1,28 +1,58 @@
 package io.github.pirateducks.level.gameObjects;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.GameObjectHealth;
 
+/**
+ * Displays a healthbar which has hearts
+ */
 public class HealthIndicator extends GameObject {
 
+    /**
+     * Constant to define the heart size
+     */
     private static final int HEARTSIZE = 20;
     private static final int PADDING = 5;
 
     private final GameObjectHealth object;
+
+    /**
+     * Textures used to display the hearts
+     */
     private final Texture fullHeart, halfHeart, emptyHeart;
+
+    /**
+     * Textures used when the hearts flash
+     */
     private final Texture fullHeartWhite, halfHeartWhite, emptyHeartWhite;
     private int currentHealth;
+
+    /**
+     * how long the hearts flash for when the player looses health
+     */
     private final int flashDuration = 20;
+
+    /**
+     * How long the heart has currently flashed for, set to -1 when not flashing
+     */
     private int currentDuration = -1;
+    private final OrthographicCamera camera;
 
-    public HealthIndicator(GameObjectHealth parent, float x, float y) {
-
+    /**
+     * Used to initalise the healthbar
+     *
+     * @param parent The GameObject this health bar is attached to
+     * @param x      The x coord of the health bar
+     * @param y      the y coord of the health bar
+     */
+    public HealthIndicator(GameObjectHealth parent, float x, float y, OrthographicCamera camera) {
         // giving dimensions of 0 as it does not have collision
         super(0, 0);
+        this.camera = camera;
         this.object = parent;
         this.x = x;
         this.y = y;
@@ -43,14 +73,17 @@ public class HealthIndicator extends GameObject {
         float heartY = y;
         int health = object.getHealth();
 
+        float cameraAdditionX = camera.position.x - camera.viewportWidth / 2;
+        float cameraAdditionY = camera.position.y - camera.viewportHeight / 2;
+
         for (int rendered = 0; rendered < object.getMaxHealth(); rendered += 2) {
             int diff = health - rendered;
             if (diff <= 0) {
-                batch.draw((currentDuration == -1) ? emptyHeart : emptyHeartWhite, heartX, y, HEARTSIZE, HEARTSIZE);
+                batch.draw((currentDuration == -1) ? emptyHeart : emptyHeartWhite, heartX + cameraAdditionX, y + cameraAdditionY, HEARTSIZE, HEARTSIZE);
             } else if (diff == 1) {
-                batch.draw((currentDuration == -1) ? halfHeart : halfHeartWhite, heartX, y, HEARTSIZE, HEARTSIZE);
+                batch.draw((currentDuration == -1) ? halfHeart : halfHeartWhite, heartX + cameraAdditionX, y + cameraAdditionY, HEARTSIZE, HEARTSIZE);
             } else {
-                batch.draw((currentDuration == -1) ? fullHeart : fullHeartWhite, heartX, y, HEARTSIZE, HEARTSIZE);
+                batch.draw((currentDuration == -1) ? fullHeart : fullHeartWhite, heartX + cameraAdditionX, y + cameraAdditionY, HEARTSIZE, HEARTSIZE);
             }
 
             heartX += HEARTSIZE + PADDING;

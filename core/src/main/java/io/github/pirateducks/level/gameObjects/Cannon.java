@@ -43,9 +43,7 @@ public abstract class Cannon extends GameObjectHealth {
         sprite = new Sprite(texture);
         sprite.setSize(width, height);
 
-        // displays hearts above the cannon
-        healthIndicator = new HealthIndicator(this, x + 30, y + 85);
-
+        healthIndicator = new HealthIndicator(this, x + 30, y + 85, manager.getCamera());
         explode = Gdx.audio.newSound(Gdx.files.internal("explode.mp3"));
     }
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -34,6 +35,8 @@ public class Goodricke extends College { // Projectiles
     public Sound explode;
     private Texture tutorialTexture;
     private Sprite tutorial;
+    private int temp_gold = 0; // Local Gold, Resets each time Goodricke is run
+    BitmapFont font;
 
     public Goodricke(MainLevel level, OrthographicCamera camera) {
         super(level);
@@ -150,6 +153,8 @@ public class Goodricke extends College { // Projectiles
         // Return to main level if college is defeated
         if (isDefeated()) {
             save = false;
+            // Add collected local gold to total gold
+            getMainClass().addGold(temp_gold);
         }
 
         // checking if any cannonballs are hitting any fruit or cannons
@@ -174,6 +179,7 @@ public class Goodricke extends College { // Projectiles
                     if(cannon.getHealth() > 0 && collision.overlaps(cannon.getCollision())){
                         cannon.setHealth(cannon.getHealth() - 2);
                         ((CannonBall)object).collide();
+                        temp_gold += 100;
                         continue;
                         // no need to check other cannons
                     }
@@ -201,6 +207,8 @@ public class Goodricke extends College { // Projectiles
             if (c.getCollision().overlaps(collision)) {
                 // Collect the coins
                 c.collect();
+                // Add 10 points to the count for each coin collected multiplied by size
+                temp_gold += (c.getSize() * 10);
             }
         }
     }
@@ -221,6 +229,8 @@ public class Goodricke extends College { // Projectiles
 
     @Override
     public void setup(OrthographicCamera camera) {
+        font = new BitmapFont();
+
         // Don't add new cannons when unpausing
         if (!save) {
             // init the cannons
@@ -253,6 +263,9 @@ public class Goodricke extends College { // Projectiles
             }
             for (GoodrickeCannon cannon : cannons) {
                 cannon.dispose();
+            }
+            for (Coin c : getCoins()) {
+                c.dispose();
             }
             gameMusic.dispose();
         }

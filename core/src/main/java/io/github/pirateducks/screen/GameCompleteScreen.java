@@ -64,7 +64,7 @@ public class GameCompleteScreen implements Screen{
         // Generate and draw text which displays number of points user obtained
         BitmapFont font = new BitmapFont();
         font.getData().setScale(1.5f);
-        String points = "You scored " + mainClass.points + " points!";
+        String points = "You scored " + mainClass.getPoints() + " points!";
         font.draw(batch,points,(camera.viewportWidth/2 - font.getRegion().getRegionWidth() / 2) + 25,camera.viewportHeight/2);
 
     }

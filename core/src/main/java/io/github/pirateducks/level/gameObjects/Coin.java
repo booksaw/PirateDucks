@@ -1,6 +1,7 @@
 package io.github.pirateducks.level.gameObjects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,6 +15,7 @@ public class Coin extends GameObject {
     private final Texture texture;
     private final LevelManager manager;
     private final OrthographicCamera camera;
+    private final Sound collectCoin;
     private static final int UNIQUESIZES = 6;
     private int size;
     private float multiplier;
@@ -29,6 +31,7 @@ public class Coin extends GameObject {
 
         this.camera = manager.getCamera();
         this.manager = manager;
+        collectCoin = Gdx.audio.newSound(Gdx.files.internal("collect-coin.mp3"));
         texture = new Texture(Gdx.files.internal("GoldCoin.png")); // Change to coin texture
 
         Random rnd = new Random();
@@ -71,6 +74,7 @@ public class Coin extends GameObject {
     public void collect() {
         // Display ding animation over the coin
         manager.removeCoin(this);
+        collectCoin.play();
         dispose();
     }
 

@@ -15,7 +15,7 @@ public class Coin extends GameObject {
     private final LevelManager manager;
     private final OrthographicCamera camera;
     private static final int UNIQUESIZES = 6;
-    private float size;
+    private int size;
     private float multiplier;
 
     /**
@@ -33,7 +33,7 @@ public class Coin extends GameObject {
 
         Random rnd = new Random();
         size = rnd.nextInt(UNIQUESIZES);
-        multiplier = (float) 1.6;
+        multiplier = (float) 3.5;
 
         // scales the sprite depending on window size multiplied by a constant
         float scaleRatio = ((float) texture.getWidth() / (float) camera.viewportWidth) * 135f;
@@ -70,12 +70,11 @@ public class Coin extends GameObject {
 
     public void collect() {
         // Display ding animation over the coin
-
-        // Add 10 points to the count for each coin collected
-        manager.getMainClass().points += (size * 10);
-        System.out.println(manager.getMainClass().points);
-
         manager.removeCoin(this);
         dispose();
+    }
+
+    public int getSize() {
+        return size;
     }
 }

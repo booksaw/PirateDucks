@@ -29,7 +29,7 @@ public class Coin extends GameObject {
 
         this.camera = manager.getCamera();
         this.manager = manager;
-        texture = new Texture(Gdx.files.internal("Heart.png")); // Change to coin texture
+        texture = new Texture(Gdx.files.internal("GoldCoin.png")); // Change to coin texture
 
         Random rnd = new Random();
         size = rnd.nextInt(UNIQUESIZES);

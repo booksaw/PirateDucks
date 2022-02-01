@@ -78,7 +78,7 @@ public class MainLevel extends LevelManager {
 
         // generating AI boats
         for(int i = 0; i < 5; i++) {
-            addObject(new Boat(45, 55, this));
+            addObject(new Boat(35, 55, this));
         }
     }
 

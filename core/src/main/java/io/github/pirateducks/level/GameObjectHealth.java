@@ -1,5 +1,8 @@
 package io.github.pirateducks.level;
 
+/**
+ * Game Object with health abstract class
+ */
 public abstract class GameObjectHealth extends GameObject implements Health {
 
     /**

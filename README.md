@@ -16,7 +16,7 @@
 - [Marc](https://github.com/Anon0x19)
 - [Alice](https://github.com/sagedied)
 
-## Credits
+## Music and Sound Effect Credits
 
 ### Main Game
 
@@ -76,11 +76,11 @@ https://mixkit.co/free-sound-effects/coin/ - Space coin win notification
 
 #### Cannon shot sound effect
 
-
+https://www.nps.gov/subjects/sound/sounds-cannon.htm
 
 #### Cannon explode sound effect
 
-
+https://mixkit.co/free-sound-effects/explosion/ - Gun Explosion with Long Echo
 
 
 

@@ -64,7 +64,7 @@ public class CollegeDefeatedScreen implements Screen {
                         scaledInput.y >= button.getY() && scaledInput.y <= button.getY() + button.getHeight())
                 {
                     if (i == 0) {
-                        mainLevel.getMainClass().setCurrentScreen(mainLevel);
+                        mainLevel.getMainClass().setCurrentScreen(mainLevel, false);
                         buttonPressed = true;
                     }
                 }
@@ -79,7 +79,7 @@ public class CollegeDefeatedScreen implements Screen {
     public void startDisplaying(OrthographicCamera camera) {
 
         // Creates a sprite with the Game over title texture
-        Texture texture = new Texture("CollegeDefeatedScreen.png");
+        Texture texture = new Texture("collegeWin/CollegeDefeatedScreen.png");
         gameOverSprite = new Sprite(texture);
 
         // scales the sprite depending on window size multiplied by a constant
@@ -94,7 +94,7 @@ public class CollegeDefeatedScreen implements Screen {
 
     private void addButtons(OrthographicCamera camera) {
         // Add a return to menu button
-        Texture texture = new Texture("gameOverScreen/buttons/GameOverMenuButton.png");
+        Texture texture = new Texture("collegeWin/Continue.png");
         // Create sprite from texture
         Sprite button = new Sprite(texture);
         // scales the sprite based on window size multiplied by a constant since textures will be different size images

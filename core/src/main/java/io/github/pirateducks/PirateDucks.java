@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import io.github.pirateducks.level.gameObjects.Player;
 import io.github.pirateducks.screen.*;
 
 public class PirateDucks extends ApplicationAdapter {
@@ -41,6 +42,7 @@ public class PirateDucks extends ApplicationAdapter {
     private Viewport viewport;
     public Boolean musicOn = true;
     public int points = 0;
+    private int playerHealth = 6;
 
     @Override
     public void create() {
@@ -111,4 +113,8 @@ public class PirateDucks extends ApplicationAdapter {
     public OrthographicCamera getCamera() {
         return camera;
     }
+
+    public int getPlayerHealth() { return playerHealth; }
+
+    public void setPlayerHealth(int newHealth) { playerHealth = newHealth; }
 }

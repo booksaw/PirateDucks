@@ -28,11 +28,13 @@ public class MainLevel extends LevelManager {
     private int tutorialStage = 0;
     private Texture[] tutorialTexture;
     private Sprite[] tutorials;
+    private PirateDucks mainClass;
 
     public MainLevel(PirateDucks mainClass) {
 
         super(mainClass);
 
+        this.mainClass = mainClass;
         // Stores tutorial textures & sprites in arrays
         tutorialTexture = new Texture[]{new Texture("controls.png"), new Texture("gameTutorial.png")};
         tutorials = new Sprite[]{new Sprite(tutorialTexture[0]), new Sprite(tutorialTexture[1])};

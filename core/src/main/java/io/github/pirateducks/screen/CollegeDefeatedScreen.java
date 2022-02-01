@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -19,10 +20,13 @@ public class CollegeDefeatedScreen implements Screen {
 
     private final OrthographicCamera camera;
     private final MainLevel mainLevel;
+    BitmapFont font;
 
     public CollegeDefeatedScreen(MainLevel mainLevel, OrthographicCamera camera){
         this.camera = camera;
         this.mainLevel = mainLevel;
+
+        this.font = new BitmapFont();
     }
 
     /**
@@ -42,6 +46,8 @@ public class CollegeDefeatedScreen implements Screen {
                 button.draw(batch);
             }
         }
+
+        font.draw(batch, "Extra heart gained!", camera.viewportWidth/2 - 55, camera.viewportHeight/2 + 30);
     }
 
     @Override
@@ -49,8 +55,6 @@ public class CollegeDefeatedScreen implements Screen {
         // If user left-clicks the screen
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
         {
-            // Stops multiple buttons being pressed in the loop
-            boolean buttonPressed = false;
             // Loop through all buttons and see if one was clicked
             for (int i = 0; i < buttons.size; i++) {
                 Sprite button = buttons.get(i);
@@ -65,7 +69,6 @@ public class CollegeDefeatedScreen implements Screen {
                 {
                     if (i == 0) {
                         mainLevel.getMainClass().setCurrentScreen(mainLevel);
-                        buttonPressed = true;
                     }
                 }
             }

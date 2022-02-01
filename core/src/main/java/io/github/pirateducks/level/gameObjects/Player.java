@@ -32,6 +32,7 @@ public class Player extends GameObjectHealth {
         // loading the texture
         Texture texture = new Texture(Gdx.files.internal("DuckBoat_TopView.png"));
         maxHealth = 6;
+
         health = 6;
         sprite = new Sprite(texture);
     }

@@ -35,7 +35,7 @@ public abstract class Cannon extends GameObjectHealth {
         texture = new Texture("Langwith/Cannon.png");
         sprite = new Sprite(texture);
         sprite.setSize(width, height);
-        healthIndicator = new HealthIndicator(this, x + 30, y + 85);
+        healthIndicator = new HealthIndicator(this, x + 30, y + 85, manager.getCamera());
 
         explode = Gdx.audio.newSound(Gdx.files.internal("explode.mp3"));
     }

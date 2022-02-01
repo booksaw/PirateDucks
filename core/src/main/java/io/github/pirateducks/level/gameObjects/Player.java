@@ -170,8 +170,20 @@ public class Player extends GameObjectHealth {
 
     @Override
     public void setHealth(int health) {
+        setHealth(health, true);
+    }
+
+    /**
+     * Used to set the health of the player
+     * @param health The health of the player
+     * @param gameOver If the game should game over if the players health hits 0
+     */
+    public void setHealth(int health, boolean gameOver){
+        if(health > maxHealth){
+            health = maxHealth;
+        }
         this.health = health;
-        if (health <= 0) {
+        if (health <= 0 && gameOver) {
             manager.getMainClass().setCurrentScreen(new GameOverScreen(manager.getMainClass(), camera));
         }
     }
@@ -191,6 +203,10 @@ public class Player extends GameObjectHealth {
     public void setMaxHealth(int maxHealth) {
         if (maxHealth % 2 != 0) {
             throw new IllegalArgumentException("The game currently cannot render a max health which is odd.");
+        }
+
+        if(health > maxHealth){
+            health = maxHealth;
         }
         this.maxHealth = maxHealth;
     }

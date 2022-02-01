@@ -14,7 +14,10 @@ import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
 
-
+/**
+ * This screen is displayed when the pause button is pressed,
+ * The buttons continue, quit, and mute music are available on this screen
+ */
 public class PauseScreen implements Screen  {
     // Initialise array to store button sprites
     private final Array<Sprite> buttons = new Array<>();

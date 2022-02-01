@@ -11,7 +11,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
 
-
+/**
+ * This screen is called when the player has been defeated a college,
+ * it contains a return to menu button and a quit button
+ */
 public class GameOverScreen implements Screen {
 
     private final Array<Sprite> buttons = new Array<>();

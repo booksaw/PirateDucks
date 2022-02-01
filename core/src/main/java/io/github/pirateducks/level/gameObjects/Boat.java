@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.pathfinding.Checkpoint;
+
 import java.util.List;
 import java.util.Random;
 

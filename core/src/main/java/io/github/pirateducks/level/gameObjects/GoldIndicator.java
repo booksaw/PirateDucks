@@ -1,14 +1,11 @@
 package io.github.pirateducks.level.gameObjects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.GameObject;
-import io.github.pirateducks.level.LevelManager;
-import io.github.pirateducks.PirateDucks;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class GoldIndicator extends GameObject {
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.college.Goodricke;
+
 import java.util.Random;
 
 /**

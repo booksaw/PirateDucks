@@ -2,7 +2,6 @@ package io.github.pirateducks.level.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.college.Langwith;
 
 import java.util.Random;

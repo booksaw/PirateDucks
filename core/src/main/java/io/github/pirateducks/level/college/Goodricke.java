@@ -13,10 +13,11 @@ import com.badlogic.gdx.utils.Array;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.level.gameObjects.CannonBall;
-import io.github.pirateducks.level.gameObjects.Fruit;
 import io.github.pirateducks.level.gameObjects.Coin;
+import io.github.pirateducks.level.gameObjects.Fruit;
 import io.github.pirateducks.level.gameObjects.GoodrickeCannon;
 import io.github.pirateducks.screen.PauseScreen;
+
 import java.util.Random;
 
 /**

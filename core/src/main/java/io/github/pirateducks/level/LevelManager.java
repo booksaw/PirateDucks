@@ -4,13 +4,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
-import io.github.pirateducks.level.gameObjects.*;
+import io.github.pirateducks.level.gameObjects.Coin;
+import io.github.pirateducks.level.gameObjects.GoldIndicator;
+import io.github.pirateducks.level.gameObjects.HealthIndicator;
+import io.github.pirateducks.level.gameObjects.Player;
 import io.github.pirateducks.screen.Screen;
 
 import java.util.Random;
@@ -91,8 +93,6 @@ public abstract class LevelManager implements Screen {
         this.player = player;
         // increases players health if they just defeated a college
         this.player.setMaxHealth(mainClass.getPlayerHealth());
-        // restores player to full health
-        this.player.setHealth(this.player.getMaxHealth());
         objects.add(this.player);
     }
 

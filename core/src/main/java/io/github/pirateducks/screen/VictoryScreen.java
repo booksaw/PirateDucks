@@ -99,6 +99,10 @@ public class VictoryScreen implements Screen {
         addButtons(camera);
     }
 
+    /**
+     * Called to add return to menu button and quit button to screen
+     * @param camera
+     */
     private void addButtons(OrthographicCamera camera) {
         // Add a return to menu button
         Texture texture = new Texture("victoryScreen/buttons/VictoryScreenMenuButton.png");

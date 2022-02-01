@@ -101,6 +101,10 @@ public class GameOverScreen implements Screen {
         addButtons(camera);
     }
 
+    /**
+     * Called to add buttons to allow user input
+     * @param camera
+     */
     private void addButtons(OrthographicCamera camera) {
         // Add a return to menu button
         Texture texture = new Texture("gameOverScreen/buttons/GameOverMenuButton.png");

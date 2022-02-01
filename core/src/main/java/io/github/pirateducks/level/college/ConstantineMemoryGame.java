@@ -9,22 +9,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
-
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.screen.PauseScreen;
-import io.github.pirateducks.screen.Screen;
-
 import javax.swing.*;
-
 import java.util.Random;
 import java.util.concurrent.*;
 
-
+/**
+ * This class is the Constantine memory game
+ */
 public class ConstantineMemoryGame extends College{
 
     private final OrthographicCamera camera;
@@ -382,8 +379,6 @@ public class ConstantineMemoryGame extends College{
         closeSprite.setAlpha(1);
 
         return win;
-
-
     }
 
     /**

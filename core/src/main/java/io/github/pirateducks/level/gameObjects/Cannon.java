@@ -6,12 +6,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
-import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.GameObjectHealth;
 import io.github.pirateducks.level.LevelManager;
-import io.github.pirateducks.level.college.Langwith;
 
+/**
+ * Used as a base for other cannon classes
+ */
 public abstract class Cannon extends GameObjectHealth {
 
     private final Texture texture;
@@ -20,30 +20,45 @@ public abstract class Cannon extends GameObjectHealth {
     private int health;
     private int maxHealth;
     protected float angle = 0;
-    private final LevelManager manager;
-
     private Sound explode;
+    private LevelManager manager;
 
+    /**
+     * Class constructor, called when creating a cannon
+     * @param width width of the boat
+     * @param height height of the boat
+     * @param x x coordinate of the cannon
+     * @param y y coordinate of the cannon
+     */
     public Cannon(float width, float height, float x, float y, LevelManager manager) {
 
         super(width, height);
         this.x = x;
         this.y = y;
-        this.manager = manager;
         maxHealth = 6;
         health = 6;
+        this.manager = manager;
+
         texture = new Texture("Langwith/Cannon.png");
         sprite = new Sprite(texture);
         sprite.setSize(width, height);
-        healthIndicator = new HealthIndicator(this, x + 30, y + 85, manager.getCamera());
 
+        healthIndicator = new HealthIndicator(this, x + 30, y + 85, manager.getCamera());
         explode = Gdx.audio.newSound(Gdx.files.internal("explode.mp3"));
     }
 
+    /**
+     * Sets the angle of the cannon
+     * @param angle
+     */
     public void setAngle(float angle) {
         this.angle = angle;
     }
 
+    /**
+     * Gets the angle of the cannon
+     * @return angle
+     */
     public float getAngle() {
         return angle;
     }
@@ -89,6 +104,10 @@ public abstract class Cannon extends GameObjectHealth {
 
     }
 
+    /**
+     * Gets the cannons sprite
+     * @return sprite
+     */
     public Sprite getSprite() {return sprite;}
 
     /**
@@ -115,6 +134,10 @@ public abstract class Cannon extends GameObjectHealth {
         }
     }
 
+    /**
+     * Gets the max health of the cannon
+     * @return max health
+     */
     public int getMaxHealth() {
         return maxHealth;
     }
@@ -131,6 +154,10 @@ public abstract class Cannon extends GameObjectHealth {
         this.maxHealth = maxHealth;
     }
 
+    /**
+     * Gets the hit box of the cannon
+     * @return hit box rectangle
+     */
     public Rectangle getCollision(){
         return new Rectangle(x, y, width, height);
     }

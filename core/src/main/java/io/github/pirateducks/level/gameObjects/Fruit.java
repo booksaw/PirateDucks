@@ -8,9 +8,11 @@ import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.college.Goodricke;
-
 import java.util.Random;
 
+/**
+ * Used to calculate an angle and fire a random fruit in that direction
+ */
 public class Fruit extends GameObject {
 
     /**
@@ -24,9 +26,6 @@ public class Fruit extends GameObject {
     private float angle;
     private float rotation = 0;
     private String fruitChoice = "apple.png";
-
-    private int startX;
-    private int startY;
 
     /**
      * Create a new fruit
@@ -87,6 +86,10 @@ public class Fruit extends GameObject {
         batch.draw(texture, x, y, width / 2, height / 2, width, height, 1, 1, rotation, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
     }
 
+    /**
+     * Gets the hit box of the fruit
+     * @return hit box rectangle
+     */
     public Rectangle getCollision(){
         return new Rectangle(x, y, width, height);
     }
@@ -115,9 +118,10 @@ public class Fruit extends GameObject {
         manager.removeFruit(this);
     }
 
+    /**
+     * Destroys the fruit object
+     */
     public void explode() {
-        // Display explosion animation over the fruit
-        // Then remove the fruit
         manager.removeFruit(this);
         dispose();
     }

@@ -1,15 +1,16 @@
 package io.github.pirateducks.level.gameObjects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.LevelManager;
 
+/**
+ * Calculates angle between player and mouse location and fires a cannonball in that direction
+ */
 public class CannonBall extends GameObject {
 
     private final Texture texture;
@@ -18,6 +19,14 @@ public class CannonBall extends GameObject {
     private final LevelManager manager;
     private final OrthographicCamera camera;
 
+    /**
+     * Class constructor, called when firing a cannonball
+     * @param sourceX starting x coordinate
+     * @param sourceY starting y coordinate
+     * @param targetX target x coordinate
+     * @param targetY target y coordinate
+     * @param manager the level manager
+     */
     public CannonBall(float sourceX, float sourceY, float targetX, float targetY, LevelManager manager) {
         super(100, 100);
 
@@ -33,10 +42,11 @@ public class CannonBall extends GameObject {
         setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
         sprite.setSize(texture.getWidth() / scaleRatio, texture.getHeight() / scaleRatio);
 
+        // sets center of sprite at source coordinates
         this.x = sourceX - (width / 2);
         this.y = sourceY - (height / 2);
 
-        // We use a triangle to calculate the new trajectory
+        // Uses a triangle to calculate the new trajectory
         this.angle = Math.atan2(targetY - y, targetX - x);
     }
 
@@ -45,6 +55,10 @@ public class CannonBall extends GameObject {
         batch.draw(texture, x, y, width / 2, height/2, width, height, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
     }
 
+    /**
+     * Gets the cannonballs sprite
+     * @return sprite
+     */
     public Sprite getSprite() {return sprite;}
 
     @Override
@@ -53,6 +67,7 @@ public class CannonBall extends GameObject {
         x += Math.cos(angle) * velocity;
         y += Math.sin(angle) * velocity;
 
+        // destroy cannonball if it goes off the screen
         // limiting x
         if (x <= -width / 2 || x >= camera.viewportWidth - width / 2) {
             dispose();
@@ -70,6 +85,10 @@ public class CannonBall extends GameObject {
         manager.removeObject(this);
     }
 
+    /**
+     * Gets the hit box of the cannonball
+     * @return hit box rectangle
+     */
     public Rectangle getCollision() {
         return new Rectangle(x, y, width, height);
     }

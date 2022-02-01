@@ -134,7 +134,6 @@ public abstract class LevelManager implements Screen {
      */
     public void addObject(GameObject object) {
         objects.add(object);
-        System.out.println("adding object " + object);
     }
 
     /**

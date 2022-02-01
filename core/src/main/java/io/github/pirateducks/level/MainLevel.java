@@ -28,6 +28,7 @@ public class MainLevel extends LevelManager {
     private int tutorialStage = 0;
     private Texture[] tutorialTexture;
     private Sprite[] tutorials;
+    private Texture fire;
 
     public MainLevel(PirateDucks mainClass) {
 
@@ -36,6 +37,7 @@ public class MainLevel extends LevelManager {
         // Stores tutorial textures & sprites in arrays
         tutorialTexture = new Texture[]{new Texture("controls.png"), new Texture("gameTutorial.png")};
         tutorials = new Sprite[]{new Sprite(tutorialTexture[0]), new Sprite(tutorialTexture[1])};
+        fire = new Texture("fire.png");
     }
 
     @Override
@@ -82,6 +84,9 @@ public class MainLevel extends LevelManager {
         }
     }
 
+    int fireFrame = 0;
+    int updateCount = 0;
+
     @Override
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
         super.draw(batch, camera);
@@ -114,6 +119,17 @@ public class MainLevel extends LevelManager {
         shapeRenderer.end();
         batch.begin();*/
 
+        // displaying fire if each college is defeated
+        int frameWidth = fire.getWidth() / 3;
+        if(constantineDefeated){
+            batch.draw(fire, 800, 680, 150, 240, frameWidth * fireFrame, 0, frameWidth, fire.getHeight(), false,  false);
+        }
+        if(goodrickeDefeated){
+            batch.draw(fire, 1230, 200, 150, 240, frameWidth * fireFrame, 0, frameWidth, fire.getHeight(), false,  false);
+        }
+        if(langwithDefeated){
+            batch.draw(fire, 260, 260, 190, 290, frameWidth * fireFrame, 0, frameWidth, fire.getHeight(), false,  false);
+        }
     }
 
     private final Rectangle langwith = new Rectangle(150, 150, 400, 450);
@@ -123,6 +139,12 @@ public class MainLevel extends LevelManager {
     @Override
     public void update(float delta) {
         super.update(delta);
+
+        updateCount++;
+        if(updateCount > 20){
+            updateCount = 0;
+            fireFrame = (++fireFrame) % 3;
+        }
 
         // gets players hit box
         Rectangle playerCollision = getPlayer().getCollision();

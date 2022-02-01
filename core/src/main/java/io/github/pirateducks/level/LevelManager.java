@@ -113,9 +113,15 @@ public abstract class LevelManager implements Screen {
         // adding a plain color background as we do not have a map yet
         ScreenUtils.clear(0, 0, 0.2f, 1);
         map.draw(batch);
+
+        for (Coin c : getCoins()) {
+            c.render(batch);
+        }
+
         for (GameObject object : objects) {
             object.render(batch);
         }
+
     }
 
     /**

@@ -108,10 +108,6 @@ public class Langwith extends College {
             object.render(batch);
         }
 
-        for (Coin c : getCoins()) {
-            c.render(batch);
-        }
-
         // Show tutorial if player just loaded the college
         if (!tutorialCompleted) {
             tutorial.draw(batch);

@@ -8,9 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.LevelManager;
-
 import java.util.Random;
 
+/**
+ * This class creates a coin in the level
+ */
 public class Coin extends GameObject {
     private final Texture texture;
     private final LevelManager manager;
@@ -57,13 +59,15 @@ public class Coin extends GameObject {
         batch.draw(texture, x, y, width / 2, height / 2, width, height, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
     }
 
+    /**
+     * Gets the hit box of the coin
+     * @return hit box rectangle
+     */
     public Rectangle getCollision(){
         return new Rectangle(x, y, width, height);
     }
 
-    public void update(float delta) {
-
-    }
+    public void update(float delta) { }
 
     public void dispose() {
         texture.dispose();
@@ -71,6 +75,9 @@ public class Coin extends GameObject {
         manager.removeCoin(this);
     }
 
+    /**
+     * Plays a sound when collecting a coin
+     */
     public void collect() {
         // Display ding animation over the coin
         manager.removeCoin(this);
@@ -78,6 +85,10 @@ public class Coin extends GameObject {
         dispose();
     }
 
+    /**
+     * Gets size of the coin
+     * @return coin size
+     */
     public int getSize() {
         return size;
     }

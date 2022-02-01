@@ -8,11 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 import io.github.pirateducks.level.GameObject;
 import io.github.pirateducks.level.MainLevel;
 import io.github.pirateducks.pathfinding.Checkpoint;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This class gives boats pathfinding on the main level
+ */
 public class Boat extends GameObject {
 
     private final double SPEED = 100;
@@ -20,6 +21,12 @@ public class Boat extends GameObject {
     private final MainLevel level;
     List<Checkpoint> path;
 
+    /**
+     * Class constructor, called when creating a boat
+     * @param width width of the boat
+     * @param height height of the boat
+     * @param level MainLevel class which holds the main game and player data
+     */
     public Boat(float width, float height, MainLevel level) {
         super(width, height);
 
@@ -48,7 +55,6 @@ public class Boat extends GameObject {
         if (path != null) {
             // removing the start node from the path
             path.remove(0);
-
         }
 
     }

@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -20,11 +19,16 @@ import io.github.pirateducks.level.gameObjects.GoodrickeCannon;
 import io.github.pirateducks.screen.PauseScreen;
 import java.util.Random;
 
+/**
+ * This class is the Goodricke college fight
+ */
 public class Goodricke extends College { // Projectiles
-    private final OrthographicCamera camera;
+
+    // initialize object arrays
     private final Array<Fruit> fruit = new Array<>();
     private final Array<GoodrickeCannon> cannons = new Array<>();
 
+    private final OrthographicCamera camera;
     private float fruitSize = 10; // Size of fruit
     private final float sizeMultiplier = (float) 1;
     private float playerX = 0; // Default player co-ordinates
@@ -36,8 +40,12 @@ public class Goodricke extends College { // Projectiles
     private Texture tutorialTexture;
     private Sprite tutorial;
     private int temp_gold = 0; // Local Gold, Resets each time Goodricke is run
-    BitmapFont font;
 
+    /**
+     * Class constructor, called to start the Goodricke college Game
+     * @param level MainLevel class which holds the main game and player data
+     * @param camera Manages screen of the game
+     */
     public Goodricke(MainLevel level, OrthographicCamera camera) {
         super(level);
 
@@ -71,6 +79,7 @@ public class Goodricke extends College { // Projectiles
          */
         explode = Gdx.audio.newSound(Gdx.files.internal("goodricke/fruit-destroy.mp3"));
 
+        // load the tutorial screens
         tutorialTexture = new Texture("goodricke/goodrickeTutorial.png");
         tutorial = new Sprite(tutorialTexture);
     }
@@ -138,13 +147,6 @@ public class Goodricke extends College { // Projectiles
             return;
         }
 
-        for(GoodrickeCannon cannon : cannons) {
-            cannon.update(delta);
-        }
-        for (Fruit f : fruit) {
-            f.update(delta);
-        }
-
         if (cannons.isEmpty()) {
             // all cannons are dead, the college has been defeated setting its health to 0
             setHealth(0);
@@ -155,6 +157,13 @@ public class Goodricke extends College { // Projectiles
             save = false;
             // Add collected local gold to total gold
             getMainClass().addGold(temp_gold);
+        }
+
+        for(GoodrickeCannon cannon : cannons) {
+            cannon.update(delta);
+        }
+        for (Fruit f : fruit) {
+            f.update(delta);
         }
 
         // checking if any cannonballs are hitting any fruit or cannons
@@ -229,7 +238,6 @@ public class Goodricke extends College { // Projectiles
 
     @Override
     public void setup(OrthographicCamera camera) {
-        font = new BitmapFont();
 
         // Don't add new cannons when unpausing
         if (!save) {

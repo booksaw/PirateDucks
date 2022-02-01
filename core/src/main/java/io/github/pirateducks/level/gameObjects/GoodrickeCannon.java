@@ -5,9 +5,11 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.college.Goodricke;
-
 import java.util.Random;
 
+/**
+ * This class is the cannon used in the Goodricke college fight
+ */
 public class GoodrickeCannon extends Cannon {
 
     private final Goodricke goodricke;
@@ -15,6 +17,15 @@ public class GoodrickeCannon extends Cannon {
     private double rotationSpeed = 0.3;
     private Sound cannonFireSound = Gdx.audio.newSound(Gdx.files.internal("cannon-shot.mp3"));
 
+    /**
+     * Class constructor, called when creating a cannon for the Goodricke college fight
+     * @param width width of cannon
+     * @param height height of cannon
+     * @param x x coordinate of cannon
+     * @param y y coordinate of cannon
+     * @param manager level manager
+     * @param camera
+     */
     public GoodrickeCannon(float width, float height, float x, float y, LevelManager manager, OrthographicCamera camera) {
         super(width, height, x, y, manager);
 
@@ -24,12 +35,9 @@ public class GoodrickeCannon extends Cannon {
 
         goodricke = (Goodricke) manager;
         this.camera = camera;
-
     }
 
-    // this class needs to:
     // shoot fruit in random directions at random intervals
-
     int untilNextShot = 50;
 
     @Override
@@ -51,7 +59,6 @@ public class GoodrickeCannon extends Cannon {
             shootFruit();
             untilNextShot = rnd.nextInt(100) + 50;
         }
-
     }
 
     /**

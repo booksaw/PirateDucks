@@ -18,6 +18,9 @@ import io.github.pirateducks.pathfinding.PathFinder;
 import io.github.pirateducks.screen.GameCompleteScreen;
 import io.github.pirateducks.screen.PauseScreen;
 
+/**
+ * This class is the main level of the game
+ */
 public class MainLevel extends LevelManager {
 
     public Music music;
@@ -28,6 +31,10 @@ public class MainLevel extends LevelManager {
     private Sprite[] tutorials;
     private Texture fire;
 
+    /**
+     * Class constructor, called when starting the main level
+     * @param mainClass main game class
+     */
     public MainLevel(PirateDucks mainClass) {
 
         super(mainClass);
@@ -117,6 +124,7 @@ public class MainLevel extends LevelManager {
         }
     }
 
+    // Creates a hit box for each college island
     private final Rectangle langwith = new Rectangle(150, 150, 400, 450);
     private final Rectangle goodricke = new Rectangle(1140, 150, 260, 270);
     private final Rectangle constantine = new Rectangle(650, 580, 500, 320);
@@ -147,8 +155,8 @@ public class MainLevel extends LevelManager {
             tutorials[0].setPosition(getCamera().position.x - (tutorials[0].getWidth() / 2), getCamera().position.y - (tutorials[0].getHeight() / 2));
             // scales the sprite depending on window size divided by a constant
             tutorials[0].setSize(getCamera().viewportWidth / 1.7f, getCamera().viewportHeight / 1.7f);
+
             tutorials[1].setPosition(getCamera().position.x - (tutorials[1].getWidth() / 2), getCamera().position.y - (tutorials[1].getHeight() / 2));
-            // scales the sprite depending on window size divided by a constant
             tutorials[1].setSize(getCamera().viewportWidth / 1.7f, getCamera().viewportHeight / 1.7f);
         }
 

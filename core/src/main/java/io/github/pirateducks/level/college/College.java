@@ -40,14 +40,13 @@ public abstract class College extends LevelManager implements Health {
     private boolean defeated = false;
 
     /**
-     * Called when the college is defeated
+     * Called when a college is defeated
      */
     private void setDefeated() {
         getMainClass().addPoints(1000);
         defeated = true;
         getMainClass().setCurrentScreen(new CollegeDefeatedScreen(mainLevel, getCamera()));
 
-        Player player = mainLevel.getPlayer();
         // Add an extra heart when a college is defeated
         mainLevel.getMainClass().setPlayerHealth(mainLevel.getMainClass().getPlayerHealth() + 2);
 
@@ -73,6 +72,4 @@ public abstract class College extends LevelManager implements Health {
      * @return The max health of the college building
      */
     public abstract int getMaxHealth();
-
-
 }

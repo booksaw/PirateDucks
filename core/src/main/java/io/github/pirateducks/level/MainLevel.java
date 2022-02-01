@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.college.ConstantineMemoryGame;
@@ -28,16 +26,16 @@ public class MainLevel extends LevelManager {
     private int tutorialStage = 0;
     private Texture[] tutorialTexture;
     private Sprite[] tutorials;
-    private PirateDucks mainClass;
+    private Texture fire;
 
     public MainLevel(PirateDucks mainClass) {
 
         super(mainClass);
 
-        this.mainClass = mainClass;
         // Stores tutorial textures & sprites in arrays
         tutorialTexture = new Texture[]{new Texture("controls.png"), new Texture("gameTutorial.png")};
         tutorials = new Sprite[]{new Sprite(tutorialTexture[0]), new Sprite(tutorialTexture[1])};
+        fire = new Texture("fire.png");
     }
 
     @Override
@@ -84,11 +82,12 @@ public class MainLevel extends LevelManager {
         }
     }
 
+    int fireFrame = 0;
+    int updateCount = 0;
+
     @Override
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
         super.draw(batch, camera);
-
-//        getMap().draw(batch);
 
         Rectangle playerCollision = getPlayer().getCollision();
 
@@ -105,17 +104,17 @@ public class MainLevel extends LevelManager {
             tutorials[tutorialStage].draw(batch);
         }
 
-        // code used to display a coordinated area on the screen, this was used to modify the hitboxes of locations on the map
-        // leaving it here in case the map gets modified in the future
-/*        batch.end();
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.rectLine(650, 580, 1150, 900, 5);
-        shapeRenderer.end();
-        batch.begin();*/
-
+        // displaying fire if each college is defeated
+        int frameWidth = fire.getWidth() / 3;
+        if(constantineDefeated){
+            batch.draw(fire, 800, 680, 150, 240, frameWidth * fireFrame, 0, frameWidth, fire.getHeight(), false,  false);
+        }
+        if(goodrickeDefeated){
+            batch.draw(fire, 1230, 200, 150, 240, frameWidth * fireFrame, 0, frameWidth, fire.getHeight(), false,  false);
+        }
+        if(langwithDefeated){
+            batch.draw(fire, 260, 260, 190, 290, frameWidth * fireFrame, 0, frameWidth, fire.getHeight(), false,  false);
+        }
     }
 
     private final Rectangle langwith = new Rectangle(150, 150, 400, 450);
@@ -125,6 +124,12 @@ public class MainLevel extends LevelManager {
     @Override
     public void update(float delta) {
         super.update(delta);
+
+        updateCount++;
+        if(updateCount > 20){
+            updateCount = 0;
+            fireFrame = (++fireFrame) % 3;
+        }
 
         // gets players hit box
         Rectangle playerCollision = getPlayer().getCollision();

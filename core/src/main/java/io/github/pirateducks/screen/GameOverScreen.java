@@ -66,11 +66,13 @@ public class GameOverScreen implements Screen {
                 if (scaledMouse.x >= button.getX() && scaledMouse.x <= button.getX() + button.getWidth() &&
                         scaledMouse.y >= button.getY() && scaledMouse.y <= button.getY() + button.getHeight()) {
                     if (i == 0) {
-                        mainClass.points = 0;
+                        mainClass.setPoints(0);
+                        mainClass.setGold(0);
                         mainClass.setCurrentScreen(new MainMenuScreen(mainClass));
                         buttonPressed = true;
                     } else if (i == 1 && !buttonPressed) {
-                        mainClass.points = 0;
+                        mainClass.setPoints(0);
+                        mainClass.setGold(0);
                         // Exit the application
                         Gdx.app.exit();
                         System.exit(0);

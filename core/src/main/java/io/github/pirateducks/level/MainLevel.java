@@ -223,6 +223,17 @@ public class MainLevel extends LevelManager {
         sfx_ocean.dispose();
     }
 
+    @Override
+    public void resume() {
+        System.out.println("music resuming");
+        if (getMainClass().musicOn) {
+            music.setVolume(0.15f);
+        } else {
+            music.setVolume(0);
+        }
+        music.play();
+    }
+
     public void setConstantineDefeated(boolean constantineDefeated) {
         this.constantineDefeated = constantineDefeated;
     }

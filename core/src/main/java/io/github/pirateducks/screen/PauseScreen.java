@@ -202,4 +202,9 @@ public class PauseScreen implements Screen  {
         muteButtonTextureOff.dispose();
     }
 
+    @Override
+    public void resume() {
+        // nothing to do here
+    }
+
 }

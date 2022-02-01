@@ -222,6 +222,15 @@ public class Langwith extends College {
         sfx_ocean.setVolume(0);
     }
 
+    @Override
+    public void resume() {
+        if (getMainClass().musicOn) {
+            gameMusic.setVolume(0.15f);
+        } else {
+            gameMusic.setVolume(0);
+        }
+    }
+
     /**
      * Spawns a cannonball from the cannons
      */

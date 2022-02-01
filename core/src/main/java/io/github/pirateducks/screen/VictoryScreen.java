@@ -130,4 +130,9 @@ public class VictoryScreen implements Screen {
     public void stopDisplaying() {
         buttons.clear();
     }
+
+    @Override
+    public void resume() {
+        // nothing to do here
+    }
 }

@@ -136,4 +136,9 @@ public class GameCompleteScreen implements Screen{
         headerTexture.dispose();
         menuButtonTexture.dispose();
     }
+
+    @Override
+    public void resume() {
+        // nothing to do here
+    }
 }

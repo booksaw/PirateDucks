@@ -210,6 +210,15 @@ public class ConstantineMemoryGame extends College{
         backgroundMusic.setVolume(0);
     }
 
+    @Override
+    public void resume() {
+        if (getMainClass().musicOn) {
+            backgroundMusic.setVolume(0.15f);
+        } else {
+            backgroundMusic.setVolume(0);
+        }
+    }
+
     /**
      * Draw all graphics
      * @param batch The batch that is rendering the level

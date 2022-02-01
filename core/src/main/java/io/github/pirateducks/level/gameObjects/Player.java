@@ -24,6 +24,12 @@ public class Player extends GameObjectHealth {
     private float timeFired = 0;
     private final Sprite sprite;
 
+    /**
+     * Create a new player with the default configuration
+     *
+     * @param manager The level manager that is in charge of the player
+     * @param camera The camera that is dictating the viewport
+     */
     public Player(LevelManager manager, OrthographicCamera camera) {
         super(45, 55);
 
@@ -147,6 +153,9 @@ public class Player extends GameObjectHealth {
         this.y = y;
     }
 
+    /**
+     * used to dispose of the texture when it is no longer needed
+     */
     public void dispose() {
         sprite.getTexture().dispose();
     }
@@ -167,6 +176,9 @@ public class Player extends GameObjectHealth {
         }
     }
 
+    /**
+     * @return The max health of the player
+     */
     public int getMaxHealth() {
         return maxHealth;
     }
@@ -183,10 +195,16 @@ public class Player extends GameObjectHealth {
         this.maxHealth = maxHealth;
     }
 
+    /**
+     * @return the bounding box that contains the player
+     */
     public Rectangle getCollision() {
         return sprite.getBoundingRectangle();
     }
 
+    /**
+     * @return the Sprite instance attached to this player
+     */
     public Sprite getSprite() {
         return sprite;
     }

@@ -47,7 +47,7 @@ public class CollegeDefeatedScreen implements Screen {
             }
         }
 
-        font.draw(batch, "Extra heart gained!", camera.viewportWidth/2 - 55, camera.viewportHeight/2 + 30);
+        font.draw(batch, "+1,000 points. Extra heart gained!", camera.viewportWidth/2 - 100, camera.viewportHeight/2 + 30);
     }
 
     @Override

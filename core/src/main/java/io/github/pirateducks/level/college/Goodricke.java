@@ -105,13 +105,14 @@ public class Goodricke extends College { // Projectiles
             cannon.render(batch);
         }
 
+        /*for (Coin c : getCoins()) {
+            c.render(batch);
+        }*/
+
         for (Fruit f : fruit) {
             f.render(batch);
         }
 
-        for (Coin c : getCoins()) {
-            c.render(batch);
-        }
 
         // Show tutorial if player just loaded the college
         if (!tutorialCompleted) {

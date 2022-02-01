@@ -67,7 +67,7 @@ public abstract class LevelManager implements Screen {
      * Used to add all elements in the overlay
      */
     private void addOverlay() {
-        objects.add(new HealthIndicator(getPlayer(), 5, 5));
+        objects.add(new HealthIndicator(getPlayer(), 5, 5, getCamera()));
     }
 
     /**

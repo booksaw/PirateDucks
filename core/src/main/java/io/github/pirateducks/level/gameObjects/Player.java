@@ -125,6 +125,8 @@ public class Player extends GameObjectHealth {
         }
         // Add delay between shots
         timeFired += delta;
+
+        setMaxHealth(manager.getMainClass().getPlayerHealth());
     }
 
     /**

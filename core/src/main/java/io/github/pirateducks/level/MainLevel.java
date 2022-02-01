@@ -49,7 +49,6 @@ public class MainLevel extends LevelManager {
 
     @Override
     protected void setup(OrthographicCamera camera) {
-        System.out.println("setup is being called");
         font = new BitmapFont();
 
         // Sets the background music

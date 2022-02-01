@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
 
-
 public class VictoryScreen implements Screen {
 
     private final Array<Sprite> buttons = new Array<>();
@@ -133,5 +132,10 @@ public class VictoryScreen implements Screen {
     @Override
     public void stopDisplaying() {
         buttons.clear();
+    }
+
+    @Override
+    public void resume() {
+        // nothing to do here
     }
 }

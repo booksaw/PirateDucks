@@ -280,6 +280,15 @@ public class Goodricke extends College { // Projectiles
         sfx_ocean.dispose();
     }
 
+    @Override
+    public void resume() {
+        if (getMainClass().musicOn) {
+            gameMusic.setVolume(0.15f);
+        } else {
+            gameMusic.setVolume(0);
+        }
+    }
+
     public void removeCannon(GoodrickeCannon cannon) {
         cannons.removeValue(cannon, false);
     }

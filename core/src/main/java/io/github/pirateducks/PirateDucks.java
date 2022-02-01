@@ -122,6 +122,8 @@ public class PirateDucks extends ApplicationAdapter {
         currentScreen = screen;
         if (setup) {
             currentScreen.startDisplaying(camera);
+        } else{
+            currentScreen.resume();
         }
     }
 

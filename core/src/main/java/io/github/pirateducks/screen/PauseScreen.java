@@ -14,7 +14,10 @@ import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
 
-
+/**
+ * This screen is displayed when the pause button is pressed,
+ * The buttons continue, quit, and mute music are available on this screen
+ */
 public class PauseScreen implements Screen  {
     // Initialise array to store button sprites
     private final Array<Sprite> buttons = new Array<>();
@@ -104,6 +107,9 @@ public class PauseScreen implements Screen  {
                     } else if (i == 1){
                         // User has pressed quit, so return to main menu
                         mainClass.setCurrentScreen(new MainMenuScreen(mainClass));
+                        // Reset values when quitting
+                        mainClass.setGold(0);
+                        mainClass.setPoints(0);
                     } else if (i == 2){
                         // User has pressed the music button, so switch music on or off.
                         if (mainClass.musicOn) {
@@ -200,6 +206,11 @@ public class PauseScreen implements Screen  {
         quitButtonTexture.dispose();
         muteButtonTextureOn.dispose();
         muteButtonTextureOff.dispose();
+    }
+
+    @Override
+    public void resume() {
+        // nothing to do here
     }
 
 }

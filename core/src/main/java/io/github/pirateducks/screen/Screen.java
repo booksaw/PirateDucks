@@ -3,6 +3,10 @@ package io.github.pirateducks.screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * This interface is used to create a new screen in the game
+ * Contains all the methods needed for a screen
+ */
 public interface Screen {
 
     /**
@@ -27,5 +31,10 @@ public interface Screen {
      * Use this method to dispose of everything
      */
     public void stopDisplaying();
+
+    /**
+     * Resumes displaying, this is called after the pause menus stops displaying
+     */
+    public abstract void resume();
 
 }

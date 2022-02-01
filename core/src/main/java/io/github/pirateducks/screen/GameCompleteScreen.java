@@ -11,6 +11,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
 
+/**
+ * This screen is displayed when all three colleges are defeated and the player has won
+ */
 public class GameCompleteScreen implements Screen{
 
     // Initialise Textures and Sprites for graphics
@@ -133,5 +136,10 @@ public class GameCompleteScreen implements Screen{
         backgroundTexture.dispose();
         headerTexture.dispose();
         menuButtonTexture.dispose();
+    }
+
+    @Override
+    public void resume() {
+        // nothing to do here
     }
 }

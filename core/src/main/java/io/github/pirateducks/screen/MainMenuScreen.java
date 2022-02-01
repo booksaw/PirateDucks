@@ -13,7 +13,10 @@ import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
 
-
+/**
+ * This screen displays the main menu,
+ * The buttons start game button and a quit game button
+ */
 public class MainMenuScreen implements Screen {
 
     // Initialise array to store buttons
@@ -162,6 +165,11 @@ public class MainMenuScreen implements Screen {
         startGameButtonTexture.dispose();
         quitButtonTexture.dispose();
         backgroundTexture.dispose();
+    }
+
+    @Override
+    public void resume() {
+        // nothing to do here
     }
 
 }

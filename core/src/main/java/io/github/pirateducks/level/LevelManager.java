@@ -73,7 +73,7 @@ public abstract class LevelManager implements Screen {
      */
     private void addOverlay() {
         objects.add(new HealthIndicator(getPlayer(), 5, 5, getCamera()));
-        objects.add(new GoldIndicator(8, 48, mainClass));
+        objects.add(new GoldIndicator(8, 48, mainClass, getCamera()));
     }
 
     /**
@@ -299,4 +299,5 @@ public abstract class LevelManager implements Screen {
             possible_y[i_y] = -1;
         }
     }
+
 }

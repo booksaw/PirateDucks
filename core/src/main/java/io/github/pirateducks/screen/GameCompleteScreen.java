@@ -39,7 +39,6 @@ public class GameCompleteScreen implements Screen{
 
     /**
      * Called to draw the screen and display graphics
-     *
      * @param batch Used to draw sprites
      */
     @Override
@@ -71,7 +70,6 @@ public class GameCompleteScreen implements Screen{
 
     /**
      * Called to update the screen and check if buttons are pressed
-     *
      * @param delta The delta time since the last update
      */
     @Override

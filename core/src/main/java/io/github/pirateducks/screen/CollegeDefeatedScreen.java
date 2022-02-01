@@ -22,6 +22,11 @@ public class CollegeDefeatedScreen implements Screen {
     private final MainLevel mainLevel;
     BitmapFont font;
 
+    /**
+     * class constructor, called when this screen is displayed
+     * @param mainLevel
+     * @param camera
+     */
     public CollegeDefeatedScreen(MainLevel mainLevel, OrthographicCamera camera){
         this.camera = camera;
         this.mainLevel = mainLevel;
@@ -31,7 +36,6 @@ public class CollegeDefeatedScreen implements Screen {
 
     /**
      * Called to draw the screen
-     *
      * @param batch
      */
     @Override
@@ -50,6 +54,10 @@ public class CollegeDefeatedScreen implements Screen {
         font.draw(batch, "+1,000 points. Extra heart gained!", camera.viewportWidth/2 - 100, camera.viewportHeight/2 + 30);
     }
 
+    /**
+     * Called to update screen when user input is detected
+     * @param delta The delta time since the last update
+     */
     @Override
     public void update(float delta) {
         // If user left-clicks the screen
@@ -96,6 +104,10 @@ public class CollegeDefeatedScreen implements Screen {
         addButtons(camera);
     }
 
+    /**
+     * Called to add return to menu button
+     * @param camera
+     */
     private void addButtons(OrthographicCamera camera) {
         // Add a return to menu button
         Texture texture = new Texture("collegeWin/Continue.png");

@@ -13,6 +13,10 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.MainLevel;
 
+/**
+ * This screen is displayed when the player has defeated a college
+ * It displays the message that the college has been defeated and offers a return to menu button
+ */
 public class CollegeDefeatedScreen implements Screen {
 
     private final Array<Sprite> buttons = new Array<>();

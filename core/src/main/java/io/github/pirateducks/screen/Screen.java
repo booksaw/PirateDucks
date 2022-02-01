@@ -32,4 +32,9 @@ public interface Screen {
      */
     public void stopDisplaying();
 
+    /**
+     * Resumes displaying, this is called after the pause menus stops displaying
+     */
+    public abstract void resume();
+
 }

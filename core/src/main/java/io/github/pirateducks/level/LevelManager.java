@@ -299,4 +299,5 @@ public abstract class LevelManager implements Screen {
             possible_y[i_y] = -1;
         }
     }
+
 }

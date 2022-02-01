@@ -167,4 +167,9 @@ public class MainMenuScreen implements Screen {
         backgroundTexture.dispose();
     }
 
+    @Override
+    public void resume() {
+        // nothing to do here
+    }
+
 }

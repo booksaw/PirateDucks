@@ -372,7 +372,7 @@ public class ConstantineMemoryGame extends College{
             mainLevel.getPlayer().setHealth(mainLevel.getPlayer().getHealth() - 2);
 
             String resultMsg;
-            if (digits.isEmpty()) {
+            if (digits == null || digits.isEmpty()) {
                 resultMsg = "Incorrect! You didn't enter anything. The correct answer was " + correctDigits + "! Lose a heart";
             } else {
                 resultMsg = "Incorrect! You entered " + digits + " but should have got " + correctDigits + "! Lose a heart";

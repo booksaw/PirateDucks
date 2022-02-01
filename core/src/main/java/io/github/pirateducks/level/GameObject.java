@@ -48,18 +48,34 @@ public abstract class GameObject {
      */
     public abstract void dispose();
 
+    /**
+     * Getter for x position of game object
+     * @return x position
+     */
     public float getX() {
         return x;
     }
 
+    /**
+     * Getter for y position of game object
+     * @return y position
+     */
     public float getY() {
         return y;
     }
 
+    /**
+     * Getter for width of game object
+     * @return the game object's width
+     */
     public float getWidth() {
         return width;
     }
 
+    /**
+     * Getter for heigh of game object
+     * @return the game object's height
+     */
     public float getHeight() {
         return height;
     }

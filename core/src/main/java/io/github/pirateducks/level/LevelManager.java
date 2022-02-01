@@ -35,8 +35,16 @@ public abstract class LevelManager implements Screen {
     private int i_x;
     private int i_y;
 
+    /**
+     * Class constructor
+     * @param mainClass main class which is managing the whole game
+     */
     public LevelManager(PirateDucks mainClass) { this.mainClass = mainClass; }
 
+    /**
+     * This method is called when this screen starts displaying
+     * @param camera The camera which manages the screen and graphics
+     */
     @Override
     public final void startDisplaying(OrthographicCamera camera) {
 
@@ -91,6 +99,10 @@ public abstract class LevelManager implements Screen {
         objects.add(this.player);
     }
 
+    /**
+     * Getter to return player data
+     * @return player object
+     */
     public Player getPlayer() {
         return player;
     }
@@ -109,7 +121,10 @@ public abstract class LevelManager implements Screen {
         }
     }
 
-
+    /**
+     * Update all game objects
+     * @param delta The delta time since the last update
+     */
     @Override
     public void update(float delta) {
 
@@ -118,6 +133,9 @@ public abstract class LevelManager implements Screen {
         }
     }
 
+    /**
+     * Called when this screen is no longer displayed, so dispose all sprites
+     */
     @Override
     public void stopDisplaying() {
         if(pixmap != null) {
@@ -130,6 +148,10 @@ public abstract class LevelManager implements Screen {
         }
     }
 
+    /**
+     * Getter to get main class which manages the whole game
+     * @return instance of the main class
+     */
     public PirateDucks getMainClass() { return mainClass; }
 
     /**
@@ -150,6 +172,13 @@ public abstract class LevelManager implements Screen {
         objects.removeValue(object, false);
     }
 
+    /**
+     * Tests whether the given coordinates are on land on the map
+     * This is done based on colours
+     * @param x The x-coordinate
+     * @param y The y-coordinate
+     * @return Boolean based on whether the given coordinate is land (true) or water (false)
+     */
     public boolean isOnLand(float x, float y) {
         Color color = getColorOfMap(x, y);
 
@@ -158,6 +187,12 @@ public abstract class LevelManager implements Screen {
 
     Pixmap pixmap;
 
+    /**
+     * Gets color on map of specific coordinate
+     * @param x The x-coordinate
+     * @param y The y-coordinate
+     * @return
+     */
     public Color getColorOfMap(float x, float y) {
         Texture texture = map.getTexture();
         x -= map.getX();
@@ -222,6 +257,11 @@ public abstract class LevelManager implements Screen {
         return new Array<>(getCoins());
     }
 
+
+    /**
+     * Method which spawns coins on map
+     * @param no_coins The number of coins to spawn
+     */
     public void spawnCoins(int no_coins) {
         // Creates an array of all possible x and y positions so that they will always be spaced out
         possible_x = new int[41];

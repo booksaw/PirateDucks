@@ -66,7 +66,6 @@ public class PathFinder {
 
         // checking if the start or finish location is an invalid
         if (!isTraversable(sourceX, sourceY) || !isTraversable(destinationX, destinationY)) {
-            System.out.println("source or destination are not traversible");
             return null;
         }
 

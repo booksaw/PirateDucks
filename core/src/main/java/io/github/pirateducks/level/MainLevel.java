@@ -233,7 +233,6 @@ public class MainLevel extends LevelManager {
 
     @Override
     public void resume() {
-        System.out.println("music resuming");
         if (getMainClass().musicOn) {
             music.setVolume(0.15f);
         } else {

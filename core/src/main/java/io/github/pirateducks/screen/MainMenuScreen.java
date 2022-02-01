@@ -91,6 +91,7 @@ public class MainMenuScreen implements Screen {
                 if (scaledMouse.x >= buttonX && scaledMouse.x <= (buttonX + buttonW) && scaledMouse.y >= buttonY && scaledMouse.y <= (buttonY + buttonH)) {
                     if (i == 0) {
                         // User has pressed start game, so start a new game
+                        mainClass.setPlayerHealth(6);
                         mainClass.setCurrentScreen(new MainLevel(mainClass));
                         this.stopDisplaying();
                     } else if (i == 1) {

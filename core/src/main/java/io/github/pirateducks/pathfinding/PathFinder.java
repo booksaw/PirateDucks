@@ -64,7 +64,6 @@ public class PathFinder {
 
         // checking if the start or finish location is an invalid
         if (!isTraversable(sourceX, sourceY) || !isTraversable(destinationX, destinationY)) {
-            System.out.println("source or destination are not traversible");
             return null;
         }
 
@@ -77,9 +76,13 @@ public class PathFinder {
         List<PathNode> close = new ArrayList<>();
 
         open.add(new PathNode(source, 0, dest, null));
-
+        int count = 0;
         PathNode solutionNode = null;
         while (!open.isEmpty()) {
+            count++;
+            if(count > 10000){
+                break;
+            }
             PathNode currentNode = open.poll();
             if (currentNode.checkpoint.equals(dest)) {
                 // if we have found the solution
@@ -108,7 +111,6 @@ public class PathFinder {
         }
 
         if (solutionNode == null) {
-            System.out.println("fringe emptied");
             return null;
         }
 

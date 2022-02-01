@@ -54,7 +54,6 @@ public abstract class LevelManager implements Screen {
 
         // Setup player and health only once at the start of game
         if (player == null) {
-            System.out.println(true);
             setPlayer(new Player(this, camera));
             addOverlay();
         }

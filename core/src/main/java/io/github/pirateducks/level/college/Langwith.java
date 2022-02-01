@@ -81,7 +81,7 @@ public class Langwith extends College {
         explode = Gdx.audio.newSound(Gdx.files.internal("explode.mp3"));
 
         // load the tutorial screens
-        tutorialTexture = new Texture("langwith/langwithTutorial.png");
+        tutorialTexture = new Texture("Langwith/langwithTutorial.png");
         tutorial = new Sprite(tutorialTexture);
     }
 

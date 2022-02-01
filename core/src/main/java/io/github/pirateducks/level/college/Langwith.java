@@ -28,7 +28,6 @@ public class Langwith extends College {
     public Music gameMusic;
     private Texture tutorialTexture;
     private Sprite tutorial;
-    private int temp_gold = 0; // Local Gold, Resets each time Langwith is run
 
     public Langwith(MainLevel mainLevel, OrthographicCamera camera) {
         super(mainLevel);
@@ -148,8 +147,6 @@ public class Langwith extends College {
         // Return to main level if college is defeated
         if (isDefeated()) {
             save = false;
-            // Add collected local gold to total gold
-            getMainClass().addGold(temp_gold);
         }
 
         // Loop through objects and check for collision
@@ -164,7 +161,7 @@ public class Langwith extends College {
                         // despawning the cannonball and lowering the cannons health
                         c.setHealth(c.getHealth()-1);
                         ((CannonBall) object).collide();
-                        temp_gold += 100;
+                        getMainClass().addGold(100);
                     }
                 }
             }
@@ -196,7 +193,7 @@ public class Langwith extends College {
                 // Collect the coins
                 c.collect();
                 // Add 10 points to the count for each coin collected multiplied by size
-                temp_gold += (c.getSize() * 10);
+                getMainClass().addGold(c.getSize() * 10);
             }
         }
     }

@@ -35,7 +35,6 @@ public class Goodricke extends College { // Projectiles
     public Sound explode;
     private Texture tutorialTexture;
     private Sprite tutorial;
-    private int temp_gold = 0; // Local Gold, Resets each time Goodricke is run
     BitmapFont font;
 
     public Goodricke(MainLevel level, OrthographicCamera camera) {
@@ -153,8 +152,6 @@ public class Goodricke extends College { // Projectiles
         // Return to main level if college is defeated
         if (isDefeated()) {
             save = false;
-            // Add collected local gold to total gold
-            getMainClass().addGold(temp_gold);
         }
 
         // checking if any cannonballs are hitting any fruit or cannons
@@ -179,7 +176,7 @@ public class Goodricke extends College { // Projectiles
                     if(cannon.getHealth() > 0 && collision.overlaps(cannon.getCollision())){
                         cannon.setHealth(cannon.getHealth() - 2);
                         ((CannonBall)object).collide();
-                        temp_gold += 100;
+                        getMainClass().addGold(100);
                         continue;
                         // no need to check other cannons
                     }
@@ -208,7 +205,7 @@ public class Goodricke extends College { // Projectiles
                 // Collect the coins
                 c.collect();
                 // Add 10 points to the count for each coin collected multiplied by size
-                temp_gold += (c.getSize() * 10);
+                getMainClass().addGold(c.getSize() * 10);
             }
         }
     }

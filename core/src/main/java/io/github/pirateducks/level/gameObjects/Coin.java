@@ -36,7 +36,7 @@ public class Coin extends GameObject {
 
         Random rnd = new Random();
         size = rnd.nextInt(UNIQUESIZES);
-        multiplier = (float) 3.5;
+        multiplier = (float) 1;
 
         // scales the sprite depending on window size multiplied by a constant
         float scaleRatio = ((float) texture.getWidth() / (float) camera.viewportWidth) * 135f;

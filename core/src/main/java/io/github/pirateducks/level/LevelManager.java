@@ -10,10 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.pirateducks.PirateDucks;
-import io.github.pirateducks.level.gameObjects.Coin;
-import io.github.pirateducks.level.gameObjects.Fruit;
-import io.github.pirateducks.level.gameObjects.HealthIndicator;
-import io.github.pirateducks.level.gameObjects.Player;
+import io.github.pirateducks.level.gameObjects.*;
 import io.github.pirateducks.screen.Screen;
 
 import java.util.Random;
@@ -68,6 +65,7 @@ public abstract class LevelManager implements Screen {
      */
     private void addOverlay() {
         objects.add(new HealthIndicator(getPlayer(), 5, 5, getCamera()));
+        objects.add(new GoldIndicator(8, 48, mainClass));
     }
 
     /**

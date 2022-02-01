@@ -10,6 +10,9 @@ import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.college.Langwith;
 import java.util.Random;
 
+/**
+ * Used to carry out all processing required for cannonballs shot by LangwithCannon class
+ */
 public class LangwithCannonball extends GameObject {
 
     private final Texture texture;
@@ -66,6 +69,9 @@ public class LangwithCannonball extends GameObject {
         batch.draw(texture, x, y, width / 2, height / 2, width, height, 1, 1, rotation, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
     }
 
+    /**
+     * @return The bounding box surrounding this cannon
+     */
     public Rectangle getCollision(){
         return new Rectangle(x, y, width, height);
     }
@@ -88,6 +94,9 @@ public class LangwithCannonball extends GameObject {
         }
     }
 
+    /**
+     * Used to dispose of all the textures in this class
+     */
     public void dispose() {
         texture.dispose();
         // Remove fruit object from the list of objects to be rendered

@@ -29,7 +29,7 @@ public class Boat extends GameObject {
         this.x = startLoc.x;
         this.y = startLoc.y;
 
-        Texture texture = new Texture(Gdx.files.internal("DuckBoat_TopView.png"));
+        Texture texture = new Texture(Gdx.files.internal("BrownBoat.png"));
 
         sprite = new Sprite(texture);
         sprite.setSize(width, height);

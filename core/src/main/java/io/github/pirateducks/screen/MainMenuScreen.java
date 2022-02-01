@@ -90,9 +90,11 @@ public class MainMenuScreen implements Screen {
                 // Check if user clicked within area of button
                 if (scaledMouse.x >= buttonX && scaledMouse.x <= (buttonX + buttonW) && scaledMouse.y >= buttonY && scaledMouse.y <= (buttonY + buttonH)) {
                     if (i == 0) {
-                        // User has pressed start game, so start a new game
+                        // User has pressed start game, so reset all values & start a new game
                         mainClass.setPlayerHealth(6);
                         mainClass.setCurrentScreen(new MainLevel(mainClass));
+                        mainClass.setGold(0);
+                        mainClass.setPoints(0);
                         this.stopDisplaying();
                     } else if (i == 1) {
                         // User has pressed the quit button, so close the game

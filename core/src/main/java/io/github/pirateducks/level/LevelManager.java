@@ -47,6 +47,7 @@ public abstract class LevelManager implements Screen {
 
         // Setup player and health only once at the start of game
         if (player == null) {
+            System.out.println(true);
             setPlayer(new Player(this, camera));
             addOverlay();
         }
@@ -83,6 +84,10 @@ public abstract class LevelManager implements Screen {
 
         // declaring the new player
         this.player = player;
+        // increases players health if they just defeated a college
+        this.player.setMaxHealth(mainClass.getPlayerHealth());
+        // restores player to full health
+        this.player.setHealth(this.player.getMaxHealth());
         objects.add(this.player);
     }
 

@@ -3,6 +3,7 @@ package io.github.pirateducks.level.college;
 import io.github.pirateducks.level.Health;
 import io.github.pirateducks.level.LevelManager;
 import io.github.pirateducks.level.MainLevel;
+import io.github.pirateducks.level.gameObjects.Player;
 import io.github.pirateducks.screen.CollegeDefeatedScreen;
 
 /**
@@ -45,6 +46,10 @@ public abstract class College extends LevelManager implements Health {
         getMainClass().addPoints(1000);
         defeated = true;
         getMainClass().setCurrentScreen(new CollegeDefeatedScreen(mainLevel, getCamera()));
+
+        Player player = mainLevel.getPlayer();
+        // Add an extra heart when a college is defeated
+        mainLevel.getMainClass().setPlayerHealth(mainLevel.getMainClass().getPlayerHealth() + 2);
 
         if(this instanceof Goodricke){
             getLevelManager().setGoodrickeDefeated(true);

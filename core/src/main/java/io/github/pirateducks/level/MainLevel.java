@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Rectangle;
 import io.github.pirateducks.PirateDucks;
 import io.github.pirateducks.level.college.ConstantineMemoryGame;
@@ -91,8 +89,6 @@ public class MainLevel extends LevelManager {
     public void draw(SpriteBatch batch, OrthographicCamera camera) {
         super.draw(batch, camera);
 
-//        getMap().draw(batch);
-
         Rectangle playerCollision = getPlayer().getCollision();
 
         if (playerCollision.overlaps(constantine) && !constantineDefeated) {
@@ -107,17 +103,6 @@ public class MainLevel extends LevelManager {
         if (tutorialStage < 2) {
             tutorials[tutorialStage].draw(batch);
         }
-
-        // code used to display a coordinated area on the screen, this was used to modify the hitboxes of locations on the map
-        // leaving it here in case the map gets modified in the future
-/*        batch.end();
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.rectLine(650, 580, 1150, 900, 5);
-        shapeRenderer.end();
-        batch.begin();*/
 
         // displaying fire if each college is defeated
         int frameWidth = fire.getWidth() / 3;

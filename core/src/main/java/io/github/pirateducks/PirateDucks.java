@@ -40,8 +40,10 @@ public class PirateDucks extends ApplicationAdapter {
     private OrthographicCamera camera;
     private Viewport viewport;
     public Boolean musicOn = true;
+    private int playerHealth = 6;
     private int points = 0;
     private int gold = 0;
+
 
     @Override
     public void create() {
@@ -113,6 +115,9 @@ public class PirateDucks extends ApplicationAdapter {
         return camera;
     }
 
+    public int getPlayerHealth() { return playerHealth; }
+
+    public void setPlayerHealth(int newHealth) { playerHealth = newHealth; }
 
     public int getPoints () {
         return points;

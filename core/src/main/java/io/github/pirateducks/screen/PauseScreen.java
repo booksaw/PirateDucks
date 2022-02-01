@@ -104,6 +104,9 @@ public class PauseScreen implements Screen  {
                     } else if (i == 1){
                         // User has pressed quit, so return to main menu
                         mainClass.setCurrentScreen(new MainMenuScreen(mainClass));
+                        // Reset values when quitting
+                        mainClass.setGold(0);
+                        mainClass.setPoints(0);
                     } else if (i == 2){
                         // User has pressed the music button, so switch music on or off.
                         if (mainClass.musicOn) {
